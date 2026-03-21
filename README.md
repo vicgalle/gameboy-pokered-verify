@@ -1,5 +1,7 @@
 # pokered-verify
 
+[![Lean Action CI](https://github.com/vicgalle/pokered-verify/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/vicgalle/pokered-verify/actions/workflows/lean_action_ci.yml)
+
 A Lean 4 formalization of the Game Boy's Sharp SM83 CPU, validated through machine-checked proofs of known bugs in [Pokemon Red](https://github.com/pret/pokered).
 
 ## What This Is
