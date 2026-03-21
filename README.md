@@ -135,6 +135,36 @@ Both share the same arithmetic structure (`<` vs `≤`), so we prove the propert
 
 **Evidence of developer intent:** The `percent` macro (`DEF percent EQUS "* $ff / 100"`) uses 255 as the denominator — `100 percent = 255`. The developers' mental model was "255 = 100%", which only works with `≤`. The strict `<` comparison breaks this model for every threshold value. For crits, the evidence is weaker (thresholds come from base speed, not the macro), but the arithmetic bug is identical.
 
+### Psywave Link Battle Desync (L4 — Relational)
+
+**The bug:** In link battles, both Game Boys share a synchronized random number list. Psywave has two *different* implementations — one for when the player attacks (rejects 0, range `[1, b)`) and one for the enemy (accepts 0, range `[0, b)`). When a 0 appears in the shared list, the player's loop consumes an extra random number, desynchronizing the shared RNG index. All subsequent battle randomness diverges permanently.
+
+```asm
+; Player (core.asm 4664-4670)     ; Enemy (core.asm 4785-4789)
+.loop                              .loop
+  call BattleRandom                  call BattleRandom
+  and a          ; test if 0         cp b
+  jr z, .loop    ; REJECT 0 ←BUG    jr nc, .loop   ; reject >= b only
+  cp b                               ld b, a        ; accept [0, b)
+  jr nc, .loop   ; reject >= b
+  ld b, a        ; accept [1, b)
+```
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `player_never_zero` | Player Psywave always deals ≥ 1 damage (universal, by induction) |
+| `enemy_can_deal_zero` | Enemy Psywave can deal 0 damage |
+| `desync_level50` / `desync_level100` | Concrete desyncs: player idx=2, enemy idx=1 after seeing 0 |
+| `desync_multiple_zeros` | Multiple leading zeros widen the desync (idx=3 vs idx=1) |
+| `no_desync_when_nonzero` | No desync when first value is nonzero (both agree) |
+| `desync_propagates` | After desync, all subsequent random draws diverge |
+| `fix_preserves_sync` | Making both loops identical preserves link sync |
+| `player_psywave_strictly_better` | Even outside link battles, player's Psywave has higher expected damage |
+
+**Insight:** This is our only **L4 relational** bug — the property isn't about a single computation being wrong, but about two *copies* of the game diverging. The formalization models the shared `LinkRNG` state and proves that the asymmetric zero-rejection is the root cause, and that the desync is permanent (all subsequent draws diverge). As a corollary, the same asymmetry means the player's Psywave can never deal 0 damage while the enemy's can — a known but often overlooked consequence (E[damage] differs by 0.5 HP at level 50).
+
 ### BugClaim Harness
 
 The `Harness.BugClaim` structure defines a reusable contract for verified bugs:
@@ -157,7 +187,7 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 5 | Heal overflow at 255/511 | Integer truncation | Planned |
 | 6 | CooltrainerF AI always switches | Dead code | Planned |
 | 7 | Blaine AI Super Potion | Missing precondition | Verified |
-| 8 | Psywave link desync | Symmetry violation | Planned |
+| 8 | Psywave link desync | Symmetry violation | Verified |
 | 9 | Counter damage persists | Stale state | Planned |
 | 10 | Reflect/Light Screen overflow | Arithmetic overflow | Planned |
 
@@ -178,7 +208,8 @@ pokered-verify/
 │   └── Proofs/
 │       ├── FocusEnergy.lean
 │       ├── BlaineAI.lean
-│       └── OneIn256.lean
+│       ├── OneIn256.lean
+│       └── PsywaveDesync.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
@@ -194,6 +225,16 @@ lake build SM83 PokeredBugs Harness
 ```
 
 All 33 build jobs should complete with no errors. Validation tests run automatically during the build.
+
+## Proof Metrics
+
+A standalone script computes quantitative metrics across all proof files: line breakdowns, theorem counts, tactic frequency, and automation rate.
+
+```sh
+uv run scripts/metrics.py
+```
+
+No extra setup needed — `uv` handles the Python dependency automatically via the inline metadata in the script.
 
 ## License
 
