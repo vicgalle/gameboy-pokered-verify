@@ -1,4 +1,4 @@
-# pokered-verify
+# gameboy-pokered-verify
 
 [![Lean Action CI](https://github.com/vicgalle/pokered-verify/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/vicgalle/pokered-verify/actions/workflows/lean_action_ci.yml)
 
