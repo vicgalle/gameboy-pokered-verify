@@ -77,6 +77,32 @@ Focus Energy branch      36 → srl → 18 (BUG)        36 → sla → 72
 
 **Modeling lesson:** An early naive model (treating the bug as `x >>> 1` vs `x <<< 2` on raw 8-bit values) produced a false "discovery" that rate=73 was an overflow coincidence. The real assembly bounds the input to ≤ 127 via an initial `srl`, making overflow impossible. Lean caught the error in the naive model — but the fix was to model the assembly more faithfully, not to weaken the theorem. This highlights that **formal verification is only as good as the model**: Lean guarantees your proofs are correct, but cannot guarantee your model matches the real code.
 
+### Blaine AI Super Potion Bug
+
+**The bug:** Blaine's AI calls `AIUseSuperPotion` without first checking if his Pokemon's HP is low enough to need healing. Every other healing trainer (Erika, Lorelei, Agatha, Sabrina, Rival) calls `AICheckIfHPBelowFraction` first.
+
+```asm
+BlaineAI:                          ErikaAI:
+  cp 25 percent + 1                  cp 50 percent + 1
+  ret nc                             ret nc
+  jp AIUseSuperPotion  ; BUG!        ld a, 10
+                                     call AICheckIfHPBelowFraction  ; ← HP check
+                                     ret nc
+                                     jp AIUseSuperPotion
+```
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `blaine_heals_at_full_hp` | Blaine uses Super Potion even at full HP |
+| `blaine_always_heals` | Blaine's AI unconditionally heals (always returns `some`) |
+| `blaine_wastes_when_healthy` | For any HP above the threshold, Blaine wastes the item |
+| `full_hp_zero_gain` | At full HP, 0 HP is gained — complete waste |
+| `partial_waste` | When HP is within 50 of max, less than 50 HP is gained |
+| `blaine_fix_heals_when_needed` / `_skips_when_healthy` | Fixed AI heals iff HP is low |
+| `blaine_unique_unconditional` | Blaine is the only trainer who heals unconditionally |
+
 ### BugClaim Harness
 
 The `Harness.BugClaim` structure defines a reusable contract for verified bugs:
@@ -98,7 +124,7 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 4 | Substitute 0 HP | Arithmetic underflow | Planned |
 | 5 | Heal overflow at 255/511 | Integer truncation | Planned |
 | 6 | CooltrainerF AI always switches | Dead code | Planned |
-| 7 | Blaine AI Super Potion | Missing precondition | Planned |
+| 7 | Blaine AI Super Potion | Missing precondition | Verified |
 | 8 | Psywave link desync | Symmetry violation | Planned |
 | 9 | Counter damage persists | Stale state | Planned |
 | 10 | Reflect/Light Screen overflow | Arithmetic overflow | Planned |
@@ -118,7 +144,8 @@ pokered-verify/
 │   └── Control.lean               # JP, JR, CALL, RET, conditions
 ├── PokeredBugs/                   # Application: verified pokered bugs
 │   └── Proofs/
-│       └── FocusEnergy.lean
+│       ├── FocusEnergy.lean
+│       └── BlaineAI.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
