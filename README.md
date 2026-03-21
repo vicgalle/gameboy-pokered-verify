@@ -54,21 +54,28 @@ As a demonstration of the CPU model, we formally verify known bugs from the [pre
 
 ### Focus Energy Critical Hit Bug
 
-Focus Energy is supposed to **quadruple** the critical hit rate. Instead, it **halves** it — the assembly uses `srl b` (shift right = divide by 2) instead of two `sla b` (shift left = multiply by 4).
+**The bug:** In `CriticalHitTest`, the crit rate `b` starts as `base_speed >>> 1` (always ≤ 127). The Focus Energy branch should do `sla b` (double it back), but instead does `srl b` (halves it again) — quartering the rate instead of restoring it.
+
+```
+                        With Focus Energy (bug)     Without Focus Energy
+b = base_speed / 2      73 → srl → 36              73 → srl → 36
+Focus Energy branch      36 → srl → 18 (BUG)        36 → sla → 72
+```
 
 **Proved theorems:**
 
 | Theorem | Statement |
 |---|---|
-| `focus_energy_bug` | The bug exists (witness: rate=4 gives 2 instead of 16) |
-| `focus_energy_exact_characterization` | Bug affects all nonzero rates **except** 73 |
-| `focus_energy_73_coincidence` | r=73 is the unique overflow coincidence (73>>>1 = 73<<<2 = 36) |
-| `focus_energy_wrong_practical` | Bug always manifests for practical game rates (1..64) |
-| `focus_energy_makes_crits_worse` | Actual result < intended result for rates 1..63 |
-| `focus_energy_fix_correct` | Replacing `srl` with two `sla` matches the spec for all inputs |
-| `focus_energy_cpu_bug` | Bug reproduces at the full SM83 CPU model level |
+| `focus_energy_bug` | The bug exists (witness: base_speed=4) |
+| `focus_energy_always_wrong` | Bug is unconditionally wrong for all base speeds ≥ 2 |
+| `focus_energy_reduces_rate` | Buggy result ≤ correct result for all inputs |
+| `focus_energy_strictly_worse` | Buggy result < correct result for base speeds ≥ 4 |
+| `focus_energy_quarter_rate` | Correct result is at least 4x the buggy result (for base speeds ≥ 4) |
+| `focus_energy_fix_correct` | Replacing `srl` with `sla` matches the no-Focus-Energy path |
+| `crit_input_bounded` | After initial `srl`, input is always ≤ 127 (no overflow possible) |
+| `focus_energy_cpu_bug` | Bug reproduces at the full SM83 opcode level |
 
-**Discovery via formal verification:** The original analysis claimed the bug affects *all* nonzero crit rates. Lean's type checker rejected this — `native_decide` found that rate=73 is a unique overflow coincidence where `73 >>> 1 = 36 = (73 <<< 2) mod 256`. This is exactly the kind of subtle insight that formal verification catches and informal reasoning misses.
+**Modeling lesson:** An early naive model (treating the bug as `x >>> 1` vs `x <<< 2` on raw 8-bit values) produced a false "discovery" that rate=73 was an overflow coincidence. The real assembly bounds the input to ≤ 127 via an initial `srl`, making overflow impossible. Lean caught the error in the naive model — but the fix was to model the assembly more faithfully, not to weaken the theorem. This highlights that **formal verification is only as good as the model**: Lean guarantees your proofs are correct, but cannot guarantee your model matches the real code.
 
 ### BugClaim Harness
 
