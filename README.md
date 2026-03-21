@@ -165,6 +165,53 @@ Both share the same arithmetic structure (`<` vs `≤`), so we prove the propert
 
 **Insight:** This is our only **L4 relational** bug — the property isn't about a single computation being wrong, but about two *copies* of the game diverging. The formalization models the shared `LinkRNG` state and proves that the asymmetric zero-rejection is the root cause, and that the desync is permanent (all subsequent draws diverge). As a corollary, the same asymmetry means the player's Psywave can never deal 0 damage while the enemy's can — a known but often overlooked consequence (E[damage] differs by 0.5 HP at level 50).
 
+### Stat Scaling: Defense-Zero Freeze & Wrapping Analysis
+
+**The routine:** When either attack or defense exceeds 255, both stats are divided by 4 to fit in a byte (`ld b, l` takes only the low byte). Values > 1023 wrap around: `scaled = (stat/4) mod 256`. The offensive stat is bumped to 1 if zero, but **the defensive stat is not** — causing a division-by-zero freeze.
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `defense_zero_freeze` | Defense 1-3 becomes 0 after /4 scaling → division by zero freeze |
+| `defense_4_survives` | Defense 4 is the minimum that survives scaling |
+| `damage_cliff_1024` | At the 1023→1024 boundary: damage ratio drops from 10 to 0 |
+| `attack_not_monotone` | Increasing attack does NOT always increase damage (for uncapped values) |
+| `periodic_collapse` | Wrapping recurs at every multiple of 1024 |
+| `scaling_is_mod256` | Exact characterization: `(stat/4) mod 256` |
+
+**Reachability — independent analysis correction:** The 999 stat cap (`MAX_STAT_VALUE`) in `effects.asm` prevents the *offensive* stat from exceeding 1023 through normal stat stages (Swords Dance). With the cap, the actual SD progression is 1, 3, 4, **4** — not 1, 3, 4, 1. The sawtooth wrapping theorems (`swords_dance_regression`, `three_sds_equals_zero_sds`) are mathematically correct for uncapped values but **do not occur in normal gameplay for the offensive stat**.
+
+However, the disassembly notes at line 4084: *"reflect and light screen boosts do not cap the stat at MAX_STAT_VALUE, so weird things will happen during stats scaling."* This means the **defensive** stat CAN exceed 1023 via Reflect/Light Screen, potentially causing wrapping that makes the defender *take more* damage than without the screen — the opposite of the intended effect.
+
+The **defense-zero freeze** is confirmed reachable in normal gameplay: a Level 100 physical attacker (attack > 255) vs a low-level Pokémon whose defense has been reduced to 1-3 via Leer/Screech triggers the freeze.
+
+### Accuracy/Evasion Stage Non-Cancellation (New Discovery — Latent Bug)
+
+**The bug:** The `CalcHitChance` routine computes effective accuracy in two passes using the `StatModifierRatios` table. Two factors cause **equal accuracy and evasion boosts to not cancel**:
+
+1. **Truncated fractions:** The table stores approximations (stage -1 = `66/100` instead of exact `2/3`). Product: `15/10 × 66/100 = 0.99 ≠ 1.0`.
+2. **Intermediate truncation:** Even when the fraction product IS exact (stage ±3: `25/10 × 40/100 = 1.0`), floor division between the two passes loses precision. `255 × 25 / 10 = 637` (truncated from 637.5), then `637 × 40 / 100 = 254` (truncated from 254.8).
+
+```
+Equal ±stages on 255-accuracy move:  ±0→255  ±1→252  ±2→255  ±3→254  ±4→252  ±5→249  ±6→255
+                                     loss:    0       3       0       1       3       6       0
+```
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `plus1_reduces_accuracy` | Equal ±1 boosts reduce effective accuracy (252 < 255) |
+| `plus5_worst_noncancellation` | Equal ±5 boosts lose 6 accuracy points (249 vs 255) |
+| `noncancellation_table` | Complete table: only ±0, ±2, ±6 perfectly cancel |
+| `ratio_product_not_one` | Root cause 1: `15/10 × 66/100 = 990/1000 ≠ 1` |
+| `plus3_almost` | Root cause 2: ±3 fractions are exact but intermediate truncation still loses 1 |
+| `order_matters` | Reversing pass order gives different results (non-commutative) |
+| `order_difference` | ±5 reversed: 248 vs 249 (both wrong, but differently!) |
+
+**Practical impact — latent in Gen 1:** Independent analysis revealed that **no Gen 1 move raises accuracy stages** and **no Gen 1 move lowers evasion stages**. Accuracy can only go down (Flash, Sand-Attack), evasion can only go up (Double Team). The equal-boost cancellation scenario is impossible in normal Gen 1 gameplay. The bug is a genuine arithmetic artifact of the engine that becomes exploitable only in later generations where accuracy-raising moves (Hone Claws, Coil) exist. Stage ±3 is particularly notable: it proves that even with exact fraction products, the two-pass integer truncation alone is sufficient to break cancellation — a purely emergent property of the calculation order.
+
 ### BugClaim Harness
 
 The `Harness.BugClaim` structure defines a reusable contract for verified bugs:
@@ -190,6 +237,8 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 8 | Psywave link desync | Symmetry violation | Verified |
 | 9 | Counter damage persists | Stale state | Planned |
 | 10 | Reflect/Light Screen overflow | Arithmetic overflow | Planned |
+| 11 | Stat scaling defense-zero freeze | Division by zero / 8-bit wrapping | Verified |
+| 12 | **Acc/Eva stage non-cancellation** | **Truncated fractions + intermediate truncation** | **Verified (new, latent in Gen 1)** |
 
 ## Project Structure
 
@@ -209,7 +258,9 @@ pokered-verify/
 │       ├── FocusEnergy.lean
 │       ├── BlaineAI.lean
 │       ├── OneIn256.lean
-│       └── PsywaveDesync.lean
+│       ├── PsywaveDesync.lean
+│       ├── StatScaling.lean
+│       └── AccEvaCancel.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
