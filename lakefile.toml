@@ -1,0 +1,21 @@
+name = "pokered-verify"
+version = "0.1.0"
+leanOptions = [
+  { name = "autoImplicit", value = false }
+]
+
+[[lean_lib]]
+name = "SM83"
+roots = ["SM83"]
+
+[[lean_lib]]
+name = "PokeredBugs"
+roots = ["PokeredBugs"]
+
+[[lean_lib]]
+name = "Harness"
+roots = ["Harness"]
+
+[[lean_exe]]
+name = "pokered-verify"
+root = "Main"
