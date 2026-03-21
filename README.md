@@ -182,9 +182,38 @@ Both share the same arithmetic structure (`<` vs `≤`), so we prove the propert
 
 **Reachability — independent analysis correction:** The 999 stat cap (`MAX_STAT_VALUE`) in `effects.asm` prevents the *offensive* stat from exceeding 1023 through normal stat stages (Swords Dance). With the cap, the actual SD progression is 1, 3, 4, **4** — not 1, 3, 4, 1. The sawtooth wrapping theorems (`swords_dance_regression`, `three_sds_equals_zero_sds`) are mathematically correct for uncapped values but **do not occur in normal gameplay for the offensive stat**.
 
-However, the disassembly notes at line 4084: *"reflect and light screen boosts do not cap the stat at MAX_STAT_VALUE, so weird things will happen during stats scaling."* This means the **defensive** stat CAN exceed 1023 via Reflect/Light Screen, potentially causing wrapping that makes the defender *take more* damage than without the screen — the opposite of the intended effect.
+However, **Reflect/Light Screen bypass the 999 cap** entirely — see the next section.
 
 The **defense-zero freeze** is confirmed reachable in normal gameplay: a Level 100 physical attacker (attack > 255) vs a low-level Pokémon whose defense has been reduced to 1-3 via Leer/Screech triggers the freeze.
+
+### Reflect/Light Screen Overflow (Verified — Reachable)
+
+**The bug:** Reflect doubles defense via `sla c; rl b` with **no cap**. When defense ≥ 512 (achievable via Barrier/Harden on high-defense Pokémon), the doubled value exceeds 1023 and wraps in `.scaleStats`. Reflect then **reduces** effective defense — the opposite of its purpose. At exactly 512, it causes a **game freeze**.
+
+```
+Defense with attack=300 (triggers scaling):
+  def=400: no_reflect=100, reflect=200  ← Reflect helps ✓
+  def=511: no_reflect=127, reflect=255  ← Reflect peaks
+  def=512: no_reflect=128, reflect=0    ← GAME FREEZE!
+  def=520: no_reflect=130, reflect=4    ← Reflect gives 4 instead of 130!
+  def=696: no_reflect=174, reflect=92   ← Reflect nearly halves defense
+  def=999: no_reflect=249, reflect=243  ← Reflect costs 6 points
+```
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `reflect_512_freezes` | Defense 512 + Reflect → effective defense 0 (freeze) |
+| `no_reflect_512_ok` | Without Reflect, defense 512 scales to 128 (fine) |
+| `reflect_hurts_cloyster` | Cloyster with Barrier + Reflect: defense drops from 174 to 92 |
+| `modest_defense_catastrophe` | Defense 520 + Reflect: drops from 130 to 4 |
+| `reflect_helps_below_512` / `reflect_hurts_above_512` | 512 is the exact threshold |
+| `reflect_sawtooth` | Full sawtooth pattern: peaks at 511 (255), crashes at 512 (0) |
+
+**Reachability (independently verified):** Cloyster (base defense 180) at level 100 has defense 458. A single **Withdraw** (+1 stage = 1.5x) gives 687 — already above 512. With Reflect: effective defense drops from 171 to 87. **One Withdraw + Reflect makes Cloyster take roughly twice the physical damage.** This is a natural competitive line that completely backfires due to the overflow.
+
+Independent analysis confirmed that the specific practical consequence — **Reflect reducing defense after stat boosts** — is **not documented** on Bulbapedia, Smogon, or the pret wiki. The disassembly comments warn of "weird things" but no community resource explicitly states that Reflect can make a Pokémon take more damage. Light Screen has the identical bug with the Special stat.
 
 ### Accuracy/Evasion Stage Non-Cancellation (New Discovery — Latent Bug)
 
@@ -236,7 +265,7 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 7 | Blaine AI Super Potion | Missing precondition | Verified |
 | 8 | Psywave link desync | Symmetry violation | Verified |
 | 9 | Counter damage persists | Stale state | Planned |
-| 10 | Reflect/Light Screen overflow | Arithmetic overflow | Planned |
+| 10 | Reflect/Light Screen overflow | Arithmetic overflow | **Verified (reachable)** |
 | 11 | Stat scaling defense-zero freeze | Division by zero / 8-bit wrapping | Verified |
 | 12 | **Acc/Eva stage non-cancellation** | **Truncated fractions + intermediate truncation** | **Verified (new, latent in Gen 1)** |
 
@@ -260,7 +289,8 @@ pokered-verify/
 │       ├── OneIn256.lean
 │       ├── PsywaveDesync.lean
 │       ├── StatScaling.lean
-│       └── AccEvaCancel.lean
+│       ├── AccEvaCancel.lean
+│       └── ReflectOverflow.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
