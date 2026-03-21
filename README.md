@@ -103,6 +103,38 @@ BlaineAI:                          ErikaAI:
 | `blaine_fix_heals_when_needed` / `_skips_when_healthy` | Fixed AI heals iff HP is low |
 | `blaine_unique_unconditional` | Blaine is the only trainer who heals unconditionally |
 
+### 1/256 Accuracy Miss & Critical Hit Miss
+
+**The bugs:** Two routines use `cp b; jr/ret nc` to compare a random byte against a threshold. The SM83 `cp` sets carry when `a < b`, so `jr nc` jumps when `a >= b`. This gives `>=` where `>` (strictly greater) is needed — the boundary value `random == threshold` is a "fail" instead of a "pass".
+
+```asm
+; MoveHitTest (accuracy)          ; CriticalHitTest (crits)
+call BattleRandom                 call BattleRandom
+cp b                              cp b
+jr nc, .moveMissed  ; BUG         ret nc              ; BUG
+; miss when random >= accuracy    ; no crit when random >= critRate
+; should be: random > accuracy    ; should be: random > critRate
+```
+
+Both share the same arithmetic structure (`<` vs `≤`), so we prove the properties generically and instantiate for both.
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `accuracy_bug_exists` / `crit_bug_exists` | The bugs exist (witness: random=255, threshold=255) |
+| `bug_iff_equal` | Bug triggers **iff** random == threshold (exact characterization) |
+| `bug_at_every_threshold` | The bug affects every threshold value, not just 255 |
+| `no_bug_when_unequal` | When random ≠ threshold, actual and spec agree |
+| `exactly_one_extra_hit` | The spec accepts exactly one more value per threshold |
+| `fix_correct` | The fix (`≤` instead of `<`) matches spec for all inputs |
+| `max_threshold_always_passes` | With the fix, threshold=255 gives 100% pass rate |
+| `sm83_accuracy_matches_model` | CPU-level `cp b; jr nc` matches the abstract model |
+
+**Insight from formalization:** The community describes these as "100% accuracy moves can miss 1/256 of the time." The formal characterization is stronger: the bug affects **every** accuracy/crit-rate value, not just 255. A move with accuracy 200 has a 200/256 hit chance instead of 201/256. The 1/256 penalty applies universally — it's just most noticeable at 255 where it's the difference between "always" and "almost always."
+
+**Evidence of developer intent:** The `percent` macro (`DEF percent EQUS "* $ff / 100"`) uses 255 as the denominator — `100 percent = 255`. The developers' mental model was "255 = 100%", which only works with `≤`. The strict `<` comparison breaks this model for every threshold value. For crits, the evidence is weaker (thresholds come from base speed, not the macro), but the arithmetic bug is identical.
+
 ### BugClaim Harness
 
 The `Harness.BugClaim` structure defines a reusable contract for verified bugs:
@@ -119,8 +151,8 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | # | Bug | Category | Status |
 |---|---|---|---|
 | 1 | Focus Energy wrong shift | Wrong bitwise op | Verified |
-| 2 | 1/256 accuracy miss | Off-by-one | Planned |
-| 3 | 1/256 crit miss | Off-by-one | Planned |
+| 2 | 1/256 accuracy miss | Off-by-one | Verified |
+| 3 | 1/256 crit miss | Off-by-one | Verified |
 | 4 | Substitute 0 HP | Arithmetic underflow | Planned |
 | 5 | Heal overflow at 255/511 | Integer truncation | Planned |
 | 6 | CooltrainerF AI always switches | Dead code | Planned |
@@ -145,7 +177,8 @@ pokered-verify/
 ├── PokeredBugs/                   # Application: verified pokered bugs
 │   └── Proofs/
 │       ├── FocusEnergy.lean
-│       └── BlaineAI.lean
+│       ├── BlaineAI.lean
+│       └── OneIn256.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
