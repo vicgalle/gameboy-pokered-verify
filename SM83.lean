@@ -6,3 +6,4 @@ import SM83.Arithmetic
 import SM83.Logic
 import SM83.Load
 import SM83.Control
+import SM83.Properties
