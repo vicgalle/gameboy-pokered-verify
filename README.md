@@ -163,7 +163,7 @@ Both share the same arithmetic structure (`<` vs `≤`), so we prove the propert
 | `fix_preserves_sync` | Making both loops identical preserves link sync |
 | `player_psywave_strictly_better` | Even outside link battles, player's Psywave has higher expected damage |
 
-**Insight:** This is our only **L4 relational** bug — the property isn't about a single computation being wrong, but about two *copies* of the game diverging. The formalization models the shared `LinkRNG` state and proves that the asymmetric zero-rejection is the root cause, and that the desync is permanent (all subsequent draws diverge). As a corollary, the same asymmetry means the player's Psywave can never deal 0 damage while the enemy's can — a known but often overlooked consequence (E[damage] differs by 0.5 HP at level 50).
+**Insight:** This is one of two **L4 relational** bugs we verified — the property isn't about a single computation being wrong, but about two *copies* of the game diverging (see also: Bide desync below). The formalization models the shared `LinkRNG` state and proves that the asymmetric zero-rejection is the root cause, and that the desync is permanent (all subsequent draws diverge). As a corollary, the same asymmetry means the player's Psywave can never deal 0 damage while the enemy's can — a known but often overlooked consequence (E[damage] differs by 0.5 HP at level 50).
 
 ### Stat Scaling: Defense-Zero Freeze & Wrapping Analysis
 
@@ -292,6 +292,39 @@ Equal ±stages on 255-accuracy move:  ±0→255  ±1→252  ±2→255  ±3→254
 
 **Proof technique diversity:** Unlike our other proofs (81% `native_decide`), this file uses primarily **arithmetic reasoning**: `omega` (15 uses), `simp`/`unfold` (26 uses), `constructor` for iff splits, and named lemma composition. `native_decide` is used only 3 times — for the SM83 CPU-level equivalence check where brute force is appropriate. The `div4_eq_zero_iff` lemma is a reusable arithmetic fact proved from first principles.
 
+### Bide Accumulated Damage Link Desync (L4 — Relational)
+
+**The bug:** When an enemy Pokémon faints, `FaintEnemyPokemon` (core.asm:757) clears the Bide damage accumulator with `xor a; ld [wPlayerBideAccumulatedDamage], a` — but `ld [nn], a` writes only **one byte** (the high byte). The low byte survives, leaving the accumulator at `damage mod 256`. The counterpart `RemoveFaintedPlayerMon` (core.asm:1019-1021) correctly zeroes both bytes using `ld [hli], a; ld [hl], a`.
+
+In a link battle, one Game Boy calls the buggy single-byte clear while the other calls the correct two-byte clear. The Bide damage goes out of sync.
+
+```
+Accumulated damage = 300 (0x012C):
+  Game Boy A (enemy fainted): high byte zeroed → 0x002C = 44
+  Game Boy B (player fainted): both zeroed    → 0x0000 = 0
+```
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `clear_high_is_mod256` | Clearing only high byte gives `damage mod 256` |
+| `clear_both_is_zero` | Clearing both bytes gives 0 |
+| `desync_iff_low_nonzero` | Desync occurs iff the low byte is nonzero |
+| `only_zero_lo_avoids_desync` | Only multiples of 256 avoid desync |
+| `desync_at_300` / `desync_at_1` | Concrete examples: damage 300 → (44 vs 0), damage 1 → (1 vs 0) |
+| `residual_corrupts_next_bide` | Residual damage (44) compounds with new hits (44+100=144 vs 100) |
+| `bide_desync_more_likely_than_psywave` | Bide desync triggers 255/256, Psywave triggers 1/256 |
+
+**Comparison with Psywave desync (independently verified):**
+
+| | Bide desync | Psywave desync |
+|---|---|---|
+| Mechanism | Asymmetric memory zeroing | Asymmetric RNG consumption |
+| Trigger probability | ~255/256 (99.6%) | 1/256 (0.4%) per use |
+| Severity | Localized (Bide damage only) | Cascading (RNG permanently desynced) |
+| Preconditions | Bide active + opponent faints + link | Psywave used + link |
+
 ### BugClaim Harness
 
 The `Harness.BugClaim` structure defines a reusable contract for verified bugs:
@@ -315,7 +348,7 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 6 | CooltrainerF AI always switches | Dead code | Planned |
 | 7 | Blaine AI Super Potion | Missing precondition | Verified |
 | 8 | Psywave link desync | Symmetry violation | Verified |
-| 9 | Counter damage persists | Stale state | Planned |
+| 9 | Bide accumulated damage link desync | Asymmetric memory zeroing (L4) | Verified |
 | 10 | Reflect/Light Screen overflow | Arithmetic overflow | **Verified (reachable)** |
 | 11 | Stat scaling defense-zero freeze | Division by zero / 8-bit wrapping | Verified |
 | 12 | **Acc/Eva stage non-cancellation** | **Truncated fractions + intermediate truncation** | **Verified (new, latent in Gen 1)** |
@@ -344,7 +377,8 @@ pokered-verify/
 │       ├── AccEvaCancel.lean
 │       ├── ReflectOverflow.lean
 │       ├── BadgeReflect.lean
-│       └── Substitute.lean
+│       ├── Substitute.lean
+│       └── BideDesync.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
@@ -359,7 +393,7 @@ Requires [elan](https://github.com/leanprover/elan) (Lean version manager).
 lake build SM83 PokeredBugs Harness
 ```
 
-All 48 build jobs should complete with no errors. Validation tests run automatically during the build.
+All 50 build jobs should complete with no errors. Validation tests run automatically during the build.
 
 ## Proof Metrics
 
