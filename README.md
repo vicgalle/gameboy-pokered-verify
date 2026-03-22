@@ -46,7 +46,7 @@ Each opcode includes `#eval` tests that run at build time, cross-referenced agai
   -- output: (true, true, true, true)
 ```
 
-16 validation tests cover arithmetic (ADD, SUB, CP, INC, DEC with edge cases like overflow and zero) and logic (SRL, SLA, AND, XOR, SWAP, BIT) including flag behavior.
+28 validation tests cover arithmetic (ADD, SUB, CP, INC, DEC with edge cases like overflow and zero), logic (SRL, SLA, AND, XOR, SWAP, BIT), and bug-specific demonstrations including flag behavior.
 
 ## Application: Pokemon Red Bug Verification
 
@@ -334,7 +334,7 @@ Requires [elan](https://github.com/leanprover/elan) (Lean version manager).
 lake build SM83 PokeredBugs Harness
 ```
 
-All 33 build jobs should complete with no errors. Validation tests run automatically during the build.
+All 46 build jobs should complete with no errors. Validation tests run automatically during the build.
 
 ## Proof Metrics
 
