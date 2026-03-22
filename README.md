@@ -268,6 +268,30 @@ Equal ±stages on 255-accuracy move:  ±0→255  ±1→252  ±2→255  ±3→254
 
 **Practical impact — latent in Gen 1:** Independent analysis revealed that **no Gen 1 move raises accuracy stages** and **no Gen 1 move lowers evasion stages**. Accuracy can only go down (Flash, Sand-Attack), evasion can only go up (Double Team). The equal-boost cancellation scenario is impossible in normal Gen 1 gameplay. The bug is a genuine arithmetic artifact of the engine that becomes exploitable only in later generations where accuracy-raising moves (Hone Claws, Coil) exist. Stage ±3 is particularly notable: it proves that even with exact fraction products, the two-pass integer truncation alone is sufficient to break cancellation — a purely emergent property of the calculation order.
 
+### Substitute 0 HP + User Survives at 0 HP (Two Bugs, One Routine)
+
+**The bugs:** The Substitute routine (`move_effects/substitute.asm`) has two bugs:
+
+1. **Zero-HP Substitute:** Substitute costs `maxHP / 4` (two right shifts). When maxHP ≤ 3, integer division gives 0, creating a Substitute with 0 HP that breaks on the first hit.
+2. **User left at 0 HP:** The HP sufficiency check uses `jr c` (carry = underflow) but doesn't check for zero. When `currentHP = maxHP/4` exactly, the user survives at 0 HP — alive but with no health.
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `substitute_zero_iff` | Substitute HP = 0 iff maxHP < 4 (arithmetic proof, not brute force) |
+| `substitute_positive` | For maxHP ≥ 4, substitute always has positive HP |
+| `user_zero_hp` | User left at 0 HP when currentHP = cost |
+| `zero_hp_iff` | Full iff characterization of the 0-HP survival condition |
+| `fix_rejects_zero_cost` | Fixed check rejects 0-cost substitutes |
+| `fix_prevents_zero_hp` | Fixed check prevents 0-HP survival |
+| `fix_allows_normal` | Fixed check still allows legitimate substitutes |
+| `both_bugs_interact` | When maxHP ≤ 3: user pays nothing for a substitute that blocks nothing |
+| `sub_hp_characterization` | `substituteHP maxHP = N` iff `4N ≤ maxHP < 4(N+1)` |
+| `sm83_matches_model` | CPU-level srl/rr shifts match the abstract model for all inputs ≤ 1023 |
+
+**Proof technique diversity:** Unlike our other proofs (81% `native_decide`), this file uses primarily **arithmetic reasoning**: `omega` (15 uses), `simp`/`unfold` (26 uses), `constructor` for iff splits, and named lemma composition. `native_decide` is used only 3 times — for the SM83 CPU-level equivalence check where brute force is appropriate. The `div4_eq_zero_iff` lemma is a reusable arithmetic fact proved from first principles.
+
 ### BugClaim Harness
 
 The `Harness.BugClaim` structure defines a reusable contract for verified bugs:
@@ -286,7 +310,7 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 1 | Focus Energy wrong shift | Wrong bitwise op | Verified |
 | 2 | 1/256 accuracy miss | Off-by-one | Verified |
 | 3 | 1/256 crit miss | Off-by-one | Verified |
-| 4 | Substitute 0 HP | Arithmetic underflow | Planned |
+| 4 | Substitute 0 HP + user 0 HP | Arithmetic underflow / missing zero-check | Verified |
 | 5 | Heal overflow at 255/511 | Integer truncation | Planned |
 | 6 | CooltrainerF AI always switches | Dead code | Planned |
 | 7 | Blaine AI Super Potion | Missing precondition | Verified |
@@ -319,7 +343,8 @@ pokered-verify/
 │       ├── StatScaling.lean
 │       ├── AccEvaCancel.lean
 │       ├── ReflectOverflow.lean
-│       └── BadgeReflect.lean
+│       ├── BadgeReflect.lean
+│       └── Substitute.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
@@ -334,7 +359,7 @@ Requires [elan](https://github.com/leanprover/elan) (Lean version manager).
 lake build SM83 PokeredBugs Harness
 ```
 
-All 46 build jobs should complete with no errors. Validation tests run automatically during the build.
+All 48 build jobs should complete with no errors. Validation tests run automatically during the build.
 
 ## Proof Metrics
 

@@ -6,3 +6,4 @@ import PokeredBugs.Proofs.StatScaling
 import PokeredBugs.Proofs.AccEvaCancel
 import PokeredBugs.Proofs.ReflectOverflow
 import PokeredBugs.Proofs.BadgeReflect
+import PokeredBugs.Proofs.Substitute
