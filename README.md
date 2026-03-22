@@ -215,6 +215,33 @@ Defense with attack=300 (triggers scaling):
 
 Independent analysis confirmed that the specific practical consequence — **Reflect reducing defense after stat boosts** — is **not documented** on Bulbapedia, Smogon, or the pret wiki. The disassembly comments warn of "weird things" but no community resource explicitly states that Reflect can make a Pokémon take more damage. Light Screen has the identical bug with the Special stat.
 
+### Badge Boost Stacking + Reflect (New Discovery — Emergent Interaction)
+
+**The discovery:** Three separate mechanisms combine catastrophically: (1) badge boost stacking reapplies 9/8 to ALL stats on every stat change, (2) Reflect doubles defense without cap, (3) `.scaleStats` wraps at 1024. The result: **the opponent using Growl enables the Reflect overflow without any action from the player.**
+
+```
+Cloyster (defense=458), Thunder Badge, attack=300:
+  Growls  Defense  No Reflect  With Reflect
+  0       458      114         229  ← Reflect helps
+  1       515      128         1    ← Reflect gives DEFENSE=1!!!
+  2       579      144         33   ← still catastrophic
+  3       651      162         69
+  7       999      249         243
+```
+
+**Proved theorems:**
+
+| Theorem | Statement |
+|---|---|
+| `one_growl_exceeds_512` | One badge boost pushes Cloyster's defense from 458 to 515 (> 512) |
+| `one_growl_reflect_catastrophe` | One Growl + Reflect: effective defense = 1 (was 128) |
+| `reflect_128x_worse` | Reflect divides effective defense by 128 instead of doubling it |
+| `no_player_action_needed` | The overflow requires zero defensive moves from the player |
+| `badge_reflect_near_freeze` | At defense 456, one badge boost + Reflect causes a game FREEZE |
+| `badge_stacking_progression` | Complete stacking progression: 458→515→579→...→999 |
+
+**Why this is novel (independently verified):** The Reflect overflow was known to the disassembly annotators, but the badge-boost-stacking enabler is undocumented. The disassembly warning at line 4084 assumes the Pokemon "already has 512+ defense" — it doesn't account for badge stacking dynamically crossing the threshold during battle. The scenario — *opponent uses Growl, player uses Reflect, Cloyster's effective defense drops to 1* — requires no setup from the player. Independent analysis confirmed that **Cloyster is the only Gen 1 Pokemon** where a single Growl triggers this (base defense 180 is the only value ≥ 179 among Reflect learners). At base defense 456 (DV=14), the interaction causes a **game freeze** (defense wraps to exactly 0).
+
 ### Accuracy/Evasion Stage Non-Cancellation (New Discovery — Latent Bug)
 
 **The bug:** The `CalcHitChance` routine computes effective accuracy in two passes using the `StatModifierRatios` table. Two factors cause **equal accuracy and evasion boosts to not cancel**:
@@ -268,6 +295,7 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 10 | Reflect/Light Screen overflow | Arithmetic overflow | **Verified (reachable)** |
 | 11 | Stat scaling defense-zero freeze | Division by zero / 8-bit wrapping | Verified |
 | 12 | **Acc/Eva stage non-cancellation** | **Truncated fractions + intermediate truncation** | **Verified (new, latent in Gen 1)** |
+| 13 | **Badge stacking + Reflect** | **Emergent interaction (3 systems)** | **Verified (new discovery)** |
 
 ## Project Structure
 
@@ -290,7 +318,8 @@ pokered-verify/
 │       ├── PsywaveDesync.lean
 │       ├── StatScaling.lean
 │       ├── AccEvaCancel.lean
-│       └── ReflectOverflow.lean
+│       ├── ReflectOverflow.lean
+│       └── BadgeReflect.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
