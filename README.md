@@ -272,8 +272,8 @@ Equal ±stages on 255-accuracy move:  ±0→255  ±1→252  ±2→255  ±3→254
 
 **The bugs:** The Substitute routine (`move_effects/substitute.asm`) has two bugs:
 
-1. **Zero-HP Substitute:** Substitute costs `maxHP / 4` (two right shifts). When maxHP ≤ 3, integer division gives 0, creating a Substitute with 0 HP that breaks on the first hit.
-2. **User left at 0 HP:** The HP sufficiency check uses `jr c` (carry = underflow) but doesn't check for zero. When `currentHP = maxHP/4` exactly, the user survives at 0 HP — alive but with no health.
+1. **Zero-HP Substitute (theoretical):** Substitute costs `maxHP / 4` (two right shifts). When maxHP ≤ 3, integer division gives 0, creating a Substitute with 0 HP that breaks on the first hit. **Unreachable in normal gameplay** — the Gen 1 HP formula's `+ Level + 10` term guarantees minimum HP of 11.
+2. **User left at 0 HP (reachable):** The HP sufficiency check uses `jr c` (carry = underflow) but doesn't check for zero. When `currentHP = maxHP/4` exactly, the user survives at 0 HP. Documented in the disassembly at line 40. **Trivially reachable** — e.g., maxHP=100, currentHP=25.
 
 **Proved theorems:**
 
