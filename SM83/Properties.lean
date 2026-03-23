@@ -277,4 +277,132 @@ theorem sla_8_times_zero (v : BitVec 8) :
     ∀ b : BitVec 8, b <<< 1 <<< 1 <<< 1 <<< 1 <<< 1 <<< 1 <<< 1 <<< 1 = (0 : BitVec 8))
   exact this v
 
+/-! ## 9. Through-Carry Rotation — RLA/RRA have period 9
+
+    RLCA and RRCA rotate the 8 bits of A: period 8.
+    RLA and RRA rotate A *through the carry flag*, creating a 9-bit cycle.
+    The carry flag extends the orbit by one position, so the period is
+    9 rather than 8. This is the key algebraic difference between the
+    two flavors of rotation on the SM83. -/
+
+/-- RLA has period 9: rotating A left through carry 9 times restores both A
+    and the carry flag. Unlike RLCA (period 8), RLA treats A and carry as a
+    single 9-bit register, adding one position to the cycle. -/
+theorem rla_period_9 (a : BitVec 8) (c : Bool) :
+    let rla := fun (p : BitVec 8 × Bool) =>
+      ((p.1 <<< 1) ||| (if p.2 then (1 : BitVec 8) else 0), p.1.getLsbD 7)
+    rla (rla (rla (rla (rla (rla (rla (rla (rla (a, c))))))))) = (a, c) := by
+  have := (by native_decide :
+    ∀ a : BitVec 8, ∀ c : Bool,
+      let rla := fun (p : BitVec 8 × Bool) =>
+        ((p.1 <<< 1) ||| (if p.2 then (1 : BitVec 8) else 0), p.1.getLsbD 7)
+      rla (rla (rla (rla (rla (rla (rla (rla (rla (a, c))))))))) = (a, c))
+  exact this a c
+
+/-- RLA does NOT have period 3, so the minimal period is exactly 9.
+    (Since 9 = 3², its only proper divisors are 1 and 3.) -/
+theorem rla_not_period_3 :
+    ∃ a : BitVec 8, ∃ c : Bool,
+      let rla := fun (p : BitVec 8 × Bool) =>
+        ((p.1 <<< 1) ||| (if p.2 then (1 : BitVec 8) else 0), p.1.getLsbD 7)
+      rla (rla (rla (a, c))) ≠ (a, c) := by
+  exact ⟨1, false, by native_decide⟩
+
+/-- RLA does NOT have period 8 — applying the RLCA loop count is a bug.
+    A programmer who confuses RLCA (period 8) with RLA (period 9) gets
+    corrupted data: the carry flag leaks into A on the 8th iteration. -/
+theorem rla_not_period_8 :
+    ∃ a : BitVec 8, ∃ c : Bool,
+      let rla := fun (p : BitVec 8 × Bool) =>
+        ((p.1 <<< 1) ||| (if p.2 then (1 : BitVec 8) else 0), p.1.getLsbD 7)
+      rla (rla (rla (rla (rla (rla (rla (rla (a, c)))))))) ≠ (a, c) := by
+  exact ⟨0, true, by native_decide⟩
+
+/-- Concrete carry leak: starting from (A=0x00, C=1), eight RLAs produce
+    (A=0x80, C=0). The carry bit has traveled through all 8 positions of A
+    and is now stranded in bit 7 — one more RLA is needed to push it home.
+    This is the mechanism by which the period-8 assumption corrupts data. -/
+theorem rla_8_carry_leak :
+    let rla := fun (p : BitVec 8 × Bool) =>
+      ((p.1 <<< 1) ||| (if p.2 then (1 : BitVec 8) else 0), p.1.getLsbD 7)
+    rla (rla (rla (rla (rla (rla (rla (rla ((0x00 : BitVec 8), true)))))))) =
+      ((0x80 : BitVec 8), false) := by
+  native_decide
+
+/-- RRA also has period 9: right rotation through carry on 9 bits. -/
+theorem rra_period_9 (a : BitVec 8) (c : Bool) :
+    let rra := fun (p : BitVec 8 × Bool) =>
+      ((p.1 >>> 1) ||| (if p.2 then (0x80 : BitVec 8) else 0), p.1.getLsbD 0)
+    rra (rra (rra (rra (rra (rra (rra (rra (rra (a, c))))))))) = (a, c) := by
+  have := (by native_decide :
+    ∀ a : BitVec 8, ∀ c : Bool,
+      let rra := fun (p : BitVec 8 × Bool) =>
+        ((p.1 >>> 1) ||| (if p.2 then (0x80 : BitVec 8) else 0), p.1.getLsbD 0)
+      rra (rra (rra (rra (rra (rra (rra (rra (rra (a, c))))))))) = (a, c))
+  exact this a c
+
+/-- RLA and RRA are inverses on the (A, carry) pair. -/
+theorem rla_rra_inverse (a : BitVec 8) (c : Bool) :
+    let rla := fun (p : BitVec 8 × Bool) =>
+      ((p.1 <<< 1) ||| (if p.2 then (1 : BitVec 8) else 0), p.1.getLsbD 7)
+    let rra := fun (p : BitVec 8 × Bool) =>
+      ((p.1 >>> 1) ||| (if p.2 then (0x80 : BitVec 8) else 0), p.1.getLsbD 0)
+    rra (rla (a, c)) = (a, c) := by
+  have := (by native_decide :
+    ∀ a : BitVec 8, ∀ c : Bool,
+      let rla := fun (p : BitVec 8 × Bool) =>
+        ((p.1 <<< 1) ||| (if p.2 then (1 : BitVec 8) else 0), p.1.getLsbD 7)
+      let rra := fun (p : BitVec 8 × Bool) =>
+        ((p.1 >>> 1) ||| (if p.2 then (0x80 : BitVec 8) else 0), p.1.getLsbD 0)
+      rra (rla (a, c)) = (a, c))
+  exact this a c
+
+/-! ## 10. SWAP decomposes as four rotations
+
+    SWAP exchanges high and low nibbles. Four left rotations move each bit
+    4 positions — exactly the same permutation. This connects two seemingly
+    unrelated SM83 instructions through the cyclic group Z/8Z of rotations:
+    SWAP is the unique element of order 2. -/
+
+/-- SWAP is equivalent to four RLCA rotations: nibble-swapping IS rotating by 4. -/
+theorem swap_eq_four_rlca (v : BitVec 8) :
+    let rot1 (w : BitVec 8) := (w <<< 1) ||| (if w.getLsbD 7 then (1 : BitVec 8) else 0)
+    rot1 (rot1 (rot1 (rot1 v))) = swapNibbles v := by
+  have := (by native_decide :
+    ∀ b : BitVec 8,
+      let rot1 := fun (w : BitVec 8) => (w <<< 1) ||| (if w.getLsbD 7 then (1 : BitVec 8) else 0)
+      rot1 (rot1 (rot1 (rot1 b))) = swapNibbles b)
+  exact this v
+
+/-! ## 11. SRA convergence — contrast with RLCA periodicity
+
+    SRA (arithmetic right shift) preserves the sign bit, so it converges to
+    a fixed point rather than cycling. Positive values (bit 7 = 0) converge
+    to 0x00, negative values (bit 7 = 1) converge to 0xFF. After 7 shifts,
+    the 7 non-sign bits have been replaced by copies of the sign bit. -/
+
+/-- After 7 arithmetic right shifts, the result is a fixed point of SRA. -/
+theorem sra_convergence (v : BitVec 8) :
+    let sra (w : BitVec 8) := (w >>> 1) ||| (w &&& 0x80)
+    let v7 := sra (sra (sra (sra (sra (sra (sra v))))))
+    sra v7 = v7 := by
+  have := (by native_decide :
+    ∀ b : BitVec 8,
+      let sra := fun (w : BitVec 8) => (w >>> 1) ||| (w &&& 0x80)
+      let v7 := sra (sra (sra (sra (sra (sra (sra b))))))
+      sra v7 = v7)
+  exact this v
+
+/-- SRA convergence target: positive bytes go to 0x00, negative to 0xFF. -/
+theorem sra_converges_to_sign_extension (v : BitVec 8) :
+    let sra (w : BitVec 8) := (w >>> 1) ||| (w &&& 0x80)
+    let v7 := sra (sra (sra (sra (sra (sra (sra v))))))
+    v7 = if v.getLsbD 7 then (0xFF : BitVec 8) else (0x00 : BitVec 8) := by
+  have := (by native_decide :
+    ∀ b : BitVec 8,
+      let sra := fun (w : BitVec 8) => (w >>> 1) ||| (w &&& 0x80)
+      let v7 := sra (sra (sra (sra (sra (sra (sra b))))))
+      v7 = if b.getLsbD 7 then (0xFF : BitVec 8) else (0x00 : BitVec 8))
+  exact this v
+
 end SM83
