@@ -344,8 +344,8 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 2 | 1/256 accuracy miss | Off-by-one | Verified |
 | 3 | 1/256 crit miss | Off-by-one | Verified |
 | 4 | Substitute 0 HP + user 0 HP | Arithmetic underflow / missing zero-check | Verified |
-| 5 | Heal overflow at 255/511 | Integer truncation | Planned |
-| 6 | CooltrainerF AI always switches | Dead code | Planned |
+| 5 | Heal overflow at 255/511/767 | Broken 16-bit comparison | Verified |
+| 6 | CooltrainerF AI always switches | Dead code / missing branch | Verified |
 | 7 | Blaine AI Super Potion | Missing precondition | Verified |
 | 8 | Psywave link desync | Symmetry violation | Verified |
 | 9 | Bide accumulated damage link desync | Asymmetric memory zeroing (L4) | Verified |
@@ -378,7 +378,9 @@ pokered-verify/
 │       ├── ReflectOverflow.lean
 │       ├── BadgeReflect.lean
 │       ├── Substitute.lean
-│       └── BideDesync.lean
+│       ├── BideDesync.lean
+│       ├── HealOverflow.lean
+│       └── CooltrainerF.lean
 ├── Harness/
 │   └── BugClaim.lean              # Structured type for bug claims
 ├── lakefile.toml
@@ -393,7 +395,7 @@ Requires [elan](https://github.com/leanprover/elan) (Lean version manager).
 lake build SM83 PokeredBugs Harness
 ```
 
-All 50 build jobs should complete with no errors. Validation tests run automatically during the build.
+All 54 build jobs should complete with no errors. Validation tests run automatically during the build.
 
 ## Proof Metrics
 

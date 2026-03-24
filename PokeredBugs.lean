@@ -8,3 +8,5 @@ import PokeredBugs.Proofs.ReflectOverflow
 import PokeredBugs.Proofs.BadgeReflect
 import PokeredBugs.Proofs.Substitute
 import PokeredBugs.Proofs.BideDesync
+import PokeredBugs.Proofs.HealOverflow
+import PokeredBugs.Proofs.CooltrainerF
