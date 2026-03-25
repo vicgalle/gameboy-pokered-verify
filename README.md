@@ -349,7 +349,7 @@ Difficulty levels range from L1 (concrete witness) through L4 (relational/desync
 | 7 | Blaine AI Super Potion | Missing precondition | Verified |
 | 8 | Psywave link desync | Symmetry violation | Verified |
 | 9 | Bide accumulated damage link desync | Asymmetric memory zeroing (L4) | Verified |
-| 10 | Reflect/Light Screen overflow | Arithmetic overflow | **Verified (reachable)** |
+| 10 | Reflect/Light Screen overflow | Arithmetic overflow | Verified |
 | 11 | Stat scaling defense-zero freeze | Division by zero / 8-bit wrapping | Verified |
 | 12 | **Acc/Eva stage non-cancellation** | **Truncated fractions + intermediate truncation** | **Verified (new, latent in Gen 1)** |
 | 13 | **Badge stacking + Reflect** | **Emergent interaction (3 systems)** | **Verified (new discovery)** |
