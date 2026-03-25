@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Substitute HP Bugs</title>
+<link rel="next" href="ch-heal_overflow.html" title="Heal Move Overflow" />
+<link rel="prev" href="ch-cooltrainerf.html" title="CooltrainerF Dead Code Bug" />
+<link rel="up" href="index.html" title="Pokered Verify — Blueprint" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Pokered Verify — Blueprint</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="ch-sm83.html"><span class="toc_ref">1</span> <span class="toc_entry">SM83 CPU Model</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-sm83.html#a0000000002"><span class="toc_ref">1.1</span> <span class="toc_entry">Core Types</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000003"><span class="toc_ref">1.2</span> <span class="toc_entry">Flag Register</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000004"><span class="toc_ref">1.3</span> <span class="toc_entry">Arithmetic Opcodes</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000005"><span class="toc_ref">1.4</span> <span class="toc_entry">Logic and Shifts</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000006"><span class="toc_ref">1.5</span> <span class="toc_entry">Algebraic Properties</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-harness.html"><span class="toc_ref">2</span> <span class="toc_entry">Bug Verification Framework</span></a>
+ </li>
+<li class="">
+  <a href="ch-focus_energy.html"><span class="toc_ref">3</span> <span class="toc_entry">Focus Energy Bug</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-focus_energy.html#a0000000007"><span class="toc_ref">3.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-focus_energy.html#a0000000008"><span class="toc_ref">3.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-one_in_256.html"><span class="toc_ref">4</span> <span class="toc_entry">1/256 Accuracy &amp; Crit Miss</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-one_in_256.html#a0000000009"><span class="toc_ref">4.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-one_in_256.html#a0000000010"><span class="toc_ref">4.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-blaine.html"><span class="toc_ref">5</span> <span class="toc_entry">Blaine AI Super Potion Bug</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-blaine.html#a0000000011"><span class="toc_ref">5.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-blaine.html#a0000000012"><span class="toc_ref">5.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-cooltrainerf.html"><span class="toc_ref">6</span> <span class="toc_entry">CooltrainerF Dead Code Bug</span></a>
+ </li>
+<li class=" active current">
+  <a href="ch-substitute.html"><span class="toc_ref">7</span> <span class="toc_entry">Substitute HP Bugs</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="ch-substitute.html#a0000000013"><span class="toc_ref">7.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-substitute.html#a0000000014"><span class="toc_ref">7.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-heal_overflow.html"><span class="toc_ref">8</span> <span class="toc_entry">Heal Move Overflow</span></a>
+ </li>
+<li class="">
+  <a href="ch-stat_scaling.html"><span class="toc_ref">9</span> <span class="toc_entry">Stat Scaling Bugs</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-stat_scaling.html#a0000000015"><span class="toc_ref">9.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-stat_scaling.html#a0000000016"><span class="toc_ref">9.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-reflect.html"><span class="toc_ref">10</span> <span class="toc_entry">Reflect/Light Screen Overflow</span></a>
+ </li>
+<li class="">
+  <a href="ch-badge_reflect.html"><span class="toc_ref">11</span> <span class="toc_entry">Badge Stacking + Reflect</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-badge_reflect.html#a0000000017"><span class="toc_ref">11.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-badge_reflect.html#a0000000018"><span class="toc_ref">11.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-acc_eva.html"><span class="toc_ref">12</span> <span class="toc_entry">Accuracy/Evasion Non-Cancellation</span></a>
+ </li>
+<li class="">
+  <a href="ch-psywave.html"><span class="toc_ref">13</span> <span class="toc_entry">Psywave Link Desync</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-psywave.html#a0000000019"><span class="toc_ref">13.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-psywave.html#a0000000020"><span class="toc_ref">13.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-bide.html"><span class="toc_ref">14</span> <span class="toc_entry">Bide Accumulated Damage Desync</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-bide.html#a0000000021"><span class="toc_ref">14.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-bide.html#a0000000022"><span class="toc_ref">14.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="ch:substitute">7 Substitute HP Bugs</h1>
+
+<p>Two bugs in one routine: zero-HP substitutes when \(\texttt{maxHP} \le 3\), and user surviving at 0 HP when \(\texttt{currentHP} = \texttt{maxHP}/4\) exactly. </p>
+<h1 id="a0000000013">7.1 Definitions</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:substitute_hp">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">7.1</span>
+    <span class="definition_thmtitle">Substitute HP</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#def:substitute_hp">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.substituteHP" class="lean_decl">PokeredBugs.substituteHP</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  \(\texttt{maxHP} / 4\) via two right shifts. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:can_afford">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">7.2</span>
+    <span class="definition_thmtitle">Can Afford Substitute</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#def:can_afford">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#def:substitute_hp">Definition 7.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.canAffordSubstitute" class="lean_decl">PokeredBugs.canAffordSubstitute</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Checks \(\texttt{currentHP} \ge \texttt{cost}\) via carry flag (no zero check). </p>
+
+  </div>
+</div>
+<h1 id="a0000000014">7.2 Proofs</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:substitute_zero_iff">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.3</span>
+    <span class="theorem_thmtitle">Zero Substitute Iff</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#thm:substitute_zero_iff">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#def:substitute_hp">Definition 7.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.substitute_zero_iff" class="lean_decl">PokeredBugs.substitute_zero_iff</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   \(\texttt{substituteHP}(m) = 0 \iff m {\lt} 4\). Arithmetic proof with <span class="ttfamily">omega</span>. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:substitute_positive">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.4</span>
+    <span class="theorem_thmtitle">Substitute Positive</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#thm:substitute_positive">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#def:substitute_hp">Definition 7.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.substitute_positive" class="lean_decl">PokeredBugs.substitute_positive</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   For \(\texttt{maxHP} \ge 4\), the substitute always has positive HP. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:user_zero_hp">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.5</span>
+    <span class="theorem_thmtitle">User at Zero HP</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#thm:user_zero_hp">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#def:substitute_hp">Definition 7.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.user_zero_hp" class="lean_decl">PokeredBugs.user_zero_hp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   When \(\texttt{currentHP} = \texttt{cost}\), the user is left at 0 HP. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:zero_hp_iff">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.6</span>
+    <span class="theorem_thmtitle">Zero HP Iff</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#thm:zero_hp_iff">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#def:can_afford">Definition 7.2</a></li>
+          
+          <li><a href="ch-substitute.html#thm:user_zero_hp">Theorem 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.zero_hp_iff" class="lean_decl">PokeredBugs.zero_hp_iff</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   User ends at 0 HP iff \(\texttt{currentHP} = \texttt{maxHP}/4\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:fix_prevents_zero">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.7</span>
+    <span class="theorem_thmtitle">Fix Prevents Zero HP</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#thm:fix_prevents_zero">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#def:substitute_hp">Definition 7.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.fix_prevents_zero_hp" class="lean_decl">PokeredBugs.fix_prevents_zero_hp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Fixed check (\(\texttt{cost} {\gt} 0 \land \texttt{currentHP} {\gt} \texttt{cost}\)) prevents 0 HP survival. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:both_bugs_interact">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.8</span>
+    <span class="theorem_thmtitle">Both Bugs Interact</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#thm:both_bugs_interact">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#thm:substitute_zero_iff">Theorem 7.3</a></li>
+          
+          <li><a href="ch-substitute.html#thm:user_zero_hp">Theorem 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.both_bugs_interact" class="lean_decl">PokeredBugs.both_bugs_interact</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   When \(\texttt{maxHP} \le 3\): user pays nothing for a substitute that blocks nothing. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:substitute_sm83">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.9</span>
+    <span class="theorem_thmtitle">SM83 Matches Model</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-substitute.html#thm:substitute_sm83">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-substitute.html#def:substitute_hp">Definition 7.1</a></li>
+          
+          <li><a href="ch-sm83.html#def:exec_srl">Definition 1.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.sm83_matches_model" class="lean_decl">PokeredBugs.sm83_matches_model</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   CPU-level <span class="ttfamily">srl</span>/<span class="ttfamily">rr</span> shifts match the abstract model for all inputs \(\le 1023\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-cooltrainerf.html" title="CooltrainerF Dead Code Bug"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Pokered Verify — Blueprint"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-heal_overflow.html" title="Heal Move Overflow"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

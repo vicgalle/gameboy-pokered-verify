@@ -1,0 +1,838 @@
+% content.tex — Main blueprint content for pokered-verify
+%
+% Each definition/theorem is annotated with:
+%   \lean{Fully.Qualified.Name} — links to the Lean declaration
+%   \leanok                     — marks it as fully formalized
+%   \uses{label1, label2}       — declares dependencies (drives the graph)
+
+\chapter{SM83 CPU Model}\label{ch:sm83}
+
+A Lean 4 formalization of the Sharp SM83 CPU, the processor powering the original Game Boy.
+The model covers registers, flags, memory, and $\sim$40 opcodes with semantics faithful to the hardware specification.
+
+\section{Core Types}
+
+\begin{definition}[CPU State]\label{def:cpu_state}
+  \lean{SM83.CPUState}
+  \leanok
+  The SM83 CPU state: eight 8-bit registers ($A$, $F$, $B$, $C$, $D$, $E$, $H$, $L$),
+  16-bit $\mathit{SP}$ and $\mathit{PC}$, a total memory function
+  $\texttt{BitVec}\ 16 \to \texttt{BitVec}\ 8$, and a halt flag.
+\end{definition}
+
+\begin{definition}[Default State]\label{def:default_state}
+  \lean{SM83.defaultState}
+  \leanok
+  \uses{def:cpu_state}
+  All registers zero, $\mathit{SP} = \mathtt{0xFFFE}$, $\mathit{PC} = \mathtt{0x0100}$, memory all zeros.
+\end{definition}
+
+\section{Flag Register}
+
+\begin{definition}[mkFlags]\label{def:mkflags}
+  \lean{SM83.mkFlags}
+  \leanok
+  Build a flag byte from individual booleans ($Z$, $N$, $H$, $C$). Bits 3--0 are always zero,
+  matching the SM83 hardware constraint.
+\end{definition}
+
+\begin{theorem}[Flag Low Nibble Invariant]\label{thm:mkflags_low_nibble}
+  \lean{SM83.mkFlags_low_nibble_zero}
+  \leanok
+  \uses{def:mkflags}
+  For all flag combinations: $\texttt{mkFlags}(z,n,h,c) \mathbin{\&} \mathtt{0x0F} = 0$.
+\end{theorem}
+
+\section{Arithmetic Opcodes}
+
+\begin{definition}[ADD A, r]\label{def:exec_add}
+  \lean{SM83.execAddA}
+  \leanok
+  \uses{def:cpu_state, def:mkflags}
+  Add $r$ to $A$, setting flags $Z\ 0\ H\ C$.
+\end{definition}
+
+\begin{definition}[SUB r]\label{def:exec_sub}
+  \lean{SM83.execSub}
+  \leanok
+  \uses{def:cpu_state, def:mkflags}
+  Subtract $r$ from $A$, setting flags $Z\ 1\ H\ C$.
+\end{definition}
+
+\begin{definition}[CP r]\label{def:exec_cp}
+  \lean{SM83.execCp}
+  \leanok
+  \uses{def:cpu_state, def:mkflags}
+  Compare $A$ with $r$ (phantom subtraction): sets flags like SUB but does not modify $A$.
+\end{definition}
+
+\section{Logic and Shifts}
+
+\begin{definition}[SRL r]\label{def:exec_srl}
+  \lean{SM83.execSrl}
+  \leanok
+  \uses{def:mkflags}
+  Shift right logical. Bit 0 goes to carry, bit 7 becomes 0. Flags: $Z\ 0\ 0\ C$.
+\end{definition}
+
+\begin{definition}[SLA r]\label{def:exec_sla}
+  \lean{SM83.execSla}
+  \leanok
+  \uses{def:mkflags}
+  Shift left arithmetic. Bit 7 goes to carry, bit 0 becomes 0. Flags: $Z\ 0\ 0\ C$.
+\end{definition}
+
+\begin{definition}[XOR r]\label{def:exec_xor}
+  \lean{SM83.execXor}
+  \leanok
+  \uses{def:cpu_state, def:mkflags}
+  XOR with $A$, setting flags $Z\ 0\ 0\ 0$.
+\end{definition}
+
+\begin{definition}[SWAP r]\label{def:exec_swap}
+  \lean{SM83.execSwap}
+  \leanok
+  \uses{def:mkflags}
+  Swap nibbles of an 8-bit value.
+\end{definition}
+
+\section{Algebraic Properties}
+
+\begin{theorem}[CPL Involution]\label{thm:cpl_involution}
+  \lean{SM83.cpl_involution}
+  \leanok
+  \uses{def:cpu_state}
+  Complementing $A$ twice returns to the original value: $\lnot(\lnot A) = A$.
+\end{theorem}
+
+\begin{theorem}[SWAP Involution]\label{thm:swap_involution}
+  \lean{SM83.swap_involution}
+  \leanok
+  \uses{def:exec_swap}
+  Swapping nibbles twice recovers the original byte.
+\end{theorem}
+
+\begin{theorem}[XOR Self Zeros]\label{thm:xor_self_zeros}
+  \lean{SM83.xor_self_zeros}
+  \leanok
+  \uses{def:exec_xor}
+  $A \oplus A = 0$. The canonical Game Boy register-zeroing idiom.
+\end{theorem}
+
+\begin{theorem}[RLCA Period 8]\label{thm:rlca_period_8}
+  \lean{SM83.rlca_period_8}
+  \leanok
+  Rotating $A$ left 8 times returns to the original value.
+\end{theorem}
+
+\begin{theorem}[INC/DEC Cancel]\label{thm:inc_dec_cancel}
+  \lean{SM83.inc_dec_cancel_value}
+  \leanok
+  $(v + 1) - 1 = v$ for all 8-bit values. But flags are \emph{not} preserved.
+\end{theorem}
+
+\begin{theorem}[SRL then SLA Clears LSB]\label{thm:srl_then_sla}
+  \lean{SM83.srl_then_sla_clears_lsb}
+  \leanok
+  \uses{def:exec_srl, def:exec_sla}
+  Shift right then left gives $v \mathbin{\&} \mathtt{0xFE}$ (clears bit 0).
+\end{theorem}
+
+\begin{theorem}[CP Preserves A]\label{thm:cp_preserves_a}
+  \lean{SM83.cp_preserves_a}
+  \leanok
+  \uses{def:exec_cp}
+  CP does not modify register $A$.
+\end{theorem}
+
+\begin{theorem}[Memory Write-Read]\label{thm:mem_write_read}
+  \lean{SM83.mem_write_read_same}
+  \leanok
+  \uses{def:cpu_state}
+  Writing then reading the same address returns the written value.
+\end{theorem}
+
+% ============================================================
+\chapter{Bug Verification Framework}\label{ch:harness}
+
+\begin{definition}[Bug Claim]\label{def:bug_claim}
+  \lean{Harness.BugClaim}
+  \leanok
+  A structured claim about a bug, parameterized over input/output types $(\alpha, \beta)$.
+  Contains the buggy implementation, the intended specification, name, source file, category, and difficulty levels achieved.
+\end{definition}
+
+\begin{definition}[Bug Witness]\label{def:bug_witness}
+  \lean{Harness.BugWitness}
+  \leanok
+  \uses{def:bug_claim}
+  A concrete input where the implementation diverges from the specification,
+  with a proof that $\texttt{spec}(w) \neq \texttt{impl}(w)$.
+\end{definition}
+
+\begin{definition}[Bug Fix]\label{def:bug_fix}
+  \lean{Harness.BugFix}
+  \leanok
+  \uses{def:bug_claim}
+  A replacement implementation with a proof that $\forall x,\ \texttt{fix}(x) = \texttt{spec}(x)$.
+\end{definition}
+
+% ============================================================
+\chapter{Focus Energy Bug}\label{ch:focus_energy}
+
+The Focus Energy branch uses \texttt{srl b} (shift right $= \div 2$) where it should use
+\texttt{sla b} (shift left $= \times 2$), quartering the critical hit rate instead of doubling it.
+
+\section{Definitions}
+
+\begin{definition}[Crit Rate Input]\label{def:crit_rate_input}
+  \lean{PokeredBugs.critRateInput}
+  \leanok
+  \uses{def:exec_srl}
+  The input to the Focus Energy branch: $\texttt{base\_speed} \ggg 1$. Always $\le 127$.
+\end{definition}
+
+\begin{definition}[Buggy Focus Energy]\label{def:focus_energy_buggy}
+  \lean{PokeredBugs.focusEnergyBuggy}
+  \leanok
+  \uses{def:crit_rate_input}
+  Another \texttt{srl}: result $= \texttt{base\_speed} / 4$.
+\end{definition}
+
+\begin{definition}[Correct Focus Energy]\label{def:focus_energy_correct}
+  \lean{PokeredBugs.focusEnergyCorrect}
+  \leanok
+  \uses{def:crit_rate_input}
+  Uses \texttt{sla}: result $= \texttt{base\_speed} \mathbin{\&} \mathtt{0xFE}$.
+\end{definition}
+
+\section{Proofs}
+
+\begin{lemma}[Input Bounded]\label{lem:crit_input_bounded}
+  \lean{PokeredBugs.crit_input_bounded}
+  \leanok
+  \uses{def:crit_rate_input}
+  After the initial \texttt{srl}, $b \le 127$. No overflow possible from \texttt{sla}.
+\end{lemma}
+
+\begin{theorem}[Bug Exists]\label{thm:focus_energy_bug}
+  \lean{PokeredBugs.focus_energy_bug}
+  \leanok
+  \uses{def:focus_energy_buggy, def:focus_energy_correct}
+  $\exists$ base\_speed such that buggy $\neq$ correct. Witness: $\texttt{base\_speed} = 4$.
+\end{theorem}
+
+\begin{theorem}[Unconditionally Wrong]\label{thm:focus_energy_always_wrong}
+  \lean{PokeredBugs.focus_energy_always_wrong}
+  \leanok
+  \uses{def:focus_energy_buggy, def:focus_energy_correct}
+  For all base speeds $\ge 2$, buggy $\neq$ correct. No overflow coincidences.
+\end{theorem}
+
+\begin{theorem}[Reduces Crit Rate]\label{thm:focus_energy_reduces_rate}
+  \lean{PokeredBugs.focus_energy_reduces_rate}
+  \leanok
+  \uses{def:focus_energy_buggy, def:focus_energy_correct}
+  $\texttt{buggy}(s) \le \texttt{correct}(s)$ for all inputs.
+\end{theorem}
+
+\begin{theorem}[Quarter Rate]\label{thm:focus_energy_quarter_rate}
+  \lean{PokeredBugs.focus_energy_quarter_rate}
+  \leanok
+  \uses{thm:focus_energy_reduces_rate}
+  For base speeds $\ge 4$: $\texttt{buggy}(s) \times 4 \le \texttt{correct}(s)$.
+\end{theorem}
+
+\begin{theorem}[Fix Correct]\label{thm:focus_energy_fix}
+  \lean{PokeredBugs.focus_energy_fix_correct}
+  \leanok
+  \uses{def:focus_energy_correct}
+  Replacing \texttt{srl} with \texttt{sla} matches the no-Focus-Energy path.
+\end{theorem}
+
+\begin{theorem}[CPU-Level Bug]\label{thm:focus_energy_cpu}
+  \lean{PokeredBugs.focus_energy_cpu_bug}
+  \leanok
+  \uses{def:exec_srl, def:exec_sla, def:default_state}
+  The bug reproduces at the full SM83 opcode level.
+\end{theorem}
+
+% ============================================================
+\chapter{1/256 Accuracy \& Crit Miss}\label{ch:one_in_256}
+
+Two routines use \texttt{cp b; jr nc} giving $\ge$ where $>$ is needed.
+The boundary value $\texttt{random} = \texttt{threshold}$ fails instead of passing.
+
+\section{Definitions}
+
+\begin{definition}[Buggy Check]\label{def:check_actual}
+  \lean{PokeredBugs.checkActual}
+  \leanok
+  Pass when $\texttt{random} < \texttt{threshold}$ (strict less-than).
+\end{definition}
+
+\begin{definition}[Intended Check]\label{def:check_spec}
+  \lean{PokeredBugs.checkSpec}
+  \leanok
+  Pass when $\texttt{random} \le \texttt{threshold}$ (less-than-or-equal).
+\end{definition}
+
+\section{Proofs}
+
+\begin{theorem}[Accuracy Bug Exists]\label{thm:accuracy_bug_exists}
+  \lean{PokeredBugs.accuracy_bug_exists}
+  \leanok
+  \uses{def:check_actual, def:check_spec}
+  A 100\% accuracy move ($= 255$) can miss. Witness: $\texttt{random} = 255$.
+\end{theorem}
+
+\begin{theorem}[Bug Iff Equal]\label{thm:bug_iff_equal}
+  \lean{PokeredBugs.bug_iff_equal}
+  \leanok
+  \uses{def:check_actual, def:check_spec}
+  The bug triggers if and only if $\texttt{random} = \texttt{threshold}$. Exact characterization.
+\end{theorem}
+
+\begin{theorem}[Bug at Every Threshold]\label{thm:bug_at_every_threshold}
+  \lean{PokeredBugs.bug_at_every_threshold}
+  \leanok
+  \uses{thm:bug_iff_equal}
+  For \emph{every} threshold value, $\texttt{random} = \texttt{threshold}$ triggers the bug.
+\end{theorem}
+
+\begin{theorem}[Exactly One Extra Hit]\label{thm:exactly_one_extra_hit}
+  \lean{PokeredBugs.exactly_one_extra_hit}
+  \leanok
+  \uses{def:check_actual, def:check_spec}
+  The spec accepts exactly one more value per threshold than the actual check.
+\end{theorem}
+
+\begin{theorem}[Fix Correct]\label{thm:onein256_fix}
+  \lean{PokeredBugs.fix_correct}
+  \leanok
+  \uses{def:check_spec}
+  Using $\le$ instead of $<$ matches the spec for all inputs.
+\end{theorem}
+
+\begin{theorem}[SM83 Accuracy Matches Model]\label{thm:sm83_accuracy}
+  \lean{PokeredBugs.sm83_accuracy_matches_model}
+  \leanok
+  \uses{def:check_actual, def:exec_cp, def:default_state}
+  CPU-level \texttt{cp b; jr nc} matches the abstract model for all inputs.
+\end{theorem}
+
+% ============================================================
+\chapter{Blaine AI Super Potion Bug}\label{ch:blaine}
+
+Blaine's AI heals unconditionally without checking HP, wasting items at full health.
+
+\section{Definitions}
+
+\begin{definition}[Blaine Actual AI]\label{def:blaine_actual}
+  \lean{PokeredBugs.blaineActual}
+  \leanok
+  After the random check passes, always use Super Potion. No HP check.
+\end{definition}
+
+\begin{definition}[Blaine Correct AI]\label{def:blaine_correct}
+  \lean{PokeredBugs.blaineCorrect}
+  \leanok
+  Check if HP is below $1/10$ of max before healing.
+\end{definition}
+
+\section{Proofs}
+
+\begin{theorem}[Heals at Full HP]\label{thm:blaine_heals_full}
+  \lean{PokeredBugs.blaine_heals_at_full_hp}
+  \leanok
+  \uses{def:blaine_actual}
+  Blaine uses a Super Potion even when his Pok\'emon is at full HP.
+\end{theorem}
+
+\begin{theorem}[Always Heals]\label{thm:blaine_always_heals}
+  \lean{PokeredBugs.blaine_always_heals}
+  \leanok
+  \uses{def:blaine_actual}
+  Blaine's AI always returns \texttt{some} (unconditional healing).
+\end{theorem}
+
+\begin{theorem}[Wastes When Healthy]\label{thm:blaine_wastes}
+  \lean{PokeredBugs.blaine_wastes_when_healthy}
+  \leanok
+  \uses{def:blaine_actual, def:blaine_correct}
+  For any HP above the threshold, Blaine heals but the correct AI would not.
+\end{theorem}
+
+\begin{theorem}[Full HP Zero Gain]\label{thm:full_hp_zero_gain}
+  \lean{PokeredBugs.full_hp_zero_gain}
+  \leanok
+  \uses{def:blaine_actual}
+  At full HP, 0 HP is gained --- complete waste of the item.
+\end{theorem}
+
+\begin{theorem}[Blaine Unique Unconditional]\label{thm:blaine_unique}
+  \lean{PokeredBugs.blaine_unique_unconditional}
+  \leanok
+  \uses{def:blaine_actual, def:blaine_correct}
+  Blaine is the only trainer who heals unconditionally. Erika, Lorelei, Agatha all check HP first.
+\end{theorem}
+
+% ============================================================
+\chapter{CooltrainerF Dead Code Bug}\label{ch:cooltrainerf}
+
+A commented-out \texttt{ret nc} makes the random check dead code.
+CooltrainerF always heals or switches, never just attacks.
+
+\begin{definition}[CooltrainerF Buggy AI]\label{def:cooltrainerf_buggy}
+  \lean{PokeredBugs.cooltrainerFBuggy}
+  \leanok
+  The random input is ignored entirely.
+\end{definition}
+
+\begin{definition}[CooltrainerF Fixed AI]\label{def:cooltrainerf_fixed}
+  \lean{PokeredBugs.cooltrainerFFixed}
+  \leanok
+  With \texttt{ret nc} restored, 75\% of the time just attack.
+\end{definition}
+
+\begin{theorem}[Random Check Is Dead Code]\label{thm:random_dead_code}
+  \lean{PokeredBugs.random_check_is_dead_code}
+  \leanok
+  \uses{def:cooltrainerf_buggy}
+  Changing the random input does not change the action.
+\end{theorem}
+
+\begin{theorem}[Fix Uses Random]\label{thm:fix_uses_random}
+  \lean{PokeredBugs.fix_uses_random}
+  \leanok
+  \uses{def:cooltrainerf_fixed}
+  With the fix, different random values yield different actions.
+\end{theorem}
+
+% ============================================================
+\chapter{Substitute HP Bugs}\label{ch:substitute}
+
+Two bugs in one routine: zero-HP substitutes when $\texttt{maxHP} \le 3$,
+and user surviving at 0 HP when $\texttt{currentHP} = \texttt{maxHP}/4$ exactly.
+
+\section{Definitions}
+
+\begin{definition}[Substitute HP]\label{def:substitute_hp}
+  \lean{PokeredBugs.substituteHP}
+  \leanok
+  $\texttt{maxHP} / 4$ via two right shifts.
+\end{definition}
+
+\begin{definition}[Can Afford Substitute]\label{def:can_afford}
+  \lean{PokeredBugs.canAffordSubstitute}
+  \leanok
+  \uses{def:substitute_hp}
+  Checks $\texttt{currentHP} \ge \texttt{cost}$ via carry flag (no zero check).
+\end{definition}
+
+\section{Proofs}
+
+\begin{theorem}[Zero Substitute Iff]\label{thm:substitute_zero_iff}
+  \lean{PokeredBugs.substitute_zero_iff}
+  \leanok
+  \uses{def:substitute_hp}
+  $\texttt{substituteHP}(m) = 0 \iff m < 4$. Arithmetic proof with \texttt{omega}.
+\end{theorem}
+
+\begin{theorem}[Substitute Positive]\label{thm:substitute_positive}
+  \lean{PokeredBugs.substitute_positive}
+  \leanok
+  \uses{def:substitute_hp}
+  For $\texttt{maxHP} \ge 4$, the substitute always has positive HP.
+\end{theorem}
+
+\begin{theorem}[User at Zero HP]\label{thm:user_zero_hp}
+  \lean{PokeredBugs.user_zero_hp}
+  \leanok
+  \uses{def:substitute_hp}
+  When $\texttt{currentHP} = \texttt{cost}$, the user is left at 0 HP.
+\end{theorem}
+
+\begin{theorem}[Zero HP Iff]\label{thm:zero_hp_iff}
+  \lean{PokeredBugs.zero_hp_iff}
+  \leanok
+  \uses{def:can_afford, thm:user_zero_hp}
+  User ends at 0 HP iff $\texttt{currentHP} = \texttt{maxHP}/4$.
+\end{theorem}
+
+\begin{theorem}[Fix Prevents Zero HP]\label{thm:fix_prevents_zero}
+  \lean{PokeredBugs.fix_prevents_zero_hp}
+  \leanok
+  \uses{def:substitute_hp}
+  Fixed check ($\texttt{cost} > 0 \land \texttt{currentHP} > \texttt{cost}$) prevents 0 HP survival.
+\end{theorem}
+
+\begin{theorem}[Both Bugs Interact]\label{thm:both_bugs_interact}
+  \lean{PokeredBugs.both_bugs_interact}
+  \leanok
+  \uses{thm:substitute_zero_iff, thm:user_zero_hp}
+  When $\texttt{maxHP} \le 3$: user pays nothing for a substitute that blocks nothing.
+\end{theorem}
+
+\begin{theorem}[SM83 Matches Model]\label{thm:substitute_sm83}
+  \lean{PokeredBugs.sm83_matches_model}
+  \leanok
+  \uses{def:substitute_hp, def:exec_srl}
+  CPU-level \texttt{srl}/\texttt{rr} shifts match the abstract model for all inputs $\le 1023$.
+\end{theorem}
+
+% ============================================================
+\chapter{Heal Move Overflow}\label{ch:heal_overflow}
+
+The heal check fails at HP gaps of 255, 511, and 767 due to a broken 16-bit comparison.
+
+\begin{definition}[Buggy Heal Check]\label{def:heal_check}
+  \lean{PokeredBugs.healCheckFails}
+  \leanok
+  Models \texttt{cp [hl]; sbc [hl]; jp z}. Only checks the low-byte subtraction result.
+\end{definition}
+
+\begin{theorem}[Fails at Gap 255]\label{thm:heal_gap_255}
+  \lean{PokeredBugs.heal_fails_at_gap_255}
+  \leanok
+  \uses{def:heal_check}
+  $\texttt{maxHP} = 300$, $\texttt{currentHP} = 45$ (gap $= 255$): move incorrectly fails.
+\end{theorem}
+
+\begin{theorem}[No False Fail Below 256]\label{thm:heal_no_false_fail}
+  \lean{PokeredBugs.no_false_fail_below_256}
+  \leanok
+  \uses{def:heal_check}
+  When $\texttt{maxHP} \le 255$, the check is correct: only fails at full HP.
+\end{theorem}
+
+\begin{theorem}[Bad Gaps Enumerated]\label{thm:bad_gaps_enumerated}
+  \lean{PokeredBugs.bad_gaps_enumerated}
+  \leanok
+  \uses{def:heal_check}
+  For $\texttt{maxHP} \le 999$: false failures occur only at gaps 255, 511, or 767.
+\end{theorem}
+
+\begin{theorem}[Correct Check]\label{thm:heal_correct}
+  \lean{PokeredBugs.correct_no_false_fail}
+  \leanok
+  A correct 16-bit equality check never has false failures.
+\end{theorem}
+
+% ============================================================
+\chapter{Stat Scaling Bugs}\label{ch:stat_scaling}
+
+When stats exceed 255, both are divided by 4 and truncated to 8 bits.
+Defense can reach 0 (freeze), and values $> 1023$ wrap catastrophically.
+
+\section{Definitions}
+
+\begin{definition}[Scale Div 4]\label{def:scale_div4}
+  \lean{PokeredBugs.scaleDiv4}
+  \leanok
+  $\texttt{stat} / 4 \bmod 256$. Models two \texttt{srl}/\texttt{rr} pairs keeping only the low byte.
+\end{definition}
+
+\begin{definition}[Stat Scaling]\label{def:stat_scaling}
+  \lean{PokeredBugs.statScaling}
+  \leanok
+  \uses{def:scale_div4}
+  Full scaling routine: both stats divided by 4 when either $> 255$.
+  Attack bumped to 1 if zero; defense is \emph{not}.
+\end{definition}
+
+\section{Proofs}
+
+\begin{theorem}[Defense Zero Freeze]\label{thm:defense_zero_freeze}
+  \lean{PokeredBugs.defense_zero_freeze}
+  \leanok
+  \uses{def:stat_scaling}
+  Attack $= 256$, defense $= 3$: after scaling, defense $= 0 \Rightarrow$ freeze.
+\end{theorem}
+
+\begin{theorem}[Defense 4 Survives]\label{thm:defense_4_survives}
+  \lean{PokeredBugs.defense_4_survives}
+  \leanok
+  \uses{def:stat_scaling}
+  Defense 4 is the minimum that survives scaling.
+\end{theorem}
+
+\begin{theorem}[Damage Cliff at 1024]\label{thm:damage_cliff}
+  \lean{PokeredBugs.damage_cliff_1024}
+  \leanok
+  \uses{def:stat_scaling}
+  At the $1023 \to 1024$ boundary: damage ratio drops from 10 to 0.
+\end{theorem}
+
+\begin{theorem}[Attack Not Monotone]\label{thm:attack_not_monotone}
+  \lean{PokeredBugs.attack_not_monotone}
+  \leanok
+  \uses{def:stat_scaling}
+  Increasing attack does not always increase damage (wrapping).
+\end{theorem}
+
+\begin{theorem}[Scaling Is Mod 256]\label{thm:scaling_mod256}
+  \lean{PokeredBugs.scaling_is_mod256}
+  \leanok
+  \uses{def:scale_div4}
+  $\texttt{scaleDiv4}(\texttt{stat}) = (\texttt{stat}/4) \bmod 256$.
+\end{theorem}
+
+% ============================================================
+\chapter{Reflect/Light Screen Overflow}\label{ch:reflect}
+
+Reflect doubles defense with no cap. When defense $\ge 512$, the doubled value
+exceeds 1023 and wraps in \texttt{.scaleStats}---reducing defense instead of doubling it.
+
+\begin{definition}[Effective Defense]\label{def:effective_defense}
+  \lean{PokeredBugs.effectiveDefense}
+  \leanok
+  \uses{def:scale_div4}
+  Defense after optional Reflect, then scaling. Returns 0 on freeze.
+\end{definition}
+
+\begin{theorem}[Reflect 512 Freezes]\label{thm:reflect_freezes}
+  \lean{PokeredBugs.reflect_512_freezes}
+  \leanok
+  \uses{def:effective_defense}
+  Defense 512 with Reflect: $1024/4 = 256 \bmod 256 = 0$. Game freeze.
+\end{theorem}
+
+\begin{theorem}[Reflect Hurts Cloyster]\label{thm:reflect_hurts_cloyster}
+  \lean{PokeredBugs.reflect_hurts_cloyster}
+  \leanok
+  \uses{def:effective_defense}
+  Cloyster with Barrier + Reflect: effective defense drops from 174 to 92.
+\end{theorem}
+
+\begin{theorem}[Reflect Helps Below 512]\label{thm:reflect_helps_below}
+  \lean{PokeredBugs.reflect_helps_below_512}
+  \leanok
+  \uses{def:effective_defense}
+  Below 512, Reflect always increases effective defense.
+\end{theorem}
+
+\begin{theorem}[Reflect Hurts Above 512]\label{thm:reflect_hurts_above}
+  \lean{PokeredBugs.reflect_hurts_above_512}
+  \leanok
+  \uses{def:effective_defense}
+  Above 512, Reflect always decreases effective defense.
+\end{theorem}
+
+\begin{theorem}[Reflect Sawtooth]\label{thm:reflect_sawtooth}
+  \lean{PokeredBugs.reflect_sawtooth}
+  \leanok
+  \uses{def:effective_defense}
+  Full sawtooth pattern: peaks at 511 (255), crashes to 0 at 512, slowly recovers.
+\end{theorem}
+
+% ============================================================
+\chapter{Badge Stacking + Reflect}\label{ch:badge_reflect}
+
+Three systems combine catastrophically: badge boost stacking, Reflect, and stat scaling wrapping.
+The opponent using Growl enables the Reflect overflow with no action from the player.
+
+\section{Definitions}
+
+\begin{definition}[Badge Boost]\label{def:badge_boost}
+  \lean{PokeredBugs.badgeBoost}
+  \leanok
+  $\texttt{stat} + \lfloor\texttt{stat}/8\rfloor$, capped at 999.
+\end{definition}
+
+\begin{definition}[Full Pipeline]\label{def:full_pipeline}
+  \lean{PokeredBugs.fullPipeline}
+  \leanok
+  \uses{def:badge_boost, def:effective_defense}
+  Badge boost $N$ times $\to$ optional Reflect $\to$ scale stats.
+\end{definition}
+
+\section{Proofs}
+
+\begin{theorem}[One Growl Exceeds 512]\label{thm:one_growl_512}
+  \lean{PokeredBugs.one_growl_exceeds_512}
+  \leanok
+  \uses{def:badge_boost}
+  Cloyster: $458 + 57 = 515 > 512$ after one badge application.
+\end{theorem}
+
+\begin{theorem}[One Growl + Reflect Catastrophe]\label{thm:one_growl_reflect}
+  \lean{PokeredBugs.one_growl_reflect_catastrophe}
+  \leanok
+  \uses{def:full_pipeline}
+  One Growl + Reflect: effective defense drops to 1 (was 128).
+\end{theorem}
+
+\begin{theorem}[Reflect 128x Worse]\label{thm:reflect_128x}
+  \lean{PokeredBugs.reflect_128x_worse}
+  \leanok
+  \uses{thm:one_growl_reflect}
+  Reflect divides effective defense by 128 instead of doubling it.
+\end{theorem}
+
+\begin{theorem}[No Player Action Needed]\label{thm:no_player_action}
+  \lean{PokeredBugs.no_player_action_needed}
+  \leanok
+  \uses{def:badge_boost, def:full_pipeline}
+  The overflow requires zero defensive moves from the player.
+\end{theorem}
+
+\begin{theorem}[Badge Reflect Near Freeze]\label{thm:badge_near_freeze}
+  \lean{PokeredBugs.badge_reflect_near_freeze}
+  \leanok
+  \uses{def:full_pipeline}
+  At defense 456, one badge boost + Reflect causes a game freeze (defense $= 0$).
+\end{theorem}
+
+% ============================================================
+\chapter{Accuracy/Evasion Non-Cancellation}\label{ch:acc_eva}
+
+The two-pass hit chance calculation uses truncated table fractions
+and intermediate floor division. Equal $\pm$ boosts do not cancel.
+
+\begin{definition}[CalcHitChance]\label{def:calc_hit_chance}
+  \lean{PokeredBugs.calcHitChance}
+  \leanok
+  Two-pass calculation: accuracy stage first, then evasion stage, with integer truncation.
+\end{definition}
+
+\begin{theorem}[+1 Reduces Accuracy]\label{thm:plus1_reduces}
+  \lean{PokeredBugs.plus1_reduces_accuracy}
+  \leanok
+  \uses{def:calc_hit_chance}
+  Equal $\pm 1$ boosts on a 255-accuracy move give 252 instead of 255.
+\end{theorem}
+
+\begin{theorem}[+5 Worst Non-Cancellation]\label{thm:plus5_worst}
+  \lean{PokeredBugs.plus5_worst_noncancellation}
+  \leanok
+  \uses{def:calc_hit_chance}
+  Equal $\pm 5$ boosts lose 6 accuracy points: 249 instead of 255.
+\end{theorem}
+
+\begin{theorem}[Non-Cancellation Table]\label{thm:noncancellation_table}
+  \lean{PokeredBugs.noncancellation_table}
+  \leanok
+  \uses{def:calc_hit_chance}
+  Complete characterization: only $\pm 0$, $\pm 2$, $\pm 6$ perfectly cancel.
+\end{theorem}
+
+\begin{theorem}[Ratio Product Not One]\label{thm:ratio_product}
+  \lean{PokeredBugs.ratio_product_not_one}
+  \leanok
+  Root cause: $15/10 \times 66/100 = 990/1000 \neq 1$.
+\end{theorem}
+
+\begin{theorem}[Order Matters]\label{thm:order_matters}
+  \lean{PokeredBugs.order_matters}
+  \leanok
+  \uses{def:calc_hit_chance}
+  Reversing the pass order gives different results (non-commutative).
+\end{theorem}
+
+% ============================================================
+\chapter{Psywave Link Desync}\label{ch:psywave}
+
+Two different Psywave implementations (player rejects 0, enemy accepts 0)
+desynchronize the shared RNG in link battles.
+
+\section{Definitions}
+
+\begin{definition}[Player Psywave]\label{def:psywave_player}
+  \lean{PokeredBugs.psywavePlayer}
+  \leanok
+  Rejects 0, accepts $[1, b)$. May consume extra random numbers.
+\end{definition}
+
+\begin{definition}[Enemy Psywave]\label{def:psywave_enemy}
+  \lean{PokeredBugs.psywaveEnemy}
+  \leanok
+  Accepts $[0, b)$. No zero check.
+\end{definition}
+
+\section{Proofs}
+
+\begin{theorem}[Player Never Zero]\label{thm:player_never_zero}
+  \lean{PokeredBugs.player_never_zero}
+  \leanok
+  \uses{def:psywave_player}
+  Player Psywave always deals $\ge 1$ damage. Proved by induction on fuel.
+\end{theorem}
+
+\begin{theorem}[Enemy Can Deal Zero]\label{thm:enemy_can_deal_zero}
+  \lean{PokeredBugs.enemy_can_deal_zero}
+  \leanok
+  \uses{def:psywave_enemy}
+  Enemy Psywave can deal 0 damage.
+\end{theorem}
+
+\begin{theorem}[Desync Level 50]\label{thm:desync_level50}
+  \lean{PokeredBugs.desync_level50}
+  \leanok
+  \uses{def:psywave_player, def:psywave_enemy}
+  RNG list $[0, 5]$: player index $= 2$, enemy index $= 1$. Desync.
+\end{theorem}
+
+\begin{theorem}[Desync Propagates]\label{thm:desync_propagates}
+  \lean{PokeredBugs.desync_propagates}
+  \leanok
+  \uses{thm:desync_level50}
+  After desync, all subsequent random draws diverge permanently.
+\end{theorem}
+
+\begin{theorem}[Fix Preserves Sync]\label{thm:psywave_fix}
+  \lean{PokeredBugs.fix_preserves_sync}
+  \leanok
+  \uses{def:psywave_enemy}
+  Making both loops identical preserves link synchronization.
+\end{theorem}
+
+% ============================================================
+\chapter{Bide Accumulated Damage Desync}\label{ch:bide}
+
+When an enemy faints, only the high byte of the Bide damage accumulator is zeroed,
+leaving $\texttt{damage} \bmod 256$ as residual.
+
+\section{Definitions}
+
+\begin{definition}[Clear High Byte Only]\label{def:clear_high}
+  \lean{PokeredBugs.clearHighByteOnly}
+  \leanok
+  \texttt{RemoveFaintedEnemyMon}: zeroes only the high byte.
+\end{definition}
+
+\begin{definition}[Clear Both Bytes]\label{def:clear_both}
+  \lean{PokeredBugs.clearBothBytes}
+  \leanok
+  \texttt{RemoveFaintedPlayerMon}: correctly zeroes both bytes.
+\end{definition}
+
+\section{Proofs}
+
+\begin{theorem}[Clear High Is Mod 256]\label{thm:clear_high_mod256}
+  \lean{PokeredBugs.clear_high_is_mod256}
+  \leanok
+  \uses{def:clear_high}
+  Incomplete zeroing gives $\texttt{damage} \bmod 256$.
+\end{theorem}
+
+\begin{theorem}[Desync Iff Low Nonzero]\label{thm:desync_iff_low}
+  \lean{PokeredBugs.desync_iff_low_nonzero}
+  \leanok
+  \uses{def:clear_high, def:clear_both}
+  The two methods disagree iff the low byte is nonzero.
+\end{theorem}
+
+\begin{theorem}[Only Zero Lo Avoids Desync]\label{thm:only_zero_lo}
+  \lean{PokeredBugs.only_zero_lo_avoids_desync}
+  \leanok
+  \uses{thm:desync_iff_low}
+  Only multiples of 256 avoid desync: probability $255/256$.
+\end{theorem}
+
+\begin{theorem}[Residual Corrupts Next Bide]\label{thm:residual_corrupts}
+  \lean{PokeredBugs.residual_corrupts_next_bide}
+  \leanok
+  \uses{thm:clear_high_mod256}
+  Residual damage (44 from 300) compounds: $44 + 100 = 144$ vs $0 + 100 = 100$.
+\end{theorem}

@@ -1,0 +1,3240 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dependency graph</title>
+  <meta name="generator" content="plasTeX" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles/theme-white.css" />
+  <link rel="stylesheet" href="styles/dep_graph.css" />
+  
+  <script type="text/x-mathjax-config">
+  
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  
+  </script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">  </script>
+
+
+<link rel="stylesheet" href="styles/extra_styles.css" />
+
+</head>
+
+<body>
+<header>
+  <a class="toc" href="index.html">Home</a>
+  <h1 id="doc_title">Dependencies</h1>
+</header>
+<div class="wrapper">
+<div class="content">
+  <div id="Legend">
+    <span id="legend_title" class="title">Legend
+    <div class="btn">
+       <div class="bar"></div>
+       <div class="bar"></div>
+       <div class="bar"></div>
+    </div></span> 
+    <dl class="legend">
+      
+      <dt>Boxes</dt><dd>definitions</dd>
+      
+      <dt>Ellipses</dt><dd>theorems and lemmas</dd>
+      
+      <dt>Blue border</dt><dd>the <em>statement</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Orange border</dt><dd>the <em>statement</em> of this result is not ready to be formalized; the blueprint needs more work</dd>
+      
+      <dt>Blue background</dt><dd>the <em>proof</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Green border</dt><dd>the <em>statement</em> of this result is formalized</dd>
+      
+      <dt>Green background</dt><dd>the <em>proof</em> of this result is formalized</dd>
+      
+      <dt>Dark green background</dt><dd>the <em>proof</em> of this result and all its ancestors are formalized</dd>
+      
+      <dt>Dark green border</dt><dd>this is in Mathlib</dd>
+      
+    </dl>
+  </div>
+    <div id="graph"></div>
+<div id="statements">
+
+    
+    <div class="dep-modal-container" id="def:badge_boost_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:badge_boost" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">11.1</span><span class="definition_thmtitle">Badge Boost</span></div>
+    <div class="thm_thmcontent"><p>  \(\texttt{stat} + \lfloor \texttt{stat}/8\rfloor \), capped at 999. </p>
+</div>
+
+    <a class="latex_link" href="ch-badge_reflect.html#def:badge_boost">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.badgeBoost">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:blaine_actual_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:blaine_actual" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">5.1</span><span class="definition_thmtitle">Blaine Actual AI</span></div>
+    <div class="thm_thmcontent"><p>  After the random check passes, always use Super Potion. No HP check. </p>
+</div>
+
+    <a class="latex_link" href="ch-blaine.html#def:blaine_actual">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.blaineActual">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:blaine_correct_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:blaine_correct" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">5.2</span><span class="definition_thmtitle">Blaine Correct AI</span></div>
+    <div class="thm_thmcontent"><p>  Check if HP is below \(1/10\) of max before healing. </p>
+</div>
+
+    <a class="latex_link" href="ch-blaine.html#def:blaine_correct">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.blaineCorrect">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:bug_claim_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:bug_claim" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.1</span><span class="definition_thmtitle">Bug Claim</span></div>
+    <div class="thm_thmcontent"><p>  A structured claim about a bug, parameterized over input/output types \((\alpha , \beta )\). Contains the buggy implementation, the intended specification, name, source file, category, and difficulty levels achieved. </p>
+</div>
+
+    <a class="latex_link" href="ch-harness.html#def:bug_claim">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/Harness.BugClaim">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:bug_fix_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:bug_fix" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.3</span><span class="definition_thmtitle">Bug Fix</span></div>
+    <div class="thm_thmcontent"><p>   A replacement implementation with a proof that \(\forall x,\  \texttt{fix}(x) = \texttt{spec}(x)\). </p>
+</div>
+
+    <a class="latex_link" href="ch-harness.html#def:bug_fix">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/Harness.BugFix">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:bug_witness_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:bug_witness" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.2</span><span class="definition_thmtitle">Bug Witness</span></div>
+    <div class="thm_thmcontent"><p>   A concrete input where the implementation diverges from the specification, with a proof that \(\texttt{spec}(w) \neq \texttt{impl}(w)\). </p>
+</div>
+
+    <a class="latex_link" href="ch-harness.html#def:bug_witness">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/Harness.BugWitness">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:calc_hit_chance_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:calc_hit_chance" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">12.1</span><span class="definition_thmtitle">CalcHitChance</span></div>
+    <div class="thm_thmcontent"><p>  Two-pass calculation: accuracy stage first, then evasion stage, with integer truncation. </p>
+</div>
+
+    <a class="latex_link" href="ch-acc_eva.html#def:calc_hit_chance">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.calcHitChance">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:can_afford_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:can_afford" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">7.2</span><span class="definition_thmtitle">Can Afford Substitute</span></div>
+    <div class="thm_thmcontent"><p>   Checks \(\texttt{currentHP} \ge \texttt{cost}\) via carry flag (no zero check). </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#def:can_afford">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.canAffordSubstitute">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:check_actual_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:check_actual" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">4.1</span><span class="definition_thmtitle">Buggy Check</span></div>
+    <div class="thm_thmcontent"><p>  Pass when \(\texttt{random} {\lt} \texttt{threshold}\) (strict less-than). </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#def:check_actual">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.checkActual">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:check_spec_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:check_spec" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">4.2</span><span class="definition_thmtitle">Intended Check</span></div>
+    <div class="thm_thmcontent"><p>  Pass when \(\texttt{random} \le \texttt{threshold}\) (less-than-or-equal). </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#def:check_spec">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.checkSpec">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:clear_both_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:clear_both" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">14.2</span><span class="definition_thmtitle">Clear Both Bytes</span></div>
+    <div class="thm_thmcontent"><p>  <span class="ttfamily">RemoveFaintedPlayerMon</span>: correctly zeroes both bytes. </p>
+</div>
+
+    <a class="latex_link" href="ch-bide.html#def:clear_both">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.clearBothBytes">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:clear_high_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:clear_high" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">14.1</span><span class="definition_thmtitle">Clear High Byte Only</span></div>
+    <div class="thm_thmcontent"><p>  <span class="ttfamily">RemoveFaintedEnemyMon</span>: zeroes only the high byte. </p>
+</div>
+
+    <a class="latex_link" href="ch-bide.html#def:clear_high">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.clearHighByteOnly">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:cooltrainerf_buggy_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:cooltrainerf_buggy" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">6.1</span><span class="definition_thmtitle">CooltrainerF Buggy AI</span></div>
+    <div class="thm_thmcontent"><p>  The random input is ignored entirely. </p>
+</div>
+
+    <a class="latex_link" href="ch-cooltrainerf.html#def:cooltrainerf_buggy">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.cooltrainerFBuggy">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:cooltrainerf_fixed_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:cooltrainerf_fixed" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">6.2</span><span class="definition_thmtitle">CooltrainerF Fixed AI</span></div>
+    <div class="thm_thmcontent"><p>  With <span class="ttfamily">ret nc</span> restored, 75% of the time just attack. </p>
+</div>
+
+    <a class="latex_link" href="ch-cooltrainerf.html#def:cooltrainerf_fixed">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.cooltrainerFFixed">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:cpu_state_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:cpu_state" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.1</span><span class="definition_thmtitle">CPU State</span></div>
+    <div class="thm_thmcontent"><p>  The SM83 CPU state: eight 8-bit registers (\(A\), \(F\), \(B\), \(C\), \(D\), \(E\), \(H\), \(L\)), 16-bit \(\mathit{SP}\) and \(\mathit{PC}\), a total memory function \(\texttt{BitVec}\  16 \to \texttt{BitVec}\  8\), and a halt flag. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:cpu_state">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.CPUState">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:crit_rate_input_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:crit_rate_input" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">3.1</span><span class="definition_thmtitle">Crit Rate Input</span></div>
+    <div class="thm_thmcontent"><p>   The input to the Focus Energy branch: \(\texttt{base\_ speed} \ggg 1\). Always \(\le 127\). </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#def:crit_rate_input">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.critRateInput">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:default_state_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:default_state" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.2</span><span class="definition_thmtitle">Default State</span></div>
+    <div class="thm_thmcontent"><p>   All registers zero, \(\mathit{SP} = \mathtt{0xFFFE}\), \(\mathit{PC} = \mathtt{0x0100}\), memory all zeros. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:default_state">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.defaultState">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:effective_defense_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:effective_defense" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">10.1</span><span class="definition_thmtitle">Effective Defense</span></div>
+    <div class="thm_thmcontent"><p>   Defense after optional Reflect, then scaling. Returns 0 on freeze. </p>
+</div>
+
+    <a class="latex_link" href="ch-reflect.html#def:effective_defense">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.effectiveDefense">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:exec_add_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:exec_add" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.5</span><span class="definition_thmtitle">ADD A, r</span></div>
+    <div class="thm_thmcontent"><p>   Add \(r\) to \(A\), setting flags \(Z\  0\  H\  C\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:exec_add">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.execAddA">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:exec_cp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:exec_cp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.7</span><span class="definition_thmtitle">CP r</span></div>
+    <div class="thm_thmcontent"><p>   Compare \(A\) with \(r\) (phantom subtraction): sets flags like SUB but does not modify \(A\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:exec_cp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.execCp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:exec_sla_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:exec_sla" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.9</span><span class="definition_thmtitle">SLA r</span></div>
+    <div class="thm_thmcontent"><p>   Shift left arithmetic. Bit 7 goes to carry, bit 0 becomes 0. Flags: \(Z\  0\  0\  C\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:exec_sla">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.execSla">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:exec_srl_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:exec_srl" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.8</span><span class="definition_thmtitle">SRL r</span></div>
+    <div class="thm_thmcontent"><p>   Shift right logical. Bit 0 goes to carry, bit 7 becomes 0. Flags: \(Z\  0\  0\  C\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:exec_srl">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.execSrl">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:exec_sub_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:exec_sub" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.6</span><span class="definition_thmtitle">SUB r</span></div>
+    <div class="thm_thmcontent"><p>   Subtract \(r\) from \(A\), setting flags \(Z\  1\  H\  C\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:exec_sub">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.execSub">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:exec_swap_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:exec_swap" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.11</span><span class="definition_thmtitle">SWAP r</span></div>
+    <div class="thm_thmcontent"><p>   Swap nibbles of an 8-bit value. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:exec_swap">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.execSwap">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:exec_xor_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:exec_xor" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.10</span><span class="definition_thmtitle">XOR r</span></div>
+    <div class="thm_thmcontent"><p>   XOR with \(A\), setting flags \(Z\  0\  0\  0\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:exec_xor">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.execXor">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:focus_energy_buggy_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:focus_energy_buggy" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">3.2</span><span class="definition_thmtitle">Buggy Focus Energy</span></div>
+    <div class="thm_thmcontent"><p>   Another <span class="ttfamily">srl</span>: result \(= \texttt{base\_ speed} / 4\). </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#def:focus_energy_buggy">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focusEnergyBuggy">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:focus_energy_correct_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:focus_energy_correct" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">3.3</span><span class="definition_thmtitle">Correct Focus Energy</span></div>
+    <div class="thm_thmcontent"><p>   Uses <span class="ttfamily">sla</span>: result \(= \texttt{base\_ speed} \mathbin {\& } \mathtt{0xFE}\). </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#def:focus_energy_correct">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focusEnergyCorrect">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:full_pipeline_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:full_pipeline" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">11.2</span><span class="definition_thmtitle">Full Pipeline</span></div>
+    <div class="thm_thmcontent"><p>   Badge boost \(N\) times \(\to \) optional Reflect \(\to \) scale stats. </p>
+</div>
+
+    <a class="latex_link" href="ch-badge_reflect.html#def:full_pipeline">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.fullPipeline">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:heal_check_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:heal_check" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">8.1</span><span class="definition_thmtitle">Buggy Heal Check</span></div>
+    <div class="thm_thmcontent"><p>  Models <span class="ttfamily">cp [hl]; sbc [hl]; jp z</span>. Only checks the low-byte subtraction result. </p>
+</div>
+
+    <a class="latex_link" href="ch-heal_overflow.html#def:heal_check">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.healCheckFails">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:mkflags_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:mkflags" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.3</span><span class="definition_thmtitle">mkFlags</span></div>
+    <div class="thm_thmcontent"><p>  Build a flag byte from individual booleans (\(Z\), \(N\), \(H\), \(C\)). Bits 3–0 are always zero, matching the SM83 hardware constraint. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#def:mkflags">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.mkFlags">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:psywave_enemy_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:psywave_enemy" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">13.2</span><span class="definition_thmtitle">Enemy Psywave</span></div>
+    <div class="thm_thmcontent"><p>  Accepts \([0, b)\). No zero check. </p>
+</div>
+
+    <a class="latex_link" href="ch-psywave.html#def:psywave_enemy">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.psywaveEnemy">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:psywave_player_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:psywave_player" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">13.1</span><span class="definition_thmtitle">Player Psywave</span></div>
+    <div class="thm_thmcontent"><p>  Rejects 0, accepts \([1, b)\). May consume extra random numbers. </p>
+</div>
+
+    <a class="latex_link" href="ch-psywave.html#def:psywave_player">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.psywavePlayer">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:scale_div4_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:scale_div4" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">9.1</span><span class="definition_thmtitle">Scale Div 4</span></div>
+    <div class="thm_thmcontent"><p>  \(\texttt{stat} / 4 \bmod 256\). Models two <span class="ttfamily">srl</span>/<span class="ttfamily">rr</span> pairs keeping only the low byte. </p>
+</div>
+
+    <a class="latex_link" href="ch-stat_scaling.html#def:scale_div4">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.scaleDiv4">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:stat_scaling_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:stat_scaling" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">9.2</span><span class="definition_thmtitle">Stat Scaling</span></div>
+    <div class="thm_thmcontent"><p>   Full scaling routine: both stats divided by 4 when either \({\gt} 255\). Attack bumped to 1 if zero; defense is <em>not</em>. </p>
+</div>
+
+    <a class="latex_link" href="ch-stat_scaling.html#def:stat_scaling">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.statScaling">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:substitute_hp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:substitute_hp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">7.1</span><span class="definition_thmtitle">Substitute HP</span></div>
+    <div class="thm_thmcontent"><p>  \(\texttt{maxHP} / 4\) via two right shifts. </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#def:substitute_hp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.substituteHP">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:crit_input_bounded_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:crit_input_bounded" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">3.4</span><span class="lemma_thmtitle">Input Bounded</span></div>
+    <div class="thm_thmcontent"><p>   After the initial <span class="ttfamily">srl</span>, \(b \le 127\). No overflow possible from <span class="ttfamily">sla</span>. </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#lem:crit_input_bounded">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.crit_input_bounded">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:accuracy_bug_exists_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:accuracy_bug_exists" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">4.3</span><span class="theorem_thmtitle">Accuracy Bug Exists</span></div>
+    <div class="thm_thmcontent"><p>   A 100% accuracy move (\(= 255\)) can miss. Witness: \(\texttt{random} = 255\). </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#thm:accuracy_bug_exists">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.accuracy_bug_exists">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:attack_not_monotone_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:attack_not_monotone" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">9.6</span><span class="theorem_thmtitle">Attack Not Monotone</span></div>
+    <div class="thm_thmcontent"><p>   Increasing attack does not always increase damage (wrapping). </p>
+</div>
+
+    <a class="latex_link" href="ch-stat_scaling.html#thm:attack_not_monotone">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.attack_not_monotone">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:bad_gaps_enumerated_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:bad_gaps_enumerated" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">8.4</span><span class="theorem_thmtitle">Bad Gaps Enumerated</span></div>
+    <div class="thm_thmcontent"><p>   For \(\texttt{maxHP} \le 999\): false failures occur only at gaps 255, 511, or 767. </p>
+</div>
+
+    <a class="latex_link" href="ch-heal_overflow.html#thm:bad_gaps_enumerated">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.bad_gaps_enumerated">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:badge_near_freeze_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:badge_near_freeze" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">11.7</span><span class="theorem_thmtitle">Badge Reflect Near Freeze</span></div>
+    <div class="thm_thmcontent"><p>   At defense 456, one badge boost + Reflect causes a game freeze (defense \(= 0\)). </p>
+</div>
+
+    <a class="latex_link" href="ch-badge_reflect.html#thm:badge_near_freeze">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.badge_reflect_near_freeze">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:blaine_always_heals_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:blaine_always_heals" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">5.4</span><span class="theorem_thmtitle">Always Heals</span></div>
+    <div class="thm_thmcontent"><p>   Blaine’s AI always returns <span class="ttfamily">some</span> (unconditional healing). </p>
+</div>
+
+    <a class="latex_link" href="ch-blaine.html#thm:blaine_always_heals">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.blaine_always_heals">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:blaine_heals_full_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:blaine_heals_full" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">5.3</span><span class="theorem_thmtitle">Heals at Full HP</span></div>
+    <div class="thm_thmcontent"><p>   Blaine uses a Super Potion even when his Pokémon is at full HP. </p>
+</div>
+
+    <a class="latex_link" href="ch-blaine.html#thm:blaine_heals_full">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.blaine_heals_at_full_hp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:blaine_unique_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:blaine_unique" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">5.7</span><span class="theorem_thmtitle">Blaine Unique Unconditional</span></div>
+    <div class="thm_thmcontent"><p>   Blaine is the only trainer who heals unconditionally. Erika, Lorelei, Agatha all check HP first. </p>
+</div>
+
+    <a class="latex_link" href="ch-blaine.html#thm:blaine_unique">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.blaine_unique_unconditional">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:blaine_wastes_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:blaine_wastes" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">5.5</span><span class="theorem_thmtitle">Wastes When Healthy</span></div>
+    <div class="thm_thmcontent"><p>   For any HP above the threshold, Blaine heals but the correct AI would not. </p>
+</div>
+
+    <a class="latex_link" href="ch-blaine.html#thm:blaine_wastes">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.blaine_wastes_when_healthy">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:both_bugs_interact_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:both_bugs_interact" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">7.8</span><span class="theorem_thmtitle">Both Bugs Interact</span></div>
+    <div class="thm_thmcontent"><p>   When \(\texttt{maxHP} \le 3\): user pays nothing for a substitute that blocks nothing. </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#thm:both_bugs_interact">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.both_bugs_interact">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:bug_at_every_threshold_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:bug_at_every_threshold" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">4.5</span><span class="theorem_thmtitle">Bug at Every Threshold</span></div>
+    <div class="thm_thmcontent"><p>   For <em>every</em> threshold value, \(\texttt{random} = \texttt{threshold}\) triggers the bug. </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#thm:bug_at_every_threshold">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.bug_at_every_threshold">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:bug_iff_equal_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:bug_iff_equal" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">4.4</span><span class="theorem_thmtitle">Bug Iff Equal</span></div>
+    <div class="thm_thmcontent"><p>   The bug triggers if and only if \(\texttt{random} = \texttt{threshold}\). Exact characterization. </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#thm:bug_iff_equal">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.bug_iff_equal">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:clear_high_mod256_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:clear_high_mod256" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">14.3</span><span class="theorem_thmtitle">Clear High Is Mod 256</span></div>
+    <div class="thm_thmcontent"><p>   Incomplete zeroing gives \(\texttt{damage} \bmod 256\). </p>
+</div>
+
+    <a class="latex_link" href="ch-bide.html#thm:clear_high_mod256">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.clear_high_is_mod256">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:cp_preserves_a_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:cp_preserves_a" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.18</span><span class="theorem_thmtitle">CP Preserves A</span></div>
+    <div class="thm_thmcontent"><p>   CP does not modify register \(A\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:cp_preserves_a">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.cp_preserves_a">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:cpl_involution_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:cpl_involution" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.12</span><span class="theorem_thmtitle">CPL Involution</span></div>
+    <div class="thm_thmcontent"><p>   Complementing \(A\) twice returns to the original value: \(\lnot (\lnot A) = A\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:cpl_involution">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.cpl_involution">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:damage_cliff_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:damage_cliff" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">9.5</span><span class="theorem_thmtitle">Damage Cliff at 1024</span></div>
+    <div class="thm_thmcontent"><p>   At the \(1023 \to 1024\) boundary: damage ratio drops from 10 to 0. </p>
+</div>
+
+    <a class="latex_link" href="ch-stat_scaling.html#thm:damage_cliff">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.damage_cliff_1024">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:defense_4_survives_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:defense_4_survives" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">9.4</span><span class="theorem_thmtitle">Defense 4 Survives</span></div>
+    <div class="thm_thmcontent"><p>   Defense 4 is the minimum that survives scaling. </p>
+</div>
+
+    <a class="latex_link" href="ch-stat_scaling.html#thm:defense_4_survives">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.defense_4_survives">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:defense_zero_freeze_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:defense_zero_freeze" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">9.3</span><span class="theorem_thmtitle">Defense Zero Freeze</span></div>
+    <div class="thm_thmcontent"><p>   Attack \(= 256\), defense \(= 3\): after scaling, defense \(= 0 \Rightarrow \) freeze. </p>
+</div>
+
+    <a class="latex_link" href="ch-stat_scaling.html#thm:defense_zero_freeze">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.defense_zero_freeze">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:desync_iff_low_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:desync_iff_low" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">14.4</span><span class="theorem_thmtitle">Desync Iff Low Nonzero</span></div>
+    <div class="thm_thmcontent"><p>   The two methods disagree iff the low byte is nonzero. </p>
+</div>
+
+    <a class="latex_link" href="ch-bide.html#thm:desync_iff_low">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.desync_iff_low_nonzero">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:desync_level50_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:desync_level50" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">13.5</span><span class="theorem_thmtitle">Desync Level 50</span></div>
+    <div class="thm_thmcontent"><p>   RNG list \([0, 5]\): player index \(= 2\), enemy index \(= 1\). Desync. </p>
+</div>
+
+    <a class="latex_link" href="ch-psywave.html#thm:desync_level50">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.desync_level50">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:desync_propagates_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:desync_propagates" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">13.6</span><span class="theorem_thmtitle">Desync Propagates</span></div>
+    <div class="thm_thmcontent"><p>   After desync, all subsequent random draws diverge permanently. </p>
+</div>
+
+    <a class="latex_link" href="ch-psywave.html#thm:desync_propagates">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.desync_propagates">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:enemy_can_deal_zero_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:enemy_can_deal_zero" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">13.4</span><span class="theorem_thmtitle">Enemy Can Deal Zero</span></div>
+    <div class="thm_thmcontent"><p>   Enemy Psywave can deal 0 damage. </p>
+</div>
+
+    <a class="latex_link" href="ch-psywave.html#thm:enemy_can_deal_zero">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.enemy_can_deal_zero">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:exactly_one_extra_hit_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:exactly_one_extra_hit" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">4.6</span><span class="theorem_thmtitle">Exactly One Extra Hit</span></div>
+    <div class="thm_thmcontent"><p>   The spec accepts exactly one more value per threshold than the actual check. </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#thm:exactly_one_extra_hit">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.exactly_one_extra_hit">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:fix_prevents_zero_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:fix_prevents_zero" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">7.7</span><span class="theorem_thmtitle">Fix Prevents Zero HP</span></div>
+    <div class="thm_thmcontent"><p>   Fixed check (\(\texttt{cost} {\gt} 0 \land \texttt{currentHP} {\gt} \texttt{cost}\)) prevents 0 HP survival. </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#thm:fix_prevents_zero">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.fix_prevents_zero_hp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:fix_uses_random_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:fix_uses_random" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">6.4</span><span class="theorem_thmtitle">Fix Uses Random</span></div>
+    <div class="thm_thmcontent"><p>   With the fix, different random values yield different actions. </p>
+</div>
+
+    <a class="latex_link" href="ch-cooltrainerf.html#thm:fix_uses_random">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.fix_uses_random">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:focus_energy_always_wrong_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:focus_energy_always_wrong" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">3.6</span><span class="theorem_thmtitle">Unconditionally Wrong</span></div>
+    <div class="thm_thmcontent"><p>   For all base speeds \(\ge 2\), buggy \(\neq \) correct. No overflow coincidences. </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#thm:focus_energy_always_wrong">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focus_energy_always_wrong">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:focus_energy_bug_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:focus_energy_bug" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">3.5</span><span class="theorem_thmtitle">Bug Exists</span></div>
+    <div class="thm_thmcontent"><p>   \(\exists \) base_speed such that buggy \(\neq \) correct. Witness: \(\texttt{base\_ speed} = 4\). </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#thm:focus_energy_bug">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focus_energy_bug">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:focus_energy_cpu_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:focus_energy_cpu" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">3.10</span><span class="theorem_thmtitle">CPU-Level Bug</span></div>
+    <div class="thm_thmcontent"><p>   The bug reproduces at the full SM83 opcode level. </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#thm:focus_energy_cpu">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focus_energy_cpu_bug">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:focus_energy_fix_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:focus_energy_fix" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">3.9</span><span class="theorem_thmtitle">Fix Correct</span></div>
+    <div class="thm_thmcontent"><p>   Replacing <span class="ttfamily">srl</span> with <span class="ttfamily">sla</span> matches the no-Focus-Energy path. </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#thm:focus_energy_fix">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focus_energy_fix_correct">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:focus_energy_quarter_rate_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:focus_energy_quarter_rate" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">3.8</span><span class="theorem_thmtitle">Quarter Rate</span></div>
+    <div class="thm_thmcontent"><p>   For base speeds \(\ge 4\): \(\texttt{buggy}(s) \times 4 \le \texttt{correct}(s)\). </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#thm:focus_energy_quarter_rate">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focus_energy_quarter_rate">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:focus_energy_reduces_rate_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:focus_energy_reduces_rate" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">3.7</span><span class="theorem_thmtitle">Reduces Crit Rate</span></div>
+    <div class="thm_thmcontent"><p>   \(\texttt{buggy}(s) \le \texttt{correct}(s)\) for all inputs. </p>
+</div>
+
+    <a class="latex_link" href="ch-focus_energy.html#thm:focus_energy_reduces_rate">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.focus_energy_reduces_rate">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:full_hp_zero_gain_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:full_hp_zero_gain" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">5.6</span><span class="theorem_thmtitle">Full HP Zero Gain</span></div>
+    <div class="thm_thmcontent"><p>   At full HP, 0 HP is gained — complete waste of the item. </p>
+</div>
+
+    <a class="latex_link" href="ch-blaine.html#thm:full_hp_zero_gain">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.full_hp_zero_gain">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:heal_correct_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:heal_correct" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">8.5</span><span class="theorem_thmtitle">Correct Check</span></div>
+    <div class="thm_thmcontent"><p>  A correct 16-bit equality check never has false failures. </p>
+</div>
+
+    <a class="latex_link" href="ch-heal_overflow.html#thm:heal_correct">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.correct_no_false_fail">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:heal_gap_255_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:heal_gap_255" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">8.2</span><span class="theorem_thmtitle">Fails at Gap 255</span></div>
+    <div class="thm_thmcontent"><p>   \(\texttt{maxHP} = 300\), \(\texttt{currentHP} = 45\) (gap \(= 255\)): move incorrectly fails. </p>
+</div>
+
+    <a class="latex_link" href="ch-heal_overflow.html#thm:heal_gap_255">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.heal_fails_at_gap_255">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:heal_no_false_fail_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:heal_no_false_fail" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">8.3</span><span class="theorem_thmtitle">No False Fail Below 256</span></div>
+    <div class="thm_thmcontent"><p>   When \(\texttt{maxHP} \le 255\), the check is correct: only fails at full HP. </p>
+</div>
+
+    <a class="latex_link" href="ch-heal_overflow.html#thm:heal_no_false_fail">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.no_false_fail_below_256">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:inc_dec_cancel_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:inc_dec_cancel" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.16</span><span class="theorem_thmtitle">INC/DEC Cancel</span></div>
+    <div class="thm_thmcontent"><p>  \((v + 1) - 1 = v\) for all 8-bit values. But flags are <em>not</em> preserved. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:inc_dec_cancel">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.inc_dec_cancel_value">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mem_write_read_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mem_write_read" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.19</span><span class="theorem_thmtitle">Memory Write-Read</span></div>
+    <div class="thm_thmcontent"><p>   Writing then reading the same address returns the written value. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:mem_write_read">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.mem_write_read_same">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mkflags_low_nibble_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mkflags_low_nibble" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.4</span><span class="theorem_thmtitle">Flag Low Nibble Invariant</span></div>
+    <div class="thm_thmcontent"><p>   For all flag combinations: \(\texttt{mkFlags}(z,n,h,c) \mathbin {\& } \mathtt{0x0F} = 0\). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:mkflags_low_nibble">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.mkFlags_low_nibble_zero">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:no_player_action_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:no_player_action" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">11.6</span><span class="theorem_thmtitle">No Player Action Needed</span></div>
+    <div class="thm_thmcontent"><p>   The overflow requires zero defensive moves from the player. </p>
+</div>
+
+    <a class="latex_link" href="ch-badge_reflect.html#thm:no_player_action">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.no_player_action_needed">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:noncancellation_table_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:noncancellation_table" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">12.4</span><span class="theorem_thmtitle">Non-Cancellation Table</span></div>
+    <div class="thm_thmcontent"><p>   Complete characterization: only \(\pm 0\), \(\pm 2\), \(\pm 6\) perfectly cancel. </p>
+</div>
+
+    <a class="latex_link" href="ch-acc_eva.html#thm:noncancellation_table">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.noncancellation_table">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:one_growl_512_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:one_growl_512" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">11.3</span><span class="theorem_thmtitle">One Growl Exceeds 512</span></div>
+    <div class="thm_thmcontent"><p>   Cloyster: \(458 + 57 = 515 {\gt} 512\) after one badge application. </p>
+</div>
+
+    <a class="latex_link" href="ch-badge_reflect.html#thm:one_growl_512">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.one_growl_exceeds_512">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:one_growl_reflect_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:one_growl_reflect" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">11.4</span><span class="theorem_thmtitle">One Growl + Reflect Catastrophe</span></div>
+    <div class="thm_thmcontent"><p>   One Growl + Reflect: effective defense drops to 1 (was 128). </p>
+</div>
+
+    <a class="latex_link" href="ch-badge_reflect.html#thm:one_growl_reflect">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.one_growl_reflect_catastrophe">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:onein256_fix_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:onein256_fix" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">4.7</span><span class="theorem_thmtitle">Fix Correct</span></div>
+    <div class="thm_thmcontent"><p>   Using \(\le \) instead of \({\lt}\) matches the spec for all inputs. </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#thm:onein256_fix">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.fix_correct">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:only_zero_lo_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:only_zero_lo" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">14.5</span><span class="theorem_thmtitle">Only Zero Lo Avoids Desync</span></div>
+    <div class="thm_thmcontent"><p>   Only multiples of 256 avoid desync: probability \(255/256\). </p>
+</div>
+
+    <a class="latex_link" href="ch-bide.html#thm:only_zero_lo">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.only_zero_lo_avoids_desync">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:order_matters_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:order_matters" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">12.6</span><span class="theorem_thmtitle">Order Matters</span></div>
+    <div class="thm_thmcontent"><p>   Reversing the pass order gives different results (non-commutative). </p>
+</div>
+
+    <a class="latex_link" href="ch-acc_eva.html#thm:order_matters">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.order_matters">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:player_never_zero_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:player_never_zero" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">13.3</span><span class="theorem_thmtitle">Player Never Zero</span></div>
+    <div class="thm_thmcontent"><p>   Player Psywave always deals \(\ge 1\) damage. Proved by induction on fuel. </p>
+</div>
+
+    <a class="latex_link" href="ch-psywave.html#thm:player_never_zero">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.player_never_zero">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:plus1_reduces_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:plus1_reduces" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">12.2</span><span class="theorem_thmtitle">+1 Reduces Accuracy</span></div>
+    <div class="thm_thmcontent"><p>   Equal \(\pm 1\) boosts on a 255-accuracy move give 252 instead of 255. </p>
+</div>
+
+    <a class="latex_link" href="ch-acc_eva.html#thm:plus1_reduces">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.plus1_reduces_accuracy">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:plus5_worst_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:plus5_worst" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">12.3</span><span class="theorem_thmtitle">+5 Worst Non-Cancellation</span></div>
+    <div class="thm_thmcontent"><p>   Equal \(\pm 5\) boosts lose 6 accuracy points: 249 instead of 255. </p>
+</div>
+
+    <a class="latex_link" href="ch-acc_eva.html#thm:plus5_worst">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.plus5_worst_noncancellation">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:psywave_fix_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:psywave_fix" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">13.7</span><span class="theorem_thmtitle">Fix Preserves Sync</span></div>
+    <div class="thm_thmcontent"><p>   Making both loops identical preserves link synchronization. </p>
+</div>
+
+    <a class="latex_link" href="ch-psywave.html#thm:psywave_fix">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.fix_preserves_sync">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:random_dead_code_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:random_dead_code" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">6.3</span><span class="theorem_thmtitle">Random Check Is Dead Code</span></div>
+    <div class="thm_thmcontent"><p>   Changing the random input does not change the action. </p>
+</div>
+
+    <a class="latex_link" href="ch-cooltrainerf.html#thm:random_dead_code">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.random_check_is_dead_code">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:ratio_product_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:ratio_product" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">12.5</span><span class="theorem_thmtitle">Ratio Product Not One</span></div>
+    <div class="thm_thmcontent"><p>  Root cause: \(15/10 \times 66/100 = 990/1000 \neq 1\). </p>
+</div>
+
+    <a class="latex_link" href="ch-acc_eva.html#thm:ratio_product">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.ratio_product_not_one">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:reflect_128x_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:reflect_128x" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">11.5</span><span class="theorem_thmtitle">Reflect 128x Worse</span></div>
+    <div class="thm_thmcontent"><p>   Reflect divides effective defense by 128 instead of doubling it. </p>
+</div>
+
+    <a class="latex_link" href="ch-badge_reflect.html#thm:reflect_128x">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.reflect_128x_worse">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:reflect_freezes_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:reflect_freezes" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">10.2</span><span class="theorem_thmtitle">Reflect 512 Freezes</span></div>
+    <div class="thm_thmcontent"><p>   Defense 512 with Reflect: \(1024/4 = 256 \bmod 256 = 0\). Game freeze. </p>
+</div>
+
+    <a class="latex_link" href="ch-reflect.html#thm:reflect_freezes">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.reflect_512_freezes">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:reflect_helps_below_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:reflect_helps_below" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">10.4</span><span class="theorem_thmtitle">Reflect Helps Below 512</span></div>
+    <div class="thm_thmcontent"><p>   Below 512, Reflect always increases effective defense. </p>
+</div>
+
+    <a class="latex_link" href="ch-reflect.html#thm:reflect_helps_below">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.reflect_helps_below_512">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:reflect_hurts_above_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:reflect_hurts_above" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">10.5</span><span class="theorem_thmtitle">Reflect Hurts Above 512</span></div>
+    <div class="thm_thmcontent"><p>   Above 512, Reflect always decreases effective defense. </p>
+</div>
+
+    <a class="latex_link" href="ch-reflect.html#thm:reflect_hurts_above">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.reflect_hurts_above_512">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:reflect_hurts_cloyster_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:reflect_hurts_cloyster" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">10.3</span><span class="theorem_thmtitle">Reflect Hurts Cloyster</span></div>
+    <div class="thm_thmcontent"><p>   Cloyster with Barrier + Reflect: effective defense drops from 174 to 92. </p>
+</div>
+
+    <a class="latex_link" href="ch-reflect.html#thm:reflect_hurts_cloyster">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.reflect_hurts_cloyster">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:reflect_sawtooth_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:reflect_sawtooth" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">10.6</span><span class="theorem_thmtitle">Reflect Sawtooth</span></div>
+    <div class="thm_thmcontent"><p>   Full sawtooth pattern: peaks at 511 (255), crashes to 0 at 512, slowly recovers. </p>
+</div>
+
+    <a class="latex_link" href="ch-reflect.html#thm:reflect_sawtooth">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.reflect_sawtooth">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:residual_corrupts_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:residual_corrupts" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">14.6</span><span class="theorem_thmtitle">Residual Corrupts Next Bide</span></div>
+    <div class="thm_thmcontent"><p>   Residual damage (44 from 300) compounds: \(44 + 100 = 144\) vs \(0 + 100 = 100\). </p>
+</div>
+
+    <a class="latex_link" href="ch-bide.html#thm:residual_corrupts">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.residual_corrupts_next_bide">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:rlca_period_8_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:rlca_period_8" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.15</span><span class="theorem_thmtitle">RLCA Period 8</span></div>
+    <div class="thm_thmcontent"><p>  Rotating \(A\) left 8 times returns to the original value. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:rlca_period_8">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.rlca_period_8">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:scaling_mod256_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:scaling_mod256" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">9.7</span><span class="theorem_thmtitle">Scaling Is Mod 256</span></div>
+    <div class="thm_thmcontent"><p>   \(\texttt{scaleDiv4}(\texttt{stat}) = (\texttt{stat}/4) \bmod 256\). </p>
+</div>
+
+    <a class="latex_link" href="ch-stat_scaling.html#thm:scaling_mod256">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.scaling_is_mod256">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:sm83_accuracy_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:sm83_accuracy" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">4.8</span><span class="theorem_thmtitle">SM83 Accuracy Matches Model</span></div>
+    <div class="thm_thmcontent"><p>   CPU-level <span class="ttfamily">cp b; jr nc</span> matches the abstract model for all inputs. </p>
+</div>
+
+    <a class="latex_link" href="ch-one_in_256.html#thm:sm83_accuracy">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.sm83_accuracy_matches_model">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:srl_then_sla_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:srl_then_sla" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.17</span><span class="theorem_thmtitle">SRL then SLA Clears LSB</span></div>
+    <div class="thm_thmcontent"><p>   Shift right then left gives \(v \mathbin {\& } \mathtt{0xFE}\) (clears bit 0). </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:srl_then_sla">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.srl_then_sla_clears_lsb">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:substitute_positive_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:substitute_positive" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">7.4</span><span class="theorem_thmtitle">Substitute Positive</span></div>
+    <div class="thm_thmcontent"><p>   For \(\texttt{maxHP} \ge 4\), the substitute always has positive HP. </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#thm:substitute_positive">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.substitute_positive">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:substitute_sm83_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:substitute_sm83" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">7.9</span><span class="theorem_thmtitle">SM83 Matches Model</span></div>
+    <div class="thm_thmcontent"><p>   CPU-level <span class="ttfamily">srl</span>/<span class="ttfamily">rr</span> shifts match the abstract model for all inputs \(\le 1023\). </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#thm:substitute_sm83">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.sm83_matches_model">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:substitute_zero_iff_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:substitute_zero_iff" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">7.3</span><span class="theorem_thmtitle">Zero Substitute Iff</span></div>
+    <div class="thm_thmcontent"><p>   \(\texttt{substituteHP}(m) = 0 \iff m {\lt} 4\). Arithmetic proof with <span class="ttfamily">omega</span>. </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#thm:substitute_zero_iff">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.substitute_zero_iff">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:swap_involution_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:swap_involution" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.13</span><span class="theorem_thmtitle">SWAP Involution</span></div>
+    <div class="thm_thmcontent"><p>   Swapping nibbles twice recovers the original byte. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:swap_involution">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.swap_involution">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:user_zero_hp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:user_zero_hp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">7.5</span><span class="theorem_thmtitle">User at Zero HP</span></div>
+    <div class="thm_thmcontent"><p>   When \(\texttt{currentHP} = \texttt{cost}\), the user is left at 0 HP. </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#thm:user_zero_hp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.user_zero_hp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:xor_self_zeros_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:xor_self_zeros" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.14</span><span class="theorem_thmtitle">XOR Self Zeros</span></div>
+    <div class="thm_thmcontent"><p>   \(A \oplus A = 0\). The canonical Game Boy register-zeroing idiom. </p>
+</div>
+
+    <a class="latex_link" href="ch-sm83.html#thm:xor_self_zeros">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/SM83.xor_self_zeros">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:zero_hp_iff_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:zero_hp_iff" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">7.6</span><span class="theorem_thmtitle">Zero HP Iff</span></div>
+    <div class="thm_thmcontent"><p>   User ends at 0 HP iff \(\texttt{currentHP} = \texttt{maxHP}/4\). </p>
+</div>
+
+    <a class="latex_link" href="ch-substitute.html#thm:zero_hp_iff">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.zero_hp_iff">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+</div>
+</div> <!-- content -->
+</div> <!-- wrapper -->
+<script src="js/jquery.min.js" type="text/javascript"></script>
+
+<script src="js/d3.min.js"></script>
+<script src="js/hpcc.min.js"></script>
+<script src="js/d3-graphviz.js"></script>
+
+<script type="text/javascript">
+const graphContainer = d3.select("#graph");
+const width = graphContainer.node().clientWidth;
+const height = graphContainer.node().clientHeight;
+
+
+graphContainer.graphviz({useWorker: true})
+    .width(width)
+    .height(height)
+    .fit(true)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:blaine_unique"	[color=green,		label=blaine_unique,		shape=ellipse];	"def:check_actual"	[color=green,		fillcolor="#B0ECA3",		label=check_actual,		shape=box,		style=filled];	"thm:exactly_one_extra_hit"	[color=green,		label=exactly_one_extra_hit,		shape=ellipse];	"def:check_actual" -> "thm:exactly_one_extra_hit"	[style=dashed];	"thm:accuracy_bug_exists"	[color=green,		label=accuracy_bug_exists,		shape=ellipse];	"def:check_actual" -> "thm:accuracy_bug_exists"	[style=dashed];	"thm:bug_iff_equal"	[color=green,		label=bug_iff_equal,		shape=ellipse];	"def:check_actual" -> "thm:bug_iff_equal"	[style=dashed];	"thm:sm83_accuracy"	[color=green,		label=sm83_accuracy,		shape=ellipse];	"def:check_actual" -> "thm:sm83_accuracy"	[style=dashed];	"thm:bug_at_every_threshold"	[color=green,		label=bug_at_every_threshold,		shape=ellipse];	"thm:bug_iff_equal" -> "thm:bug_at_every_threshold"	[style=dashed];	"thm:bad_gaps_enumerated"	[color=green,		label=bad_gaps_enumerated,		shape=ellipse];	"thm:desync_iff_low"	[color=green,		label=desync_iff_low,		shape=ellipse];	"thm:only_zero_lo"	[color=green,		label=only_zero_lo,		shape=ellipse];	"thm:desync_iff_low" -> "thm:only_zero_lo"	[style=dashed];	"def:check_spec"	[color=green,		fillcolor="#B0ECA3",		label=check_spec,		shape=box,		style=filled];	"def:check_spec" -> "thm:exactly_one_extra_hit"	[style=dashed];	"def:check_spec" -> "thm:accuracy_bug_exists"	[style=dashed];	"def:check_spec" -> "thm:bug_iff_equal"	[style=dashed];	"thm:onein256_fix"	[color=green,		label=onein256_fix,		shape=ellipse];	"def:check_spec" -> "thm:onein256_fix"	[style=dashed];	"def:clear_both"	[color=green,		fillcolor="#B0ECA3",		label=clear_both,		shape=box,		style=filled];	"def:clear_both" -> "thm:desync_iff_low"	[style=dashed];	"thm:swap_involution"	[color=green,		label=swap_involution,		shape=ellipse];	"def:exec_add"	[color=green,		fillcolor="#B0ECA3",		label=exec_add,		shape=box,		style=filled];	"thm:order_matters"	[color=green,		label=order_matters,		shape=ellipse];	"thm:one_growl_reflect"	[color=green,		label=one_growl_reflect,		shape=ellipse];	"thm:reflect_128x"	[color=green,		label=reflect_128x,		shape=ellipse];	"thm:one_growl_reflect" -> "thm:reflect_128x"	[style=dashed];	"thm:plus1_reduces"	[color=green,		label=plus1_reduces,		shape=ellipse];	"thm:heal_gap_255"	[color=green,		label=heal_gap_255,		shape=ellipse];	"thm:focus_energy_reduces_rate"	[color=green,		label=focus_energy_reduces_rate,		shape=ellipse];	"thm:focus_energy_quarter_rate"	[color=green,		label=focus_energy_quarter_rate,		shape=ellipse];	"thm:focus_energy_reduces_rate" -> "thm:focus_energy_quarter_rate"	[style=dashed];	"thm:focus_energy_cpu"	[color=green,		label=focus_energy_cpu,		shape=ellipse];	"def:mkflags"	[color=green,		fillcolor="#B0ECA3",		label=mkflags,		shape=box,		style=filled];	"def:mkflags" -> "def:exec_add"	[style=dashed];	"def:exec_srl"	[color=green,		fillcolor="#B0ECA3",		label=exec_srl,		shape=box,		style=filled];	"def:mkflags" -> "def:exec_srl"	[style=dashed];	"def:exec_sub"	[color=green,		fillcolor="#B0ECA3",		label=exec_sub,		shape=box,		style=filled];	"def:mkflags" -> "def:exec_sub"	[style=dashed];	"thm:mkflags_low_nibble"	[color=green,		label=mkflags_low_nibble,		shape=ellipse];	"def:mkflags" -> "thm:mkflags_low_nibble"	[style=dashed];	"def:exec_sla"	[color=green,		fillcolor="#B0ECA3",		label=exec_sla,		shape=box,		style=filled];	"def:mkflags" -> "def:exec_sla"	[style=dashed];	"def:exec_xor"	[color=green,		fillcolor="#B0ECA3",		label=exec_xor,		shape=box,		style=filled];	"def:mkflags" -> "def:exec_xor"	[style=dashed];	"def:exec_cp"	[color=green,		fillcolor="#B0ECA3",		label=exec_cp,		shape=box,		style=filled];	"def:mkflags" -> "def:exec_cp"	[style=dashed];	"def:exec_swap"	[color=green,		fillcolor="#B0ECA3",		label=exec_swap,		shape=box,		style=filled];	"def:mkflags" -> "def:exec_swap"	[style=dashed];	"def:exec_srl" -> "thm:focus_energy_cpu"	[style=dashed];	"thm:substitute_sm83"	[color=green,		label=substitute_sm83,		shape=ellipse];	"def:exec_srl" -> "thm:substitute_sm83"	[style=dashed];	"def:crit_rate_input"	[color=green,		fillcolor="#B0ECA3",		label=crit_rate_input,		shape=box,		style=filled];	"def:exec_srl" -> "def:crit_rate_input"	[style=dashed];	"thm:srl_then_sla"	[color=green,		label=srl_then_sla,		shape=ellipse];	"def:exec_srl" -> "thm:srl_then_sla"	[style=dashed];	"def:exec_sla" -> "thm:focus_energy_cpu"	[style=dashed];	"def:exec_sla" -> "thm:srl_then_sla"	[style=dashed];	"thm:xor_self_zeros"	[color=green,		label=xor_self_zeros,		shape=ellipse];	"def:exec_xor" -> "thm:xor_self_zeros"	[style=dashed];	"def:exec_cp" -> "thm:sm83_accuracy"	[style=dashed];	"thm:cp_preserves_a"	[color=green,		label=cp_preserves_a,		shape=ellipse];	"def:exec_cp" -> "thm:cp_preserves_a"	[style=dashed];	"def:exec_swap" -> "thm:swap_involution"	[style=dashed];	"def:focus_energy_buggy"	[color=green,		fillcolor="#B0ECA3",		label=focus_energy_buggy,		shape=box,		style=filled];	"def:crit_rate_input" -> "def:focus_energy_buggy"	[style=dashed];	"lem:crit_input_bounded"	[color=green,		label=crit_input_bounded,		shape=ellipse];	"def:crit_rate_input" -> "lem:crit_input_bounded"	[style=dashed];	"def:focus_energy_correct"	[color=green,		fillcolor="#B0ECA3",		label=focus_energy_correct,		shape=box,		style=filled];	"def:crit_rate_input" -> "def:focus_energy_correct"	[style=dashed];	"def:focus_energy_buggy" -> "thm:focus_energy_reduces_rate"	[style=dashed];	"thm:focus_energy_always_wrong"	[color=green,		label=focus_energy_always_wrong,		shape=ellipse];	"def:focus_energy_buggy" -> "thm:focus_energy_always_wrong"	[style=dashed];	"thm:focus_energy_bug"	[color=green,		label=focus_energy_bug,		shape=ellipse];	"def:focus_energy_buggy" -> "thm:focus_energy_bug"	[style=dashed];	"def:focus_energy_correct" -> "thm:focus_energy_reduces_rate"	[style=dashed];	"def:focus_energy_correct" -> "thm:focus_energy_always_wrong"	[style=dashed];	"thm:focus_energy_fix"	[color=green,		label=focus_energy_fix,		shape=ellipse];	"def:focus_energy_correct" -> "thm:focus_energy_fix"	[style=dashed];	"def:focus_energy_correct" -> "thm:focus_energy_bug"	[style=dashed];	"def:cooltrainerf_fixed"	[color=green,		fillcolor="#B0ECA3",		label=cooltrainerf_fixed,		shape=box,		style=filled];	"thm:fix_uses_random"	[color=green,		label=fix_uses_random,		shape=ellipse];	"def:cooltrainerf_fixed" -> "thm:fix_uses_random"	[style=dashed];	"thm:no_player_action"	[color=green,		label=no_player_action,		shape=ellipse];	"thm:enemy_can_deal_zero"	[color=green,		label=enemy_can_deal_zero,		shape=ellipse];	"def:bug_fix"	[color=green,		fillcolor="#B0ECA3",		label=bug_fix,		shape=box,		style=filled];	"def:substitute_hp"	[color=green,		fillcolor="#B0ECA3",		label=substitute_hp,		shape=box,		style=filled];	"def:substitute_hp" -> "thm:substitute_sm83"	[style=dashed];	"thm:substitute_zero_iff"	[color=green,		label=substitute_zero_iff,		shape=ellipse];	"def:substitute_hp" -> "thm:substitute_zero_iff"	[style=dashed];	"thm:fix_prevents_zero"	[color=green,		label=fix_prevents_zero,		shape=ellipse];	"def:substitute_hp" -> "thm:fix_prevents_zero"	[style=dashed];	"def:can_afford"	[color=green,		fillcolor="#B0ECA3",		label=can_afford,		shape=box,		style=filled];	"def:substitute_hp" -> "def:can_afford"	[style=dashed];	"thm:user_zero_hp"	[color=green,		label=user_zero_hp,		shape=ellipse];	"def:substitute_hp" -> "thm:user_zero_hp"	[style=dashed];	"thm:substitute_positive"	[color=green,		label=substitute_positive,		shape=ellipse];	"def:substitute_hp" -> "thm:substitute_positive"	[style=dashed];	"thm:both_bugs_interact"	[color=green,		label=both_bugs_interact,		shape=ellipse];	"thm:substitute_zero_iff" -> "thm:both_bugs_interact"	[style=dashed];	"thm:zero_hp_iff"	[color=green,		label=zero_hp_iff,		shape=ellipse];	"def:can_afford" -> "thm:zero_hp_iff"	[style=dashed];	"thm:user_zero_hp" -> "thm:both_bugs_interact"	[style=dashed];	"thm:user_zero_hp" -> "thm:zero_hp_iff"	[style=dashed];	"def:calc_hit_chance"	[color=green,		fillcolor="#B0ECA3",		label=calc_hit_chance,		shape=box,		style=filled];	"def:calc_hit_chance" -> "thm:order_matters"	[style=dashed];	"def:calc_hit_chance" -> "thm:plus1_reduces"	[style=dashed];	"thm:plus5_worst"	[color=green,		label=plus5_worst,		shape=ellipse];	"def:calc_hit_chance" -> "thm:plus5_worst"	[style=dashed];	"thm:noncancellation_table"	[color=green,		label=noncancellation_table,		shape=ellipse];	"def:calc_hit_chance" -> "thm:noncancellation_table"	[style=dashed];	"thm:mem_write_read"	[color=green,		label=mem_write_read,		shape=ellipse];	"thm:reflect_hurts_cloyster"	[color=green,		label=reflect_hurts_cloyster,		shape=ellipse];	"thm:inc_dec_cancel"	[color=green,		label=inc_dec_cancel,		shape=ellipse];	"thm:reflect_sawtooth"	[color=green,		label=reflect_sawtooth,		shape=ellipse];	"thm:badge_near_freeze"	[color=green,		label=badge_near_freeze,		shape=ellipse];	"thm:random_dead_code"	[color=green,		label=random_dead_code,		shape=ellipse];	"def:default_state"	[color=green,		fillcolor="#B0ECA3",		label=default_state,		shape=box,		style=filled];	"def:default_state" -> "thm:sm83_accuracy"	[style=dashed];	"def:default_state" -> "thm:focus_energy_cpu"	[style=dashed];	"def:scale_div4"	[color=green,		fillcolor="#B0ECA3",		label=scale_div4,		shape=box,		style=filled];	"def:effective_defense"	[color=green,		fillcolor="#B0ECA3",		label=effective_defense,		shape=box,		style=filled];	"def:scale_div4" -> "def:effective_defense"	[style=dashed];	"thm:scaling_mod256"	[color=green,		label=scaling_mod256,		shape=ellipse];	"def:scale_div4" -> "thm:scaling_mod256"	[style=dashed];	"def:stat_scaling"	[color=green,		fillcolor="#B0ECA3",		label=stat_scaling,		shape=box,		style=filled];	"def:scale_div4" -> "def:stat_scaling"	[style=dashed];	"def:effective_defense" -> "thm:reflect_hurts_cloyster"	[style=dashed];	"def:effective_defense" -> "thm:reflect_sawtooth"	[style=dashed];	"def:full_pipeline"	[color=green,		fillcolor="#B0ECA3",		label=full_pipeline,		shape=box,		style=filled];	"def:effective_defense" -> "def:full_pipeline"	[style=dashed];	"thm:reflect_helps_below"	[color=green,		label=reflect_helps_below,		shape=ellipse];	"def:effective_defense" -> "thm:reflect_helps_below"	[style=dashed];	"thm:reflect_freezes"	[color=green,		label=reflect_freezes,		shape=ellipse];	"def:effective_defense" -> "thm:reflect_freezes"	[style=dashed];	"thm:reflect_hurts_above"	[color=green,		label=reflect_hurts_above,		shape=ellipse];	"def:effective_defense" -> "thm:reflect_hurts_above"	[style=dashed];	"thm:defense_zero_freeze"	[color=green,		label=defense_zero_freeze,		shape=ellipse];	"def:stat_scaling" -> "thm:defense_zero_freeze"	[style=dashed];	"thm:attack_not_monotone"	[color=green,		label=attack_not_monotone,		shape=ellipse];	"def:stat_scaling" -> "thm:attack_not_monotone"	[style=dashed];	"thm:defense_4_survives"	[color=green,		label=defense_4_survives,		shape=ellipse];	"def:stat_scaling" -> "thm:defense_4_survives"	[style=dashed];	"thm:damage_cliff"	[color=green,		label=damage_cliff,		shape=ellipse];	"def:stat_scaling" -> "thm:damage_cliff"	[style=dashed];	"def:full_pipeline" -> "thm:one_growl_reflect"	[style=dashed];	"def:full_pipeline" -> "thm:no_player_action"	[style=dashed];	"def:full_pipeline" -> "thm:badge_near_freeze"	[style=dashed];	"thm:psywave_fix"	[color=green,		label=psywave_fix,		shape=ellipse];	"def:blaine_correct"	[color=green,		fillcolor="#B0ECA3",		label=blaine_correct,		shape=box,		style=filled];	"def:blaine_correct" -> "thm:blaine_unique"	[style=dashed];	"thm:blaine_wastes"	[color=green,		label=blaine_wastes,		shape=ellipse];	"def:blaine_correct" -> "thm:blaine_wastes"	[style=dashed];	"def:heal_check"	[color=green,		fillcolor="#B0ECA3",		label=heal_check,		shape=box,		style=filled];	"def:heal_check" -> "thm:bad_gaps_enumerated"	[style=dashed];	"def:heal_check" -> "thm:heal_gap_255"	[style=dashed];	"thm:heal_no_false_fail"	[color=green,		label=heal_no_false_fail,		shape=ellipse];	"def:heal_check" -> "thm:heal_no_false_fail"	[style=dashed];	"thm:desync_propagates"	[color=green,		label=desync_propagates,		shape=ellipse];	"thm:residual_corrupts"	[color=green,		label=residual_corrupts,		shape=ellipse];	"def:clear_high"	[color=green,		fillcolor="#B0ECA3",		label=clear_high,		shape=box,		style=filled];	"def:clear_high" -> "thm:desync_iff_low"	[style=dashed];	"thm:clear_high_mod256"	[color=green,		label=clear_high_mod256,		shape=ellipse];	"def:clear_high" -> "thm:clear_high_mod256"	[style=dashed];	"thm:clear_high_mod256" -> "thm:residual_corrupts"	[style=dashed];	"thm:player_never_zero"	[color=green,		label=player_never_zero,		shape=ellipse];	"thm:blaine_always_heals"	[color=green,		label=blaine_always_heals,		shape=ellipse];	"def:psywave_enemy"	[color=green,		fillcolor="#B0ECA3",		label=psywave_enemy,		shape=box,		style=filled];	"def:psywave_enemy" -> "thm:enemy_can_deal_zero"	[style=dashed];	"def:psywave_enemy" -> "thm:psywave_fix"	[style=dashed];	"thm:desync_level50"	[color=green,		label=desync_level50,		shape=ellipse];	"def:psywave_enemy" -> "thm:desync_level50"	[style=dashed];	"thm:desync_level50" -> "thm:desync_propagates"	[style=dashed];	"def:bug_witness"	[color=green,		fillcolor="#B0ECA3",		label=bug_witness,		shape=box,		style=filled];	"def:psywave_player"	[color=green,		fillcolor="#B0ECA3",		label=psywave_player,		shape=box,		style=filled];	"def:psywave_player" -> "thm:player_never_zero"	[style=dashed];	"def:psywave_player" -> "thm:desync_level50"	[style=dashed];	"thm:rlca_period_8"	[color=green,		label=rlca_period_8,		shape=ellipse];	"thm:ratio_product"	[color=green,		label=ratio_product,		shape=ellipse];	"def:cpu_state"	[color=green,		fillcolor="#B0ECA3",		label=cpu_state,		shape=box,		style=filled];	"def:cpu_state" -> "def:exec_add"	[style=dashed];	"def:cpu_state" -> "def:exec_sub"	[style=dashed];	"def:cpu_state" -> "def:exec_xor"	[style=dashed];	"def:cpu_state" -> "def:exec_cp"	[style=dashed];	"def:cpu_state" -> "thm:mem_write_read"	[style=dashed];	"def:cpu_state" -> "def:default_state"	[style=dashed];	"thm:cpl_involution"	[color=green,		label=cpl_involution,		shape=ellipse];	"def:cpu_state" -> "thm:cpl_involution"	[style=dashed];	"thm:full_hp_zero_gain"	[color=green,		label=full_hp_zero_gain,		shape=ellipse];	"def:bug_claim"	[color=green,		fillcolor="#B0ECA3",		label=bug_claim,		shape=box,		style=filled];	"def:bug_claim" -> "def:bug_fix"	[style=dashed];	"def:bug_claim" -> "def:bug_witness"	[style=dashed];	"def:blaine_actual"	[color=green,		fillcolor="#B0ECA3",		label=blaine_actual,		shape=box,		style=filled];	"def:blaine_actual" -> "thm:blaine_unique"	[style=dashed];	"def:blaine_actual" -> "thm:blaine_wastes"	[style=dashed];	"def:blaine_actual" -> "thm:blaine_always_heals"	[style=dashed];	"def:blaine_actual" -> "thm:full_hp_zero_gain"	[style=dashed];	"thm:blaine_heals_full"	[color=green,		label=blaine_heals_full,		shape=ellipse];	"def:blaine_actual" -> "thm:blaine_heals_full"	[style=dashed];	"def:badge_boost"	[color=green,		fillcolor="#B0ECA3",		label=badge_boost,		shape=box,		style=filled];	"def:badge_boost" -> "def:full_pipeline"	[style=dashed];	"thm:one_growl_512"	[color=green,		label=one_growl_512,		shape=ellipse];	"def:badge_boost" -> "thm:one_growl_512"	[style=dashed];	"thm:heal_correct"	[color=green,		label=heal_correct,		shape=ellipse];	"def:cooltrainerf_buggy"	[color=green,		fillcolor="#B0ECA3",		label=cooltrainerf_buggy,		shape=box,		style=filled];	"def:cooltrainerf_buggy" -> "thm:random_dead_code"	[style=dashed];}`)
+    .on("end", interactive);
+
+latexLabelEscaper = function(label) {
+  return label.replace(/\./g, '\\.').replace(/:/g, '\\:')
+}
+
+clickNode = function() {
+  $("#statements div").hide()
+  var node_id = $('text', this).text();
+  $('.thm').hide();
+  $('#'+latexLabelEscaper(node_id)).show().children().show();
+}
+function interactive() {
+    $("span#legend_title").on("click", function () {
+           $(this).siblings('dl').toggle();
+        })
+
+    d3.selectAll('.node')
+        .attr('pointer-events', 'fill')
+        .on('click', function () {
+           var title = d3.select(this).selectAll('title').text().trim();
+           $('#statements > div').hide()
+           $('.thm').hide();
+           $('#'+latexLabelEscaper(title)+'_modal').show().children().show().children().show();
+           $('#statements').show()
+        });
+
+    d3.selectAll('.dep-closebtn').on('click', function() {
+        var modal =
+            d3.select(this).node().parentNode.parentNode.parentNode ;
+        d3.select(modal).style('display', 'none');
+    });
+}
+
+</script>
+
+</body>
+</html>

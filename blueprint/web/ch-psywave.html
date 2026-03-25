@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Psywave Link Desync</title>
+<link rel="next" href="ch-bide.html" title="Bide Accumulated Damage Desync" />
+<link rel="prev" href="ch-acc_eva.html" title="Accuracy/Evasion Non-Cancellation" />
+<link rel="up" href="index.html" title="Pokered Verify — Blueprint" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Pokered Verify — Blueprint</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="ch-sm83.html"><span class="toc_ref">1</span> <span class="toc_entry">SM83 CPU Model</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-sm83.html#a0000000002"><span class="toc_ref">1.1</span> <span class="toc_entry">Core Types</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000003"><span class="toc_ref">1.2</span> <span class="toc_entry">Flag Register</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000004"><span class="toc_ref">1.3</span> <span class="toc_entry">Arithmetic Opcodes</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000005"><span class="toc_ref">1.4</span> <span class="toc_entry">Logic and Shifts</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#a0000000006"><span class="toc_ref">1.5</span> <span class="toc_entry">Algebraic Properties</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-harness.html"><span class="toc_ref">2</span> <span class="toc_entry">Bug Verification Framework</span></a>
+ </li>
+<li class="">
+  <a href="ch-focus_energy.html"><span class="toc_ref">3</span> <span class="toc_entry">Focus Energy Bug</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-focus_energy.html#a0000000007"><span class="toc_ref">3.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-focus_energy.html#a0000000008"><span class="toc_ref">3.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-one_in_256.html"><span class="toc_ref">4</span> <span class="toc_entry">1/256 Accuracy &amp; Crit Miss</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-one_in_256.html#a0000000009"><span class="toc_ref">4.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-one_in_256.html#a0000000010"><span class="toc_ref">4.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-blaine.html"><span class="toc_ref">5</span> <span class="toc_entry">Blaine AI Super Potion Bug</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-blaine.html#a0000000011"><span class="toc_ref">5.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-blaine.html#a0000000012"><span class="toc_ref">5.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-cooltrainerf.html"><span class="toc_ref">6</span> <span class="toc_entry">CooltrainerF Dead Code Bug</span></a>
+ </li>
+<li class="">
+  <a href="ch-substitute.html"><span class="toc_ref">7</span> <span class="toc_entry">Substitute HP Bugs</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-substitute.html#a0000000013"><span class="toc_ref">7.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-substitute.html#a0000000014"><span class="toc_ref">7.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-heal_overflow.html"><span class="toc_ref">8</span> <span class="toc_entry">Heal Move Overflow</span></a>
+ </li>
+<li class="">
+  <a href="ch-stat_scaling.html"><span class="toc_ref">9</span> <span class="toc_entry">Stat Scaling Bugs</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-stat_scaling.html#a0000000015"><span class="toc_ref">9.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-stat_scaling.html#a0000000016"><span class="toc_ref">9.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-reflect.html"><span class="toc_ref">10</span> <span class="toc_entry">Reflect/Light Screen Overflow</span></a>
+ </li>
+<li class="">
+  <a href="ch-badge_reflect.html"><span class="toc_ref">11</span> <span class="toc_entry">Badge Stacking + Reflect</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-badge_reflect.html#a0000000017"><span class="toc_ref">11.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-badge_reflect.html#a0000000018"><span class="toc_ref">11.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-acc_eva.html"><span class="toc_ref">12</span> <span class="toc_entry">Accuracy/Evasion Non-Cancellation</span></a>
+ </li>
+<li class=" active current">
+  <a href="ch-psywave.html"><span class="toc_ref">13</span> <span class="toc_entry">Psywave Link Desync</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="ch-psywave.html#a0000000019"><span class="toc_ref">13.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-psywave.html#a0000000020"><span class="toc_ref">13.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-bide.html"><span class="toc_ref">14</span> <span class="toc_entry">Bide Accumulated Damage Desync</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-bide.html#a0000000021"><span class="toc_ref">14.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-bide.html#a0000000022"><span class="toc_ref">14.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="ch:psywave">13 Psywave Link Desync</h1>
+
+<p>Two different Psywave implementations (player rejects 0, enemy accepts 0) desynchronize the shared RNG in link battles. </p>
+<h1 id="a0000000019">13.1 Definitions</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:psywave_player">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.1</span>
+    <span class="definition_thmtitle">Player Psywave</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-psywave.html#def:psywave_player">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.psywavePlayer" class="lean_decl">PokeredBugs.psywavePlayer</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Rejects 0, accepts \([1, b)\). May consume extra random numbers. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:psywave_enemy">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.2</span>
+    <span class="definition_thmtitle">Enemy Psywave</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-psywave.html#def:psywave_enemy">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.psywaveEnemy" class="lean_decl">PokeredBugs.psywaveEnemy</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Accepts \([0, b)\). No zero check. </p>
+
+  </div>
+</div>
+<h1 id="a0000000020">13.2 Proofs</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:player_never_zero">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.3</span>
+    <span class="theorem_thmtitle">Player Never Zero</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-psywave.html#thm:player_never_zero">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-psywave.html#def:psywave_player">Definition 13.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.player_never_zero" class="lean_decl">PokeredBugs.player_never_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Player Psywave always deals \(\ge 1\) damage. Proved by induction on fuel. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:enemy_can_deal_zero">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.4</span>
+    <span class="theorem_thmtitle">Enemy Can Deal Zero</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-psywave.html#thm:enemy_can_deal_zero">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-psywave.html#def:psywave_enemy">Definition 13.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.enemy_can_deal_zero" class="lean_decl">PokeredBugs.enemy_can_deal_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Enemy Psywave can deal 0 damage. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:desync_level50">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.5</span>
+    <span class="theorem_thmtitle">Desync Level 50</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-psywave.html#thm:desync_level50">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-psywave.html#def:psywave_player">Definition 13.1</a></li>
+          
+          <li><a href="ch-psywave.html#def:psywave_enemy">Definition 13.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.desync_level50" class="lean_decl">PokeredBugs.desync_level50</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   RNG list \([0, 5]\): player index \(= 2\), enemy index \(= 1\). Desync. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:desync_propagates">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.6</span>
+    <span class="theorem_thmtitle">Desync Propagates</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-psywave.html#thm:desync_propagates">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-psywave.html#thm:desync_level50">Theorem 13.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.desync_propagates" class="lean_decl">PokeredBugs.desync_propagates</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   After desync, all subsequent random draws diverge permanently. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:psywave_fix">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.7</span>
+    <span class="theorem_thmtitle">Fix Preserves Sync</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-psywave.html#thm:psywave_fix">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-psywave.html#def:psywave_enemy">Definition 13.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://vicgalle.github.io/gameboy-pokered-verify/docs/find/#doc/PokeredBugs.fix_preserves_sync" class="lean_decl">PokeredBugs.fix_preserves_sync</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Making both loops identical preserves link synchronization. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-acc_eva.html" title="Accuracy/Evasion Non-Cancellation"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Pokered Verify — Blueprint"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-bide.html" title="Bide Accumulated Damage Desync"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

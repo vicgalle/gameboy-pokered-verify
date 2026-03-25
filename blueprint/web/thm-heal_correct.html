@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Heal Move Overflow</title>
+<link rel="next" href="ch-stat_scaling.html" title="Stat Scaling Bugs" />
+<link rel="prev" href="ch-substitute.html" title="Substitute HP Bugs" />
+<link rel="up" href="index.html" title="Pokered Verify — Blueprint" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Pokered Verify — Blueprint</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="ch-sm83.html"><span class="toc_ref">1</span> <span class="toc_entry">SM83 CPU Model</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-sm83.html#def:default_state"><span class="toc_ref">1.1</span> <span class="toc_entry">Core Types</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#thm:mkflags_low_nibble"><span class="toc_ref">1.2</span> <span class="toc_entry">Flag Register</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#def:exec_cp"><span class="toc_ref">1.3</span> <span class="toc_entry">Arithmetic Opcodes</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#def:exec_swap"><span class="toc_ref">1.4</span> <span class="toc_entry">Logic and Shifts</span></a>
+ </li>
+<li class="">
+  <a href="ch-sm83.html#thm:mem_write_read"><span class="toc_ref">1.5</span> <span class="toc_entry">Algebraic Properties</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="def-bug_fix.html"><span class="toc_ref">2</span> <span class="toc_entry">Bug Verification Framework</span></a>
+ </li>
+<li class="">
+  <a href="ch-focus_energy.html"><span class="toc_ref">3</span> <span class="toc_entry">Focus Energy Bug</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-focus_energy.html#def:focus_energy_correct"><span class="toc_ref">3.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-focus_energy.html#thm:focus_energy_cpu"><span class="toc_ref">3.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-one_in_256.html"><span class="toc_ref">4</span> <span class="toc_entry">1/256 Accuracy &amp; Crit Miss</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-one_in_256.html#def:check_spec"><span class="toc_ref">4.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-one_in_256.html#thm:sm83_accuracy"><span class="toc_ref">4.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-blaine.html"><span class="toc_ref">5</span> <span class="toc_entry">Blaine AI Super Potion Bug</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-blaine.html#def:blaine_correct"><span class="toc_ref">5.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-blaine.html#thm:blaine_unique"><span class="toc_ref">5.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="thm-fix_uses_random.html"><span class="toc_ref">6</span> <span class="toc_entry">CooltrainerF Dead Code Bug</span></a>
+ </li>
+<li class="">
+  <a href="ch-substitute.html"><span class="toc_ref">7</span> <span class="toc_entry">Substitute HP Bugs</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-substitute.html#def:can_afford"><span class="toc_ref">7.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-substitute.html#thm:substitute_sm83"><span class="toc_ref">7.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="thm-heal_correct.html"><span class="toc_ref">8</span> <span class="toc_entry">Heal Move Overflow</span></a>
+ </li>
+<li class="">
+  <a href="ch-stat_scaling.html"><span class="toc_ref">9</span> <span class="toc_entry">Stat Scaling Bugs</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-stat_scaling.html#def:stat_scaling"><span class="toc_ref">9.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-stat_scaling.html#thm:scaling_mod256"><span class="toc_ref">9.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="thm-reflect_sawtooth.html"><span class="toc_ref">10</span> <span class="toc_entry">Reflect/Light Screen Overflow</span></a>
+ </li>
+<li class="">
+  <a href="ch-badge_reflect.html"><span class="toc_ref">11</span> <span class="toc_entry">Badge Stacking + Reflect</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-badge_reflect.html#def:full_pipeline"><span class="toc_ref">11.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-badge_reflect.html#thm:badge_near_freeze"><span class="toc_ref">11.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="thm-order_matters.html"><span class="toc_ref">12</span> <span class="toc_entry">Accuracy/Evasion Non-Cancellation</span></a>
+ </li>
+<li class="">
+  <a href="ch-psywave.html"><span class="toc_ref">13</span> <span class="toc_entry">Psywave Link Desync</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-psywave.html#def:psywave_enemy"><span class="toc_ref">13.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-psywave.html#thm:psywave_fix"><span class="toc_ref">13.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-bide.html"><span class="toc_ref">14</span> <span class="toc_entry">Bide Accumulated Damage Desync</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-bide.html#def:clear_both"><span class="toc_ref">14.1</span> <span class="toc_entry">Definitions</span></a>
+ </li>
+<li class="">
+  <a href="ch-bide.html#thm:residual_corrupts"><span class="toc_ref">14.2</span> <span class="toc_entry">Proofs</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="thm:heal_correct">8 Heal Move Overflow</h1>
+
+<p>The heal check fails at HP gaps of 255, 511, and 767 due to a broken 16-bit comparison. </p>
+<p>[Buggy Heal Check] PokeredBugs.healCheckFails Models <span class="ttfamily">cp [hl]; sbc [hl]; jp z</span>. Only checks the low-byte subtraction result.  </p>
+<p>[Fails at Gap 255] PokeredBugs.heal_fails_at_gap_255 def:heal_check \(\texttt{maxHP} = 300\), \(\texttt{currentHP} = 45\) (gap \(= 255\)): move incorrectly fails.  </p>
+<p>[No False Fail Below 256] PokeredBugs.no_false_fail_below_256 def:heal_check When \(\texttt{maxHP} \le 255\), the check is correct: only fails at full HP.  </p>
+<p>[Bad Gaps Enumerated] PokeredBugs.bad_gaps_enumerated def:heal_check For \(\texttt{maxHP} \le 999\): false failures occur only at gaps 255, 511, or 767.  </p>
+<p>[Correct Check] PokeredBugs.correct_no_false_fail A correct 16-bit equality check never has false failures.  </p>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="ch-substitute.html" title="Substitute HP Bugs"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Pokered Verify — Blueprint"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-stat_scaling.html" title="Stat Scaling Bugs"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

@@ -16,6 +16,10 @@ roots = ["PokeredBugs"]
 name = "Harness"
 roots = ["Harness"]
 
+[[require]]
+name = "checkdecls"
+git = "https://github.com/PatrickMassot/checkdecls.git"
+
 [[lean_exe]]
 name = "pokered-verify"
 root = "Main"
