@@ -10,3 +10,4 @@ import PokeredBugs.Proofs.Substitute
 import PokeredBugs.Proofs.BideDesync
 import PokeredBugs.Proofs.HealOverflow
 import PokeredBugs.Proofs.CooltrainerF
+import PokeredBugs.Proofs.RNGProperties
