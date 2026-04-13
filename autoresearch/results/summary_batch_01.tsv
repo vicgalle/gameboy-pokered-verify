@@ -1,0 +1,6 @@
+bug_num	bug_name	compiles	theorems	levels	start	end
+1	focus_energy	compiles	8		2026-04-13T13:37:16Z	2026-04-13T13:46:11Z
+2	one_in_256	compiles	13		2026-04-13T13:46:11Z	2026-04-13T13:54:47Z
+3	blaine_ai	compiles	7		2026-04-13T13:54:47Z	2026-04-13T14:06:53Z
+4	heal_overflow	compiles	10		2026-04-13T14:06:53Z	2026-04-13T14:21:41Z
+5	psywave_desync	compiles	10		2026-04-13T14:21:41Z	2026-04-13T14:30:13Z
