@@ -1,0 +1,10 @@
+bug_num	bug_name	condition	compiles	theorems	levels	start	end
+1	focus_energy	minimal	compiles	7		2026-04-13T15:40:51Z	2026-04-13T15:42:45Z
+2	one_in_256	minimal	compiles	0
+0		2026-04-13T15:42:45Z	2026-04-13T15:42:48Z
+3	blaine_ai	minimal	compiles	0
+0		2026-04-13T15:42:48Z	2026-04-13T15:43:02Z
+4	heal_overflow	minimal	unknown	0
+0		2026-04-13T15:43:02Z	2026-04-13T15:43:04Z
+5	psywave_desync	minimal	unknown	0
+0		2026-04-13T15:43:04Z	2026-04-13T15:43:05Z

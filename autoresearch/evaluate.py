@@ -64,6 +64,7 @@ class ProofMetrics:
     has_namespace: bool = False
     imports_sm83: bool = False
     imports_harness: bool = False
+    condition: str = "full"  # "full" or "minimal"
     compile_errors: str = ""
     iterations: int = 0  # git commit count
 
@@ -295,6 +296,11 @@ def evaluate_workspace(workspace_dir: Path) -> ProofMetrics:
     # Count iterations
     metrics.iterations = count_iterations(workspace_dir)
 
+    # Read experimental condition
+    condition_file = workspace_dir / ".condition"
+    if condition_file.exists():
+        metrics.condition = condition_file.read_text().strip()
+
     return metrics
 
 
@@ -315,7 +321,8 @@ def print_single_report(metrics: ProofMetrics, ground_truth: Optional[dict] = No
     print(f"  Bug #{metrics.bug_num}: {metrics.bug_name}")
     print(f"{'='*60}")
 
-    print(f"\n  Compilation:  {'PASS' if metrics.compiles else 'FAIL'}")
+    print(f"\n  Condition:    {metrics.condition}")
+    print(f"  Compilation:  {'PASS' if metrics.compiles else 'FAIL'}")
     print(f"  Total lines:  {metrics.total_lines}")
     print(f"  Definitions:  {metrics.def_count}")
     print(f"  Theorems:     {metrics.theorem_count + metrics.lemma_count}")
@@ -370,9 +377,9 @@ def print_batch_summary(all_metrics: list, ground_truth: dict):
     print()
 
     # Header
-    header = f"  {'#':<3s} {'Bug':<20s} {'Comp':>5s} {'Thm':>5s} {'Def':>5s} {'Levels':<12s} {'GT Levels':<12s} {'Cov':>5s}"
+    header = f"  {'#':<3s} {'Bug':<20s} {'Cond':<8s} {'Comp':>5s} {'Thm':>5s} {'Def':>5s} {'Levels':<12s} {'GT Levels':<12s} {'Cov':>5s}"
     print(header)
-    print(f"  {'-'*70}")
+    print(f"  {'-'*78}")
 
     total_compiles = 0
     total_level_coverage = 0
@@ -386,7 +393,7 @@ def print_batch_summary(all_metrics: list, ground_truth: dict):
         levels_str = ",".join(m.levels_detected) or "-"
         gt_levels_str = ",".join(gt_levels) or "-"
 
-        print(f"  {m.bug_num:<3d} {m.bug_name:<20s} {comp:>5s} "
+        print(f"  {m.bug_num:<3d} {m.bug_name:<20s} {m.condition:<8s} {comp:>5s} "
               f"{m.theorem_count + m.lemma_count:>5d} {m.def_count:>5d} "
               f"{levels_str:<12s} {gt_levels_str:<12s} {coverage*100:>4.0f}%")
 
@@ -460,13 +467,14 @@ def main():
         exp1, exp2 = args.compare
         results_dir = SCRIPT_DIR / "results"
 
-        print(f"\n{'='*80}")
+        print(f"\n{'='*90}")
         print(f"  Comparison: {exp1} vs {exp2}")
-        print(f"{'='*80}")
+        print(f"{'='*90}")
         print()
-        print(f"  {'#':<3s} {'Bug':<20s} {'Comp1':>6s} {'Comp2':>6s} "
+        print(f"  {'#':<3s} {'Bug':<20s} {'Cond1':<8s} {'Cond2':<8s} "
+              f"{'Comp1':>6s} {'Comp2':>6s} "
               f"{'Thm1':>5s} {'Thm2':>5s} {'Lvl1':<10s} {'Lvl2':<10s}")
-        print(f"  {'-'*65}")
+        print(f"  {'-'*80}")
 
         for bug_num in range(1, 6):
             bug_name = BUG_NAMES[bug_num]
@@ -481,7 +489,8 @@ def main():
             l1 = ",".join(m1.levels_detected) or "-"
             l2 = ",".join(m2.levels_detected) or "-"
 
-            print(f"  {bug_num:<3d} {bug_name:<20s} {c1:>6s} {c2:>6s} "
+            print(f"  {bug_num:<3d} {bug_name:<20s} {m1.condition:<8s} {m2.condition:<8s} "
+                  f"{c1:>6s} {c2:>6s} "
                   f"{m1.theorem_count:>5d} {m2.theorem_count:>5d} "
                   f"{l1:<10s} {l2:<10s}")
 

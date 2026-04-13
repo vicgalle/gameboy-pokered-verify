@@ -3,20 +3,25 @@
 # run.sh — Run one autoresearch bug formalization experiment.
 #
 # Usage:
-#   ./run.sh <bug_number> [experiment_id] [model]
+#   ./run.sh [--minimal] <bug_number> [experiment_id] [model]
 #
 # Arguments:
+#   --minimal     : only pass the Gameplay Description paragraph (no root cause,
+#                   no file pointers). The agent must find the code independently.
 #   bug_number    : 1-5 (maps to bugs/0N_*.md)
 #   experiment_id : optional tag (default: timestamp)
 #   model         : optional model override (default: sonnet)
 #
 # Example:
-#   ./run.sh 1                          # Focus Energy, default model
-#   ./run.sh 3 trial_02 opus            # Blaine AI, opus model
+#   ./run.sh 1                          # Focus Energy, full description
+#   ./run.sh --minimal 1 trial_02       # Focus Energy, gameplay-only
+#   ./run.sh --minimal 3 trial_02 opus  # Blaine AI, gameplay-only, opus
 #
 # What it does:
 #   1. Creates a fresh Lean workspace (SM83 + Harness, NO existing proofs)
 #   2. Copies the bug description into the workspace
+#      - Full mode: all sections (Gameplay + Root Cause + Where to Look + Severity)
+#      - Minimal mode: only the title + Gameplay Description section
 #   3. Launches Claude Code with program.md as the agent prompt
 #   4. The agent iterates autonomously until compilation + proofs or timeout
 #   5. Results are captured in results/<workspace_name>/
@@ -26,7 +31,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
-BUG_NUM="${1:?Usage: ./run.sh <bug_number> [experiment_id] [model]}"
+# Parse --minimal flag
+MINIMAL=false
+if [[ "${1:-}" == "--minimal" ]]; then
+    MINIMAL=true
+    shift
+fi
+
+BUG_NUM="${1:?Usage: ./run.sh [--minimal] <bug_number> [experiment_id] [model]}"
 EXPERIMENT_ID="${2:-$(date +%Y%m%d_%H%M%S)}"
 MODEL="${3:-sonnet}"
 
@@ -44,11 +56,16 @@ if [[ -z "$BUG_FILE" ]]; then
 fi
 
 BUG_NAME=$(basename "$BUG_FILE" .md | sed 's/^[0-9]*_//')
+CONDITION="full"
+if [[ "$MINIMAL" == true ]]; then
+    CONDITION="minimal"
+fi
 WORKSPACE_NAME="bug${BUG_NUM}_${BUG_NAME}_${EXPERIMENT_ID}"
 WORKSPACE_DIR="$SCRIPT_DIR/results/$WORKSPACE_NAME"
 
 echo "=== Autoresearch Bug Formalization ==="
 echo "Bug:        #${BUG_NUM} — $(head -1 "$BUG_FILE" | sed 's/^# //')"
+echo "Condition:  $CONDITION"
 echo "Workspace:  $WORKSPACE_DIR"
 echo "Model:      $MODEL"
 echo "Experiment: $EXPERIMENT_ID"
@@ -71,8 +88,22 @@ cp "$SCRIPT_DIR/template/lakefile.toml" "$WORKSPACE_DIR/lakefile.toml"
 cp "$SCRIPT_DIR/template/lean-toolchain" "$WORKSPACE_DIR/lean-toolchain"
 cp "$SCRIPT_DIR/template/Solution.lean" "$WORKSPACE_DIR/Solution.lean"
 
-# Copy bug description
-cp "$BUG_FILE" "$WORKSPACE_DIR/bug_description.md"
+# Copy bug description (full or minimal)
+if [[ "$MINIMAL" == true ]]; then
+    # Extract only the title line + Gameplay Description section.
+    # Stops at the first ## heading after ## Gameplay Description (i.e., ## Root Cause).
+    awk '
+        /^## Root Cause/  { exit }
+        /^## Where to Look/ { exit }
+        /^## Severity/    { exit }
+        { print }
+    ' "$BUG_FILE" > "$WORKSPACE_DIR/bug_description.md"
+else
+    cp "$BUG_FILE" "$WORKSPACE_DIR/bug_description.md"
+fi
+
+# Record the experimental condition
+echo "$CONDITION" > "$WORKSPACE_DIR/.condition"
 
 # ---- Step 2: Verify workspace compiles ----
 echo "[2/4] Verifying workspace compiles (lake build)..."
