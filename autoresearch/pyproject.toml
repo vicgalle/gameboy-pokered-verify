@@ -1,0 +1,9 @@
+[project]
+name = "pokered-verify-autoresearch"
+version = "0.1.0"
+description = "Two-level autoresearch for formal bug verification in Pokemon Red"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.52.0",
+    "pyyaml>=6.0",
+]

@@ -1,0 +1,6 @@
+workspace/
+results.tsv
+__pycache__/
+*.pyc
+run.log
+.venv/

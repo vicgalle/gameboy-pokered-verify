@@ -1,0 +1,22 @@
+# Pipeline configuration — modifiable by the researcher.
+#
+# This controls how the inner loop formalizer operates.
+
+# Claude model for the formalizer (inner loop)
+model: "claude-sonnet-4-6-20250514"
+
+# Maximum tokens per API response
+max_tokens: 8192
+
+# Sampling temperature (0 = deterministic, 1 = creative)
+temperature: 0.3
+
+# Number of iterations per bug (K in the paper)
+# Each iteration: send prompt -> get code -> try compile -> send feedback
+iterations_per_bug: 5
+
+# Whether to include assembly context from the pokered codebase
+include_asm_context: true
+
+# Maximum assembly lines to include per bug
+max_asm_lines: 200
