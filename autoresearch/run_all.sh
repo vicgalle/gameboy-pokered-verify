@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# run_all.sh — Run all 5 bug formalization experiments sequentially.
+#
+# Usage:
+#   ./run_all.sh [experiment_id] [model]
+#
+# Arguments:
+#   experiment_id : shared tag for this batch (default: timestamp)
+#   model         : model to use (default: sonnet)
+#
+# Example:
+#   ./run_all.sh batch_01 sonnet
+#   ./run_all.sh batch_02 opus
+#
+# After completion, run evaluate.py to produce the comparison table.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+EXPERIMENT_ID="${1:-$(date +%Y%m%d_%H%M%S)}"
+MODEL="${2:-sonnet}"
+
+echo "============================================"
+echo "  Autoresearch: Full Bug Formalization Run"
+echo "============================================"
+echo "Experiment: $EXPERIMENT_ID"
+echo "Model:      $MODEL"
+echo "Bugs:       5 (Focus Energy, 1/256, Blaine AI, Heal Overflow, Psywave)"
+echo ""
+
+RESULTS_FILE="$SCRIPT_DIR/results/summary_${EXPERIMENT_ID}.tsv"
+echo -e "bug_num\tbug_name\tcompiles\ttheorems\tlevels\tstart\tend" > "$RESULTS_FILE"
+
+for BUG_NUM in 1 2 3 4 5; do
+    BUG_FILE=$(ls "$SCRIPT_DIR/bugs/"0"${BUG_NUM}"_*.md 2>/dev/null | head -1)
+    BUG_NAME=$(basename "$BUG_FILE" .md | sed 's/^[0-9]*_//')
+
+    echo ""
+    echo "--------------------------------------------"
+    echo "  Bug #${BUG_NUM}: ${BUG_NAME}"
+    echo "--------------------------------------------"
+
+    START_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+    # Run the experiment (run.sh handles everything)
+    "$SCRIPT_DIR/run.sh" "$BUG_NUM" "$EXPERIMENT_ID" "$MODEL" || true
+
+    END_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+    # Collect quick stats
+    WORKSPACE_DIR="$SCRIPT_DIR/results/bug${BUG_NUM}_${BUG_NAME}_${EXPERIMENT_ID}"
+    COMPILE_STATUS="unknown"
+    THEOREM_COUNT=0
+    LEVELS=""
+
+    if [[ -f "$WORKSPACE_DIR/.compile_status" ]]; then
+        COMPILE_STATUS=$(cat "$WORKSPACE_DIR/.compile_status")
+    fi
+
+    if [[ -f "$WORKSPACE_DIR/Solution.lean" ]]; then
+        THEOREM_COUNT=$(grep -c "^theorem\|^  theorem" "$WORKSPACE_DIR/Solution.lean" 2>/dev/null || echo 0)
+    fi
+
+    echo -e "${BUG_NUM}\t${BUG_NAME}\t${COMPILE_STATUS}\t${THEOREM_COUNT}\t${LEVELS}\t${START_TIME}\t${END_TIME}" >> "$RESULTS_FILE"
+done
+
+echo ""
+echo "============================================"
+echo "  All experiments complete!"
+echo "============================================"
+echo "Summary: $RESULTS_FILE"
+echo ""
+echo "Run full evaluation:"
+echo "  python3 $SCRIPT_DIR/evaluate.py --batch $EXPERIMENT_ID"

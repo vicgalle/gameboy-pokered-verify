@@ -1,0 +1,194 @@
+{
+  "description": "Ground truth metrics from manually crafted formalizations. NOT given to the autoresearch agent — used only for post-hoc comparison by evaluate.py.",
+  "1": {
+    "bug_name": "focus_energy",
+    "bug_title": "Focus Energy Quarters Critical Hit Rate",
+    "category": "wrongBitwiseOp",
+    "levels": ["L1", "L2", "L3"],
+    "theorem_count": 10,
+    "def_count": 6,
+    "structure_count": 0,
+    "total_lines": 195,
+    "theorem_names": [
+      "crit_input_bounded",
+      "srl_then_sla",
+      "focus_energy_bug",
+      "focus_energy_always_wrong",
+      "focus_energy_speed1_degenerate",
+      "focus_energy_reduces_rate",
+      "focus_energy_strictly_worse",
+      "focus_energy_quarter_rate",
+      "focus_energy_fix_correct",
+      "focus_energy_cpu_bug"
+    ],
+    "def_names": [
+      "critRateInput",
+      "focusEnergyBuggy",
+      "focusEnergyCorrect",
+      "noFocusEnergy",
+      "critCalcBuggySM83",
+      "critCalcFixedSM83"
+    ],
+    "key_insights": [
+      "Initial srl bounds input to [0,127], making overflow impossible",
+      "Bug is srl where sla was intended (divide vs multiply)",
+      "CPU-level proof validates high-level model"
+    ],
+    "primary_tactics": ["native_decide"]
+  },
+  "2": {
+    "bug_name": "one_in_256",
+    "bug_title": "1/256 Accuracy and Critical Hit Miss",
+    "category": "offByOne",
+    "levels": ["L1", "L2", "L3"],
+    "theorem_count": 12,
+    "def_count": 8,
+    "structure_count": 0,
+    "total_lines": 182,
+    "theorem_names": [
+      "accuracy_bug_exists",
+      "crit_bug_exists",
+      "bug_iff_equal",
+      "bug_at_every_threshold",
+      "no_bug_when_unequal",
+      "actual_hits_lt_threshold",
+      "spec_hits_le_threshold",
+      "exactly_one_extra_hit",
+      "fix_correct",
+      "zero_threshold_never_passes",
+      "max_threshold_always_passes",
+      "sm83_accuracy_matches_model"
+    ],
+    "def_names": [
+      "checkActual",
+      "checkSpec",
+      "checkFixed",
+      "moveHitsActual",
+      "moveHitsSpec",
+      "critHitsActual",
+      "critHitsSpec",
+      "accuracyCheckSM83"
+    ],
+    "key_insights": [
+      "Generic model: both accuracy and crit share the cp/jr nc pattern",
+      "Bug triggers iff random == threshold (exact characterization)",
+      "percent macro reveals developer intent: 255 = 100%",
+      "CPU-level SM83 proof validates model"
+    ],
+    "primary_tactics": ["native_decide", "simp"]
+  },
+  "3": {
+    "bug_name": "blaine_ai",
+    "bug_title": "Blaine AI Uses Super Potion at Full HP",
+    "category": "missingPrecondition",
+    "levels": ["L1", "L2", "L3"],
+    "theorem_count": 12,
+    "def_count": 9,
+    "structure_count": 1,
+    "total_lines": 205,
+    "theorem_names": [
+      "blaine_heals_at_full_hp",
+      "correct_ai_skips_full_hp",
+      "blaine_always_heals",
+      "correct_ai_sometimes_skips",
+      "blaine_wastes_potion",
+      "blaine_wastes_when_healthy",
+      "blaine_fix_heals_when_needed",
+      "blaine_fix_skips_when_healthy",
+      "uint16_mk_toNat",
+      "full_hp_zero_gain",
+      "partial_waste",
+      "blaine_unique_unconditional"
+    ],
+    "def_names": [
+      "superPotionHeal",
+      "hpBelowFraction",
+      "blaineActual",
+      "blaineCorrect",
+      "healWasted",
+      "hpGained",
+      "erikaAI",
+      "loreleiAI",
+      "agathaAI"
+    ],
+    "key_insights": [
+      "Modeled as Option type: Some (heal) vs None (skip)",
+      "AIHealState structure with currentHP/maxHP",
+      "Comparison with 3 other trainers who heal correctly",
+      "Quantified waste: zero gain at full HP, partial waste near max"
+    ],
+    "primary_tactics": ["rfl", "simp", "omega"]
+  },
+  "4": {
+    "bug_name": "heal_overflow",
+    "bug_title": "Heal Moves Fail at 255/511/767 HP Gap",
+    "category": "arithmeticOverflow",
+    "levels": ["L1", "L2", "L3"],
+    "theorem_count": 11,
+    "def_count": 4,
+    "structure_count": 0,
+    "total_lines": 143,
+    "theorem_names": [
+      "heal_fails_at_gap_255",
+      "heal_fails_at_gap_511",
+      "heal_fails_at_gap_767",
+      "no_false_fail_below_256",
+      "bad_gaps_enumerated",
+      "adjacent_works",
+      "correct_no_false_fail",
+      "snorlax_rest_fails",
+      "chansey_softboiled_fails",
+      "chansey_softboiled_511",
+      "low_maxhp_no_bug"
+    ],
+    "def_names": [
+      "hiBE",
+      "loBE",
+      "healCheckFails",
+      "healCheckCorrect"
+    ],
+    "key_insights": [
+      "Big-endian 16-bit comparison done byte-by-byte",
+      "Bug: high byte compared first, then low byte compared wrong",
+      "Fails when high bytes differ AND low bytes satisfy specific modular condition",
+      "Real gameplay scenarios: Snorlax, Chansey with specific HP values"
+    ],
+    "primary_tactics": ["native_decide", "omega"]
+  },
+  "5": {
+    "bug_name": "psywave_desync",
+    "bug_title": "Psywave Link Battle Desynchronization",
+    "category": "symmetryViolation",
+    "levels": ["L1", "L2", "L3", "L4"],
+    "theorem_count": 10,
+    "def_count": 4,
+    "structure_count": 1,
+    "total_lines": 227,
+    "theorem_names": [
+      "player_never_zero",
+      "enemy_can_deal_zero",
+      "desync_level50",
+      "desync_level100",
+      "desync_multiple_zeros",
+      "no_desync_when_nonzero",
+      "desync_propagates",
+      "fix_preserves_sync",
+      "fix_sync_with_zeros",
+      "player_psywave_strictly_better"
+    ],
+    "def_names": [
+      "LinkRNG.next",
+      "psywavePlayer",
+      "psywaveEnemy",
+      "psywaveFixed"
+    ],
+    "key_insights": [
+      "LinkRNG structure models shared random number list with index",
+      "Two separate loops with different zero-handling",
+      "Player rejects 0 (range [1,b)), enemy accepts 0 (range [0,b))",
+      "Desync propagates: subsequent draws give different values",
+      "Induction proof for player_never_zero (recursive function)"
+    ],
+    "primary_tactics": ["native_decide", "induction", "simp"]
+  }
+}
