@@ -115,6 +115,16 @@ This works because BitVec 8 is finite (256 values) and Lean can check all of the
 **Warning**: `native_decide` does NOT work for `UInt16` or larger types (65536+ values).
 For those, use `omega`, `simp`, or manual reasoning.
 
+**16-bit decomposition pattern**: When dealing with 16-bit HP or address values, model them
+as pairs of `BitVec 8` (hi byte, lo byte) rather than `BitVec 16`. This lets you use
+`native_decide` for the per-byte logic:
+```lean
+def healCheck (curr_hi curr_lo max_hi max_lo : BitVec 8) : Bool :=
+  let carry := curr_hi < max_hi
+  let result := curr_lo - max_lo - (if carry then 1 else 0)
+  result == 0
+```
+
 ## SM83 Assembly Reading Tips
 
 The pokered codebase uses RGBDS assembly for the Game Boy SM83 CPU:
@@ -162,8 +172,9 @@ end AutoResearch
 2. **Model fidelity**: Your `impl` function must faithfully represent what the assembly
    actually does. Don't just make something that "looks buggy" -- match the real code.
 3. **Start simple**: Get L1 (witness) first. Then try L2, then L3.
-4. **No sorry**: Aim for proofs without `sorry`. A compiling file with `sorry` is better
-   than a non-compiling file, but sorry-free is best.
+4. **No sorry**: A sorry-free file scores MUCH higher than one with sorry. If you cannot
+   prove a theorem, **DELETE the theorem entirely** rather than leaving `sorry`. A file
+   with 3 sorry-free theorems scores higher than one with 5 theorems containing sorry.
 5. **Output format**: Provide your complete Solution.lean inside a ```lean code block.
 6. **One output**: Return exactly ONE ```lean block containing the full file.
 
