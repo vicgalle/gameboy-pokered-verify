@@ -155,10 +155,49 @@ end AutoResearch
 
 ## Important Rules
 
-1. **Model fidelity**: Your `impl` function must faithfully represent what the assembly
+1. **CODE FIRST, COMMENTS LATER**: Your output MUST be dominated by actual Lean code.
+   Keep doc comments very brief (1-2 lines max per definition). Do NOT write long
+   explanations, assembly analysis, or descriptions -- the code speaks for itself.
+   Every output MUST contain at least `impl`, `spec`, and 3+ `theorem` declarations.
+2. **Model fidelity**: Your `impl` function must faithfully represent what the assembly
    actually does. Don't just make something that "looks buggy" -- match the real code.
-2. **Start simple**: Get L1 (witness) first. Then try L2, then L3.
-3. **No sorry**: Aim for proofs without `sorry`. A compiling file with `sorry` is better
+3. **Start simple**: Get L1 (witness) first. Then try L2, then L3.
+4. **No sorry**: Aim for proofs without `sorry`. A compiling file with `sorry` is better
    than a non-compiling file, but sorry-free is best.
-4. **Output format**: Provide your complete Solution.lean inside a ```lean code block.
-5. **One output**: Return exactly ONE ```lean block containing the full file.
+5. **Output format**: Provide your complete Solution.lean inside a ```lean code block.
+6. **One output**: Return exactly ONE ```lean block containing the full file.
+
+## Minimal Working Example
+
+Here is the simplest possible compiling solution for a bitwise bug. Use this as a template:
+
+```lean
+import SM83
+
+namespace AutoResearch
+
+-- Buggy behavior
+def impl (x : BitVec 8) : BitVec 8 := x >>> 1
+
+-- Intended behavior
+def spec (x : BitVec 8) : BitVec 8 := x <<< 1
+
+-- L1: Bug exists
+theorem bug_exists : ∃ x, impl x ≠ spec x := ⟨1, by native_decide⟩
+
+-- L2: Always wrong for nonzero input
+theorem bug_always (x : BitVec 8) : x ≠ 0 → impl x ≠ spec x := by
+  have := (by native_decide : ∀ x : BitVec 8, x ≠ 0 → impl x ≠ spec x)
+  exact this x
+
+-- L3: Fix matches spec
+def fix (x : BitVec 8) : BitVec 8 := x <<< 1
+theorem fix_correct (x : BitVec 8) : fix x = spec x := by
+  have := (by native_decide : ∀ x : BitVec 8, fix x = spec x)
+  exact this x
+
+end AutoResearch
+```
+
+**Always follow this pattern**: define `impl`, define `spec`, prove theorems.
+Even if the bug involves Nat or more complex types, the structure is the same.
