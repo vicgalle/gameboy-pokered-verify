@@ -62,6 +62,11 @@ BUG_NAMES = {
     3: "blaine_ai",
     4: "heal_overflow",
     5: "psywave_desync",
+    6: "substitute",
+    7: "bide_desync",
+    8: "reflect_overflow",
+    9: "acc_eva_cancel",
+    10: "badge_reflect",
 }
 
 
@@ -341,8 +346,8 @@ def detect_theme_coverage(lean_code: str) -> set[str]:
     if any(kw in lower for kw in ["fix", "correct"]):
         levels.add("L3")
 
-    # L4: relational / desync
-    if any(kw in lower for kw in ["desync", "player", "enemy", "diverge", "link"]):
+    # L4: relational / desync / link battle
+    if any(kw in lower for kw in ["desync", "player", "enemy", "diverge", "link", "bide"]):
         levels.add("L4")
 
     return levels
@@ -396,7 +401,8 @@ def score_solution(
 
 def load_bug_description(bug_num: int) -> str:
     """Load the minimal bug description from bugs/."""
-    pattern = f"0{bug_num}_*.md"
+    # Handle both single-digit (01_...) and two-digit (10_...) numbering
+    pattern = f"{bug_num:02d}_*.md"
     files = list(BUGS_DIR.glob(pattern))
     if not files:
         raise FileNotFoundError(f"No bug description found for bug {bug_num}")
@@ -535,7 +541,7 @@ async def run_inner_loop(
     t_start = time.time()
     per_bug_results: dict[int, dict] = {}
 
-    for bug_num in range(1, 6):
+    for bug_num in range(1, 11):
         bug_name = BUG_NAMES[bug_num]
         log(f"\n{'=' * 60}")
         log(f"  BUG {bug_num}: {bug_name}")

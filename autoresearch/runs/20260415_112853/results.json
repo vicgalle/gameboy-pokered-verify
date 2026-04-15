@@ -1,0 +1,48 @@
+{
+  "score": 4.266,
+  "per_bug": {
+    "1": {
+      "bug_name": "focus_energy",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 4,
+      "sorry_free": true,
+      "iterations_used": 5
+    },
+    "2": {
+      "bug_name": "one_in_256",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 7,
+      "sorry_free": true,
+      "iterations_used": 5
+    },
+    "3": {
+      "bug_name": "blaine_ai",
+      "score": 0.633,
+      "compiles": true,
+      "theorems": 0,
+      "sorry_free": true,
+      "iterations_used": 5
+    },
+    "4": {
+      "bug_name": "heal_overflow",
+      "score": 0.633,
+      "compiles": true,
+      "theorems": 0,
+      "sorry_free": true,
+      "iterations_used": 5
+    },
+    "5": {
+      "bug_name": "psywave_desync",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 4,
+      "sorry_free": true,
+      "iterations_used": 5
+    }
+  },
+  "model": "gemini-3-flash-preview",
+  "iterations_per_bug": 5,
+  "wall_time_s": 1129.2
+}

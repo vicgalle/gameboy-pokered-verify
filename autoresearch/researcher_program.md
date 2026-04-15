@@ -11,13 +11,18 @@ loop -> observe the score -> keep or discard -> repeat. You never stop.
 ## Context
 
 This project formally verifies known bugs in Pokemon Red using Lean 4 and a
-formalization of the Game Boy's SM83 CPU. Five bugs are tested:
+formalization of the Game Boy's SM83 CPU. Ten bugs are tested:
 
 1. **Focus Energy** -- wrong bitwise shift (srl vs sla) quarters crit rate
 2. **1/256 Miss** -- off-by-one in accuracy/crit check (cp + jr nc)
 3. **Blaine AI** -- missing HP precondition for healing item use
 4. **Heal Overflow** -- 16-bit HP comparison done byte-by-byte overflows
 5. **Psywave Desync** -- two different random loops desynchronize link battle
+6. **Substitute** -- integer division gives 0 HP shield; user survives at 0 HP
+7. **Bide Desync** -- asymmetric memory zeroing desyncs link battle (L4)
+8. **Reflect Overflow** -- uncapped doubling wraps at 1024, reduces defense
+9. **Acc/Eva Cancel** -- truncated fractions + floor division prevent cancellation (novel, latent)
+10. **Badge + Reflect** -- badge stacking enables catastrophic Reflect overflow (novel discovery)
 
 ### The two levels
 
@@ -40,7 +45,7 @@ Per-bug score on [0.0, 1.0]:
 - **+0.3** if completely sorry-free
 - **+0.2** scaled by ground truth theme coverage (matching proof levels L1-L4)
 
-Aggregate: **Phi(c) = sum of 5 bug scores. Range [0.0, 5.0].**
+Aggregate: **Phi(c) = sum of 10 bug scores. Range [0.0, 10.0].**
 
 ## What you CAN modify
 

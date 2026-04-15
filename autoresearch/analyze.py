@@ -23,6 +23,11 @@ BUG_NAMES = {
     3: "blaine_ai",
     4: "heal_overflow",
     5: "psywave_desync",
+    6: "substitute",
+    7: "bide_desync",
+    8: "reflect_overflow",
+    9: "acc_eva_cancel",
+    10: "badge_reflect",
 }
 
 

@@ -86,6 +86,11 @@ BUG2=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin
 BUG3=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['3']['score'])")
 BUG4=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['4']['score'])")
 BUG5=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['5']['score'])")
+BUG6=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['6']['score'])")
+BUG7=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['7']['score'])")
+BUG8=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['8']['score'])")
+BUG9=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['9']['score'])")
+BUG10=$(echo "$METRICS_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['per_bug']['10']['score'])")
 
 # Compute delta from baseline
 DELTA="n/a"
@@ -109,11 +114,16 @@ echo "output_dir: ${OUTPUT_DIR}"
 if [[ "$FEEDBACK_MODE" == "dense" ]]; then
     echo ""
     echo "--- PER-BUG SCORES ---"
-    echo "  bug1 (focus_energy):    ${BUG1}"
-    echo "  bug2 (one_in_256):      ${BUG2}"
-    echo "  bug3 (blaine_ai):       ${BUG3}"
-    echo "  bug4 (heal_overflow):   ${BUG4}"
-    echo "  bug5 (psywave_desync):  ${BUG5}"
+    echo "  bug1  (focus_energy):    ${BUG1}"
+    echo "  bug2  (one_in_256):      ${BUG2}"
+    echo "  bug3  (blaine_ai):       ${BUG3}"
+    echo "  bug4  (heal_overflow):   ${BUG4}"
+    echo "  bug5  (psywave_desync):  ${BUG5}"
+    echo "  bug6  (substitute):      ${BUG6}"
+    echo "  bug7  (bide_desync):     ${BUG7}"
+    echo "  bug8  (reflect_overflow):${BUG8}"
+    echo "  bug9  (acc_eva_cancel):  ${BUG9}"
+    echo "  bug10 (badge_reflect):   ${BUG10}"
     echo ""
     echo "--- FULL METRICS ---"
     echo "$METRICS_JSON" | python3 -c "

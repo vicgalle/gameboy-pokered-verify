@@ -52,6 +52,36 @@ BUG_ASM_TARGETS = {
         "files": ["engine/battle/core.asm", "engine/battle/effects.asm"],
         "grep_patterns": ["PsywaveEffect", "Psywave"],
     },
+    6: {
+        "description": "Substitute creates 0 HP shield and leaves user at 0 HP",
+        "labels": ["SubstituteEffect_"],
+        "files": ["engine/battle/move_effects/substitute.asm"],
+        "grep_patterns": [],
+    },
+    7: {
+        "description": "Bide accumulated damage link desync (asymmetric memory zeroing)",
+        "labels": ["FaintEnemyPokemon"],
+        "files": ["engine/battle/core.asm"],
+        "grep_patterns": ["RemoveFaintedPlayerMon", "wPlayerBideAccumulatedDamage"],
+    },
+    8: {
+        "description": "Reflect/Light Screen overflow reduces defense instead of doubling",
+        "labels": ["ReflectLightScreenEffect_"],
+        "files": ["engine/battle/move_effects/reflect_light_screen.asm"],
+        "grep_patterns": ["scaleStats"],
+    },
+    9: {
+        "description": "Accuracy/Evasion stage boosts do not cancel when equal",
+        "labels": ["CalcHitChance"],
+        "files": ["engine/battle/core.asm"],
+        "grep_patterns": ["StatModifierRatios"],
+    },
+    10: {
+        "description": "Badge boost stacking enables catastrophic Reflect overflow",
+        "labels": ["ApplyBadgeStatBoosts"],
+        "files": ["engine/battle/core.asm"],
+        "grep_patterns": ["applyBoostToStat"],
+    },
 }
 
 

@@ -190,5 +190,204 @@
       "Induction proof for player_never_zero (recursive function)"
     ],
     "primary_tactics": ["native_decide", "induction", "simp"]
+  },
+  "6": {
+    "bug_name": "substitute",
+    "bug_title": "Substitute 0 HP Shield + User Survives at 0 HP",
+    "category": "arithmeticUnderflow",
+    "levels": ["L1", "L2", "L3"],
+    "theorem_count": 19,
+    "def_count": 5,
+    "structure_count": 0,
+    "total_lines": 194,
+    "theorem_names": [
+      "div4_eq_zero_iff",
+      "substitute_zero_iff",
+      "sub_hp_1", "sub_hp_2", "sub_hp_3", "sub_hp_4",
+      "substitute_positive",
+      "zero_sub_always_affordable",
+      "user_zero_hp",
+      "zero_hp_is_affordable",
+      "concrete_zero_hp",
+      "zero_hp_iff",
+      "fix_rejects_zero_cost",
+      "fix_prevents_zero_hp",
+      "fix_allows_normal",
+      "sub_hp_byte_bound",
+      "sub_hp_characterization",
+      "both_bugs_interact",
+      "sm83_matches_model"
+    ],
+    "def_names": [
+      "substituteHP",
+      "canAffordSubstitute",
+      "hpAfterSubstitute",
+      "canAffordSubstituteFixed",
+      "substituteHPSM83"
+    ],
+    "key_insights": [
+      "Two bugs in one routine: zero-cost substitute AND zero-HP survival",
+      "substituteHP = maxHP/4 via integer division (two srl/rr shifts)",
+      "jr c only checks carry, not zero — misses exact equality case",
+      "Proof uses omega for arithmetic, not brute force",
+      "SM83 CPU-level model validated against abstract model"
+    ],
+    "primary_tactics": ["omega", "simp", "constructor", "native_decide"]
+  },
+  "7": {
+    "bug_name": "bide_desync",
+    "bug_title": "Bide Accumulated Damage Link Battle Desync",
+    "category": "asymmetricMemoryZeroing",
+    "levels": ["L1", "L2", "L4"],
+    "theorem_count": 11,
+    "def_count": 5,
+    "structure_count": 1,
+    "total_lines": 174,
+    "theorem_names": [
+      "clear_high_is_mod256",
+      "clear_both_is_zero",
+      "desync_iff_low_nonzero",
+      "desync_at_300",
+      "desync_at_1",
+      "no_desync_at_256",
+      "no_desync_at_0",
+      "desync_when_not_mod256",
+      "only_zero_lo_avoids_desync",
+      "residual_corrupts_next_bide",
+      "bide_desync_more_likely_than_psywave"
+    ],
+    "def_names": [
+      "BideDamage.ofNat",
+      "BideDamage.toNat",
+      "clearHighByteOnly",
+      "clearBothBytes",
+      "addDamage"
+    ],
+    "key_insights": [
+      "FaintEnemyPokemon zeroes only the high byte (ld [nn],a writes 1 byte)",
+      "RemoveFaintedPlayerMon correctly zeroes both bytes (ld [hli],a; ld [hl],a)",
+      "Desync triggers for 255/256 of all possible damage values",
+      "Residual low byte compounds with new Bide damage",
+      "L4 relational: two Game Boys diverge on same battle event"
+    ],
+    "primary_tactics": ["native_decide", "simp", "omega"]
+  },
+  "8": {
+    "bug_name": "reflect_overflow",
+    "bug_title": "Reflect/Light Screen Overflow Reduces Defense",
+    "category": "arithmeticOverflow",
+    "levels": ["L1", "L2"],
+    "theorem_count": 12,
+    "def_count": 3,
+    "structure_count": 0,
+    "total_lines": 137,
+    "theorem_names": [
+      "reflect_512_freezes",
+      "no_reflect_512_ok",
+      "cloyster_barrier_reflect",
+      "reflect_hurts_cloyster",
+      "max_defense_reflect",
+      "cloyster_1barrier_reflect",
+      "cloyster_2barrier_reflect",
+      "modest_defense_catastrophe",
+      "reflect_helps_below_512",
+      "reflect_512_is_boundary",
+      "reflect_hurts_above_512",
+      "reflect_sawtooth"
+    ],
+    "def_names": [
+      "scaleToU8",
+      "scaleStatsPair",
+      "effectiveDefense"
+    ],
+    "key_insights": [
+      "Reflect doubles via sla c; rl b with no cap, bypassing 999 stat limit",
+      "scaleStats divides by 4 and keeps low byte: (stat/4) mod 256",
+      "512 is the exact threshold: Reflect helps below, hurts above, freezes at",
+      "Sawtooth pattern: peaks at 511 (255), crashes at 512 (0)",
+      "Cloyster with one Barrier triggers the overflow in normal gameplay"
+    ],
+    "primary_tactics": ["native_decide"]
+  },
+  "9": {
+    "bug_name": "acc_eva_cancel",
+    "bug_title": "Accuracy/Evasion Stage Non-Cancellation",
+    "category": "truncatedFractions",
+    "levels": ["L1", "L2"],
+    "theorem_count": 15,
+    "def_count": 8,
+    "structure_count": 1,
+    "total_lines": 216,
+    "theorem_names": [
+      "plus1_doesnt_cancel",
+      "neutral_is_255",
+      "plus1_reduces_accuracy",
+      "plus4_doesnt_cancel",
+      "plus5_worst_noncancellation",
+      "plus2_cancels",
+      "plus3_almost",
+      "plus6_cancels",
+      "noncancellation_table",
+      "plus5_hit_probability_loss",
+      "thunderbolt_noncancellation",
+      "ratio_product_not_one",
+      "exact_fractions_cancel",
+      "order_matters",
+      "order_difference"
+    ],
+    "def_names": [
+      "StageRatio",
+      "statModifierRatios",
+      "stageToIndex",
+      "invertEvasion",
+      "getRatio",
+      "applyRatio",
+      "calcHitChance",
+      "calcHitChanceReversed"
+    ],
+    "key_insights": [
+      "Two root causes: truncated table fractions AND intermediate floor division",
+      "Stage +-3 has exact fraction product but still loses 1 from truncation",
+      "Only +-0, +-2, +-6 perfectly cancel (out of 7 possible equal stages)",
+      "Reversing the pass order gives different results (non-commutative)",
+      "Latent bug: no Gen 1 move raises accuracy or lowers evasion"
+    ],
+    "primary_tactics": ["native_decide"]
+  },
+  "10": {
+    "bug_name": "badge_reflect",
+    "bug_title": "Badge Boost Stacking Enables Reflect Overflow",
+    "category": "emergentInteraction",
+    "levels": ["L1", "L2"],
+    "theorem_count": 9,
+    "def_count": 5,
+    "structure_count": 0,
+    "total_lines": 168,
+    "theorem_names": [
+      "one_growl_exceeds_512",
+      "badge_stacking_progression",
+      "one_growl_reflect_catastrophe",
+      "reflect_128x_worse",
+      "no_player_action_needed",
+      "badge_reflect_near_freeze",
+      "three_growls_reflect",
+      "max_stacking_reflect",
+      "freeze_threshold"
+    ],
+    "def_names": [
+      "badgeBoost",
+      "badgeBoostN",
+      "reflectDoubleN",
+      "badgeScaleToU8",
+      "fullPipeline"
+    ],
+    "key_insights": [
+      "Three systems interact: badge stacking + Reflect doubling + scaleStats wrapping",
+      "Opponent's Growl triggers badge reapplication to ALL stats including defense",
+      "One Growl pushes Cloyster defense from 458 to 515 (above 512 threshold)",
+      "Requires zero defensive moves from the player",
+      "Cloyster is the only Gen 1 Pokemon where a single Growl triggers this"
+    ],
+    "primary_tactics": ["native_decide"]
   }
 }
