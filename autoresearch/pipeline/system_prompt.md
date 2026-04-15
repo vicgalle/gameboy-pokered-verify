@@ -115,6 +115,16 @@ This works because BitVec 8 is finite (256 values) and Lean can check all of the
 **Warning**: `native_decide` does NOT work for `UInt16` or larger types (65536+ values).
 For those, use `omega`, `simp`, or manual reasoning.
 
+**16-bit decomposition pattern**: When dealing with 16-bit HP or address values, model them
+as pairs of `BitVec 8` (hi byte, lo byte) rather than `BitVec 16`. This lets you use
+`native_decide` for the per-byte logic:
+```lean
+def healCheck (curr_hi curr_lo max_hi max_lo : BitVec 8) : Bool :=
+  let carry := curr_hi < max_hi
+  let result := curr_lo - max_lo - (if carry then 1 else 0)
+  result == 0
+```
+
 ## SM83 Assembly Reading Tips
 
 The pokered codebase uses RGBDS assembly for the Game Boy SM83 CPU:
@@ -155,10 +165,50 @@ end AutoResearch
 
 ## Important Rules
 
-1. **Model fidelity**: Your `impl` function must faithfully represent what the assembly
+1. **CODE FIRST, COMMENTS LATER**: Your output MUST be dominated by actual Lean code.
+   Keep doc comments very brief (1-2 lines max per definition). Do NOT write long
+   explanations, assembly analysis, or descriptions -- the code speaks for itself.
+   Every output MUST contain at least `impl`, `spec`, and 3+ `theorem` declarations.
+2. **Model fidelity**: Your `impl` function must faithfully represent what the assembly
    actually does. Don't just make something that "looks buggy" -- match the real code.
-2. **Start simple**: Get L1 (witness) first. Then try L2, then L3.
-3. **No sorry**: Aim for proofs without `sorry`. A compiling file with `sorry` is better
-   than a non-compiling file, but sorry-free is best.
-4. **Output format**: Provide your complete Solution.lean inside a ```lean code block.
-5. **One output**: Return exactly ONE ```lean block containing the full file.
+3. **Start simple**: Get L1 (witness) first. Then try L2, then L3.
+4. **No sorry**: A sorry-free file scores MUCH higher than one with sorry. If you cannot
+   prove a theorem, **DELETE the theorem entirely** rather than leaving `sorry`. A file
+   with 3 sorry-free theorems scores higher than one with 5 theorems containing sorry.
+5. **Output format**: Provide your complete Solution.lean inside a ```lean code block.
+6. **One output**: Return exactly ONE ```lean block containing the full file.
+
+## Minimal Working Example
+
+Here is the simplest possible compiling solution for a bitwise bug. Use this as a template:
+
+```lean
+import SM83
+
+namespace AutoResearch
+
+-- Buggy behavior
+def impl (x : BitVec 8) : BitVec 8 := x >>> 1
+
+-- Intended behavior
+def spec (x : BitVec 8) : BitVec 8 := x <<< 1
+
+-- L1: Bug exists
+theorem bug_exists : ∃ x, impl x ≠ spec x := ⟨1, by native_decide⟩
+
+-- L2: Always wrong for nonzero input
+theorem bug_always (x : BitVec 8) : x ≠ 0 → impl x ≠ spec x := by
+  have := (by native_decide : ∀ x : BitVec 8, x ≠ 0 → impl x ≠ spec x)
+  exact this x
+
+-- L3: Fix matches spec
+def fix (x : BitVec 8) : BitVec 8 := x <<< 1
+theorem fix_correct (x : BitVec 8) : fix x = spec x := by
+  have := (by native_decide : ∀ x : BitVec 8, fix x = spec x)
+  exact this x
+
+end AutoResearch
+```
+
+**Always follow this pattern**: define `impl`, define `spec`, prove theorems.
+Even if the bug involves Nat or more complex types, the structure is the same.
