@@ -353,6 +353,19 @@ def detect_theme_coverage(lean_code: str) -> set[str]:
     return levels
 
 
+def has_impl_spec(lean_code: str) -> bool:
+    """Check if the code defines both impl and spec (or equivalent modeling pair)."""
+    has_impl = bool(re.search(r"\bdef\s+impl\b", lean_code))
+    has_spec = bool(re.search(r"\bdef\s+spec\b", lean_code))
+    return has_impl and has_spec
+
+
+def has_universal_quantification(lean_code: str) -> bool:
+    """Check if any theorem uses universal quantification (indicates L2+ depth)."""
+    # Look for ∀ or forall in theorem statements, or the BitVec 8 pattern
+    return bool(re.search(r"(\u2200|forall)\s+\w+", lean_code))
+
+
 def score_solution(
     lean_code: str | None,
     compiles: bool,
@@ -361,36 +374,46 @@ def score_solution(
 ) -> float:
     """Score a single bug's formalization on [0.0, 1.0].
 
-    Scoring:
-      +0.2  if the Lean file compiles
-      +0.1  per theorem (up to +0.3 for 3+ theorems)
-      +0.3  if completely sorry-free
-      +0.2  scaled by ground truth theme coverage
+    Scoring v2 (harder ceiling, finer granularity):
+      +0.10  compiles
+      +0.05  per theorem (up to +0.25 for 5+ theorems)
+      +0.20  sorry-free
+      +0.25  theme coverage (proportional match vs ground truth levels)
+      +0.10  structural fidelity (has both `def impl` and `def spec`)
+      +0.10  proof depth (has universal quantification — indicates L2+)
     """
     if lean_code is None:
         return 0.0
 
     score = 0.0
 
-    # +0.2 if compiles
+    # +0.10 compiles
     if compiles:
-        score += 0.2
+        score += 0.10
 
-    # +0.1 per theorem (up to +0.3 for 3+ theorems)
+    # +0.05 per theorem (up to +0.25 for 5+ theorems)
     thm_count = count_theorems(lean_code)
-    score += min(thm_count * 0.1, 0.3)
+    score += min(thm_count * 0.05, 0.25)
 
-    # +0.3 if completely sorry-free
+    # +0.20 sorry-free
     if "sorry" not in lean_code:
-        score += 0.3
+        score += 0.20
 
-    # +0.2 scaled by theme coverage vs ground truth
+    # +0.25 theme coverage vs ground truth
     gt = ground_truth.get(str(bug_num), {})
     gt_levels = set(gt.get("levels", []))
     detected_levels = detect_theme_coverage(lean_code)
     if gt_levels:
         coverage = len(detected_levels & gt_levels) / len(gt_levels)
-        score += 0.2 * coverage
+        score += 0.25 * coverage
+
+    # +0.10 structural fidelity (impl/spec pair)
+    if has_impl_spec(lean_code):
+        score += 0.10
+
+    # +0.10 proof depth (universal quantification)
+    if has_universal_quantification(lean_code):
+        score += 0.10
 
     return round(score, 3)
 
