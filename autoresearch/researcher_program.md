@@ -107,13 +107,13 @@ LOOP FOREVER:
 Maintain `autoresearch/results.tsv` (tab-separated):
 
 ```
-experiment	commit	score	bug1	bug2	bug3	bug4	bug5	delta	run_time_s	status	description
+experiment	commit	score	bug1	bug2	bug3	bug4	bug5	bug6	bug7	bug8	bug9	bug10	delta	run_time_s	status	description
 ```
 
 - **experiment**: Sequential number (0 = baseline)
 - **commit**: Short git hash, or `-` for discarded
 - **score**: Aggregate Phi(c) [0.0, 5.0]
-- **bug1-bug5**: Per-bug scores [0.0, 1.0]
+- **bug1-bug10**: Per-bug scores [0.0, 1.0]
 - **delta**: Change in score from baseline
 - **run_time_s**: Wall-clock time
 - **status**: `keep`, `discard`, or `crash`
