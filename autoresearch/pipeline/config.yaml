@@ -6,7 +6,7 @@
 model: claude-sonnet-4-6
 
 # Number of iterations per bug (prompt -> code -> compile -> feedback).
-iterations_per_bug: 5
+iterations_per_bug: 2
 
 # Lean build timeout in seconds.
 build_timeout: 300
