@@ -1,0 +1,14 @@
+[project]
+name = "pokered-autoresearch"
+version = "0.1.0"
+description = "Autoresearch pipeline for Lean 4 formal verification of Pokemon Red bugs"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml>=6.0",
+    "claude-agent-sdk>=0.1.36",
+    "google-genai>=1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
