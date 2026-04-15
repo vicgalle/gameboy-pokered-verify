@@ -40,12 +40,18 @@ loop via `measure.sh` and observe the resulting score.
 ### Scoring function Phi(c)
 
 Per-bug score on [0.0, 1.0]:
-- **+0.2** if the Lean file compiles
-- **+0.1** per theorem (up to +0.3 for 3+ theorems)
-- **+0.3** if completely sorry-free
-- **+0.2** scaled by ground truth theme coverage (matching proof levels L1-L4)
+- **+0.10** compiles
+- **+0.05** per theorem (up to +0.25 for 5+ theorems)
+- **+0.20** sorry-free (no `sorry` anywhere in the file)
+- **+0.25** theme coverage (proportional match of detected L1-L4 vs ground truth)
+- **+0.10** structural fidelity (has both `def impl` and `def spec`)
+- **+0.10** proof depth (has at least one universally quantified theorem)
 
 Aggregate: **Phi(c) = sum of 10 bug scores. Range [0.0, 10.0].**
+
+Reaching 1.0 per bug requires: compilation + 5 theorems + no sorry + full level
+coverage + impl/spec definitions + universal quantification. This is significantly
+harder than just getting a file to compile with a few theorems.
 
 ## What you CAN modify
 
