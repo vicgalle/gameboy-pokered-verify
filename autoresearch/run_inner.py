@@ -528,6 +528,7 @@ def build_user_prompt(
 async def run_inner_loop(
     model: str | None = None,
     output_dir: Path | None = None,
+    include_asm: bool = True,
 ) -> dict:
     """Run the inner formalization loop across all 5 bugs.
 
@@ -557,7 +558,7 @@ async def run_inner_loop(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     log(f"\n{'=' * 60}")
-    log(f"  INNER LOOP: model={effective_model}, K={K}")
+    log(f"  INNER LOOP: model={effective_model}, K={K}, include_asm={include_asm}")
     log(f"  Output: {output_dir}")
     log(f"{'=' * 60}")
 
@@ -571,7 +572,7 @@ async def run_inner_loop(
         log(f"{'=' * 60}")
 
         bug_desc = load_bug_description(bug_num)
-        asm_context = helpers.extract_relevant_asm(bug_num, POKERED_PATH)
+        asm_context = helpers.extract_relevant_asm(bug_num, POKERED_PATH) if include_asm else ""
 
         # Create workspace (reused across iterations for build caching)
         workspace = create_workspace(output_dir, bug_num)
@@ -715,6 +716,7 @@ async def run_inner_loop(
         "per_bug": {str(k): v for k, v in per_bug_results.items()},
         "model": effective_model,
         "iterations_per_bug": K,
+        "include_asm": include_asm,
         "wall_time_s": round(wall_time, 1),
     }
 
@@ -747,10 +749,20 @@ def parse_args():
         default=None,
         help="Directory to save results",
     )
+    parser.add_argument(
+        "--no-asm",
+        action="store_true",
+        default=False,
+        help="Exclude assembly context from formalizer prompt (ablation mode)",
+    )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
     output_dir = Path(args.output_dir) if args.output_dir else None
-    asyncio.run(run_inner_loop(model=args.model, output_dir=output_dir))
+    asyncio.run(run_inner_loop(
+        model=args.model,
+        output_dir=output_dir,
+        include_asm=not args.no_asm,
+    ))

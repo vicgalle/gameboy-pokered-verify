@@ -3,11 +3,14 @@
 # measure.sh -- Run the inner formalization loop and report metrics.
 #
 # Usage:
-#   ./autoresearch/measure.sh [sparse|dense] [--model MODEL] [--output-dir DIR]
+#   ./autoresearch/measure.sh [sparse|dense] [--model MODEL] [--output-dir DIR] [--no-asm]
 #
 # Modes:
 #   sparse  (default) -- score + pass/fail only
 #   dense              -- all metrics + per-bug breakdown + timing + pipeline state
+#
+# Options:
+#   --no-asm  Exclude assembly context from the formalizer prompt (ablation mode)
 #
 # All extra arguments are passed through to run_inner.py.
 #

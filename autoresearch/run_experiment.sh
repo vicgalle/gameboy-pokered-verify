@@ -3,12 +3,18 @@
 # run_experiment.sh -- Launch an autonomous autoresearch experiment.
 #
 # Usage:
-#   ./autoresearch/run_experiment.sh <tag> [feedback_mode] [researcher_model] [policy_model]
+#   ./autoresearch/run_experiment.sh <tag> [feedback_mode] [researcher_model] [policy_model] [--no-asm]
 #
 # Examples:
 #   ./autoresearch/run_experiment.sh apr15-test                              # Opus researcher, Sonnet formalizer
 #   ./autoresearch/run_experiment.sh apr15-gemini dense opus gemini-2.5-pro  # Opus researcher, Gemini formalizer
 #   ./autoresearch/run_experiment.sh apr15-fast sparse sonnet claude-sonnet-4-6  # Sonnet researcher+formalizer
+#   ./autoresearch/run_experiment.sh apr16-ablation dense opus gemini-2.5-flash-preview --no-asm  # No assembly ablation
+#
+# Options:
+#   --no-asm  Exclude assembly context from the formalizer prompt (ablation mode).
+#             This flag is passed through to measure.sh and run_inner.py, outside
+#             the researcher's control.
 #
 # This script:
 #   1. Creates a git branch ar/<tag> for the experiment
@@ -18,10 +24,19 @@
 
 set -euo pipefail
 
-TAG="${1:?Usage: $0 <tag> [sparse|dense] [researcher_model] [policy_model]}"
+TAG="${1:?Usage: $0 <tag> [sparse|dense] [researcher_model] [policy_model] [--no-asm]}"
 FEEDBACK="${2:-dense}"
 RESEARCHER_MODEL="${3:-opus}"
 POLICY_MODEL="${4:-claude-sonnet-4-6}"
+
+# Check for --no-asm flag anywhere in the arguments
+NO_ASM=""
+for arg in "$@"; do
+    if [[ "$arg" == "--no-asm" ]]; then
+        NO_ASM="--no-asm"
+        break
+    fi
+done
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -34,6 +49,7 @@ echo "Tag:              ${TAG}"
 echo "Feedback:         ${FEEDBACK}"
 echo "Researcher model: ${RESEARCHER_MODEL}"
 echo "Policy model:     ${POLICY_MODEL}"
+echo "Assembly context: $(if [[ -n "$NO_ASM" ]]; then echo "DISABLED (ablation)"; else echo "enabled"; fi)"
 echo "Branch:           ${BRANCH}"
 echo ""
 
@@ -63,6 +79,14 @@ echo "OK."
 echo ""
 
 # --- Construct the prompt ---
+MEASURE_CMD="./autoresearch/measure.sh ${FEEDBACK} --model ${POLICY_MODEL} ${NO_ASM}"
+
+ASM_NOTE=""
+if [[ -n "$NO_ASM" ]]; then
+    ASM_NOTE="
+- ABLATION MODE: Assembly context is DISABLED. The formalizer only sees natural-language bug descriptions. Do NOT attempt to re-enable assembly context."
+fi
+
 PROMPT="Read autoresearch/researcher_program.md carefully. This is your research program.
 
 Set up a new autoresearch run:
@@ -70,7 +94,7 @@ Set up a new autoresearch run:
 - Branch: ${BRANCH} (already created and checked out)
 - Feedback mode: ${FEEDBACK}
 - Policy LLM model: ${POLICY_MODEL}
-- Measurement command: ./autoresearch/measure.sh ${FEEDBACK} --model ${POLICY_MODEL}
+- Measurement command: ${MEASURE_CMD}${ASM_NOTE}
 
 Important context:
 - You are the RESEARCHER agent. You modify files in autoresearch/pipeline/ to improve how the FORMALIZER LLM produces Lean 4 proofs.
@@ -80,7 +104,7 @@ Important context:
 - Read the current pipeline/ files to understand the starting configuration.
 
 The branch is ready. Establish the baseline by running:
-  ./autoresearch/measure.sh ${FEEDBACK} --model ${POLICY_MODEL}
+  ${MEASURE_CMD}
 Then begin the experiment loop.
 
 When running measure.sh, ALWAYS pass --model ${POLICY_MODEL} after the feedback mode.
