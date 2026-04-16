@@ -1,0 +1,88 @@
+{
+  "score": 7.9,
+  "per_bug": {
+    "1": {
+      "bug_name": "focus_energy",
+      "score": 0.0,
+      "compiles": false,
+      "theorems": 0,
+      "sorry_free": false,
+      "iterations_used": 0
+    },
+    "2": {
+      "bug_name": "one_in_256",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 8,
+      "sorry_free": true,
+      "iterations_used": 1
+    },
+    "3": {
+      "bug_name": "blaine_ai",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 11,
+      "sorry_free": true,
+      "iterations_used": 2
+    },
+    "4": {
+      "bug_name": "heal_overflow",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 8,
+      "sorry_free": true,
+      "iterations_used": 1
+    },
+    "5": {
+      "bug_name": "psywave_desync",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 7,
+      "sorry_free": true,
+      "iterations_used": 2
+    },
+    "6": {
+      "bug_name": "substitute",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 13,
+      "sorry_free": true,
+      "iterations_used": 2
+    },
+    "7": {
+      "bug_name": "bide_desync",
+      "score": 0.0,
+      "compiles": false,
+      "theorems": 0,
+      "sorry_free": false,
+      "iterations_used": 0
+    },
+    "8": {
+      "bug_name": "reflect_overflow",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 11,
+      "sorry_free": true,
+      "iterations_used": 1
+    },
+    "9": {
+      "bug_name": "acc_eva_cancel",
+      "score": 1.0,
+      "compiles": true,
+      "theorems": 6,
+      "sorry_free": true,
+      "iterations_used": 1
+    },
+    "10": {
+      "bug_name": "badge_reflect",
+      "score": 0.9,
+      "compiles": true,
+      "theorems": 14,
+      "sorry_free": true,
+      "iterations_used": 1
+    }
+  },
+  "model": "claude-sonnet-4-6",
+  "iterations_per_bug": 2,
+  "wall_time_s": 31634.6
+}
