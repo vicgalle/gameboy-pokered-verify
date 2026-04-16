@@ -73,6 +73,13 @@ For multiple `BitVec 8` arguments, nest: `∀ a b : BitVec 8, ...`
 **WARNING**: `native_decide` does NOT work if the goal has free variables that are NOT
 `BitVec 8` (e.g., a `CPUState` in scope). You must bind all variables inside the `have`.
 
+### Universal quantification syntax
+
+When writing `∀` statements, use `∀ x : Type, ...` (no parentheses around the binder):
+- ✅ `∀ x : BitVec 8, P x`
+- ✅ `∀ d : Nat, P d`  
+- ❌ `∀ (x : BitVec 8), P x` — avoid this form
+
 ## Worked Example
 
 Here is a complete, compiling Lean 4 file modeling a bitwise bug:
@@ -85,13 +92,14 @@ namespace AutoResearch
 -- Bug: srl divides by 2, but sla multiplies by 2
 -- Using srl where sla was intended quarters the rate
 
+-- MUST be named exactly `impl` and `spec` (no suffixes!)
 def impl (x : BitVec 8) : BitVec 8 := x >>> 1  -- buggy: shift right
 def spec (x : BitVec 8) : BitVec 8 := x <<< 1  -- intended: shift left
 
 -- L1: Concrete witness
 theorem bug_exists : ∃ x, impl x ≠ spec x := ⟨4, by native_decide⟩
 
--- L2: Universal (for nonzero inputs)
+-- L2: Universal — use `∀ x : Type` syntax (no parens around binder)
 theorem always_wrong : ∀ x : BitVec 8, x.toNat ≥ 2 → impl x < spec x := by
   have := (by native_decide : ∀ v : BitVec 8, v.toNat ≥ 2 → (v >>> 1) < (v <<< 1))
   exact this
@@ -109,7 +117,7 @@ end AutoResearch
 
 1. Provide a COMPLETE `Solution.lean` inside a single ```lean block.
 2. Use `namespace AutoResearch`.
-3. Define `def impl` and `def spec` (or equivalent modeling pair).
+3. **MANDATORY naming**: Your main buggy function MUST be named exactly `def impl` and your intended function MUST be named exactly `def spec`. Do NOT use suffixed names like `def impl_focus_energy` or `def spec_is_full` — the grader requires exactly `def impl` and `def spec`. You may define additional helper functions with other names, but `impl` and `spec` must exist.
 4. **NEVER use `sorry`**. If a proof is too hard, write a simpler theorem you CAN prove.
    A sorry-free file with 3 simple theorems scores higher than 10 theorems with sorry.
 5. Prove at least 5 theorems for maximum score. Include L1 (∃ witness), L2 (∀ characterization), and L3 (fix).
