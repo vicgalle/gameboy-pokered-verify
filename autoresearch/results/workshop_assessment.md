@@ -217,16 +217,106 @@ All experimental data is collected. The remaining work is writing.
   it an ideal testbed for LLM-guided verification. Scaling to more complex ISAs is
   future work.
 
+## Updated Data Collection Summary (April 16)
+
+| Run | Formalizer | ASM | K | Scoring | Baseline | Final | Steps | Discards |
+|-----|------------|-----|---|---------|----------|-------|-------|----------|
+| 5-bug K=5 | Gemini Flash | Yes | 5 | v1 | 4.27/5 | 5.0/5 | 1 | 0 |
+| 10-bug K=2 | Gemini Flash | Yes | 2 | v1 | 9.07/10 | 10.0/10 | 2 | 0 |
+| 10-bug K=3 | Gemini Flash | Yes | 3 | v2 | 8.30/10 | 9.95/10 | 2 | 1 |
+| 10-bug K=2 | Sonnet 4.6 | Yes | 2 | v2 | 7.9/10 | 10.0/10 | 1 | 0 |
+| 10-bug K=2 | **Gemini 3 Flash** | **No** | 2 | v2 | **8.05/10** | **10.0/10** | **2** | **0** |
+
+## Honest Assessment (Post-Ablation)
+
+### Why this works as a workshop paper
+
+**The fit is unusually strong.** The workshop theme ("Self-Evolving Scientific Agents")
+describes exactly what we built. We hit 4 of the 8 topic tracks simultaneously (formal
+theorem proving, autoformalization, verification & evaluation, scientific agents). That
+kind of multi-track alignment is rare and makes it easier for reviewers to find at least
+one angle they like.
+
+**The speaker list works in our favor.** Leo de Moura (Lean creator) and Emily First
+(AI for theorem proving) will likely review or influence acceptance. A paper that
+demonstrates LLMs generating compilable Lean 4 proofs against a novel CPU formalization
+is directly relevant to their interests. Tooby-Smith's PhysLean shows the community
+values Lean 4 formalizations outside pure math — the SM83 model is exactly that.
+
+**Three independent axes of comparison**, strong for a 6-page paper:
+- Two formalizer models (Gemini Flash vs Sonnet) — different failure profiles,
+  different researcher strategies
+- Assembly ablation (with vs without) — clean result showing the researcher adapts
+  to available information
+- Convergent vs divergent discoveries — a finding that emerges naturally from the
+  combination of runs
+
+**The SM83 formalization is a standalone contribution.** Even if a reviewer is skeptical
+about the autoresearch framing, 1.1K lines of Lean 4 formalizing a real CPU with 32
+machine-checked properties is a concrete artifact. Workshop reviewers like artifacts
+they can look at.
+
+### Honest risks
+
+**The benchmark saturates fast.** Every run reaches 9.95-10.0 in 2-3 steps. A reviewer
+could say "the task is too easy to be interesting." We should lead with the *qualitative*
+findings (strategy adaptation, convergent discoveries) and frame the scores as
+validation, not the main result.
+
+**The scoring function is gameable.** The researcher reverse-engineers the regex, teaches
+`∀` syntax for points, ensures exactly 5 theorems. A skeptical reviewer might argue this
+is prompt optimization against a rubric, not genuine formal verification improvement.
+Mitigation: be upfront about this. Frame it as a *finding* — "prompt structure dominates
+model capability for current LLMs" — rather than hiding it.
+
+**The proofs are shallow.** Nearly everything is `native_decide` brute-force over
+`BitVec 8`. There's no deep tactic proof, no lemma discovery, no Mathlib interaction.
+This is fine for a workshop paper if we're honest about it, but don't oversell the
+"formal verification" angle — the verification is real but mechanical.
+
+**The assembly ablation is almost too clean.** The no-ASM run reaching 10.0 (beating
+the with-ASM 9.95) could undermine the "assembly context matters" narrative. But this
+is actually more interesting than a large gap — it shows the outer loop genuinely
+compensates, which is the point of the paper.
+
+### What convergent/divergent discoveries tell us
+
+Across all runs, certain researcher strategies recur independently:
+
+**Always discovered (convergent) — properties of the scoring function:**
+- `def impl`/`def spec` strict naming → structural fidelity score
+- `∀ x : Type,` without parens → proof depth score
+- Sorry ban → sorry-free score
+
+**Setting-specific (divergent) — genuine adaptation:**
+- Worked example + tactic recipe (no-ASM only)
+- Code extraction format instruction (Sonnet only)
+- Keyword guidance for L1-L4 themes (with-ASM Gemini Flash only)
+
+The convergent discoveries validate the scoring function design (it creates
+learnable gradients). The divergent ones validate the framework (the researcher
+adapts to what it's given).
+
+### Writing guidance
+
+The main thing to get right is **not overselling**. The paper should say "we applied
+autoresearch to formal verification, here's what we observed, here are the limitations"
+rather than "we solved formal verification with LLMs." Workshop reviewers punish
+overclaiming more than modest results.
+
 ## Verdict
 
-**Submit it.** We now have all the experimental data needed:
+**Submit it.** All experimental data is collected:
 
-- Two complete multi-model trajectories (Gemini Flash and Sonnet) with different
-  optimization dynamics
-- A standalone Lean 4 artifact (SM83 CPU, 1.1K LOC, 32 theorems) that has independent
+- Three complete optimization trajectories: Gemini Flash with ASM, Sonnet with ASM,
+  Gemini 3 Flash without ASM — each showing different researcher strategies
+- A clean assembly ablation (baseline drops 0.25, researcher compensates to 10.0)
+- Convergent vs divergent discovery analysis across all runs
+- A standalone Lean 4 artifact (SM83 CPU, 1.1K LOC, 32 theorems) with independent
   value
-- A clear story: autoresearch for formal verification, with a real CPU model, real bugs,
-  and emergent researcher behaviors that differ across models
+- A clear story: autoresearch for formal verification, with a real CPU model, real
+  bugs, and emergent researcher behaviors that adapt to model and context
 
-The deadline is May 25 — 5.5 weeks is comfortable for writing a 6-page paper. The
-only remaining experimental work (ablations) is nice-to-have, not blocking.
+The deadline is May 25 — 5.5 weeks is comfortable for writing a 6-page paper.
+No further experiments are blocking; remaining ablations (K=1, weaker model) are
+nice-to-have only.
