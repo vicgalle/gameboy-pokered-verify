@@ -5,7 +5,7 @@
       "bug_name": "focus_energy",
       "score": 1.0,
       "compiles": true,
-      "theorems": 4,
+      "theorems": 12,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -13,7 +13,7 @@
       "bug_name": "one_in_256",
       "score": 1.0,
       "compiles": true,
-      "theorems": 5,
+      "theorems": 7,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -21,7 +21,7 @@
       "bug_name": "blaine_ai",
       "score": 1.0,
       "compiles": true,
-      "theorems": 4,
+      "theorems": 10,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -29,7 +29,7 @@
       "bug_name": "heal_overflow",
       "score": 1.0,
       "compiles": true,
-      "theorems": 5,
+      "theorems": 11,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -37,7 +37,7 @@
       "bug_name": "psywave_desync",
       "score": 1.0,
       "compiles": true,
-      "theorems": 4,
+      "theorems": 10,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -45,7 +45,7 @@
       "bug_name": "substitute",
       "score": 1.0,
       "compiles": true,
-      "theorems": 5,
+      "theorems": 16,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -53,7 +53,7 @@
       "bug_name": "bide_desync",
       "score": 1.0,
       "compiles": true,
-      "theorems": 5,
+      "theorems": 10,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -61,7 +61,7 @@
       "bug_name": "reflect_overflow",
       "score": 1.0,
       "compiles": true,
-      "theorems": 6,
+      "theorems": 10,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -69,7 +69,7 @@
       "bug_name": "acc_eva_cancel",
       "score": 1.0,
       "compiles": true,
-      "theorems": 4,
+      "theorems": 8,
       "sorry_free": true,
       "iterations_used": 2
     },
@@ -77,12 +77,12 @@
       "bug_name": "badge_reflect",
       "score": 1.0,
       "compiles": true,
-      "theorems": 5,
+      "theorems": 14,
       "sorry_free": true,
       "iterations_used": 2
     }
   },
-  "model": "gemini-3-flash-preview",
+  "model": "claude-sonnet-4-6",
   "iterations_per_bug": 2,
-  "wall_time_s": 587.3
+  "wall_time_s": 5069.3
 }
