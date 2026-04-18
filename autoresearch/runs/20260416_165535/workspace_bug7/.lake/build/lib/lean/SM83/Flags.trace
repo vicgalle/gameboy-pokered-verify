@@ -1,0 +1,30 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["cd961dd03b161cb9.olean"],
+  "i": "f4debffeb6584a6b.ilean",
+  "c": "17e5e72d3ee67285.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean /Users/victorgallego/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/SM83/Flags.lean -o /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Flags.olean -i /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Flags.ilean -c /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/ir/SM83/Flags.c --setup /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/ir/SM83/Flags.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["SM83.Flags:deps",
+   [["deps",
+     [["«autoresearch-workspace»/SM83:extraDep",
+       [["@«autoresearch-workspace»:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["SM83.State transitive imports (legacy)", "6f7c60d4837b49c3"],
+        ["SM83.State:importAllArts", "535edc4d218810f1"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/SM83/Flags.lean",
+   "c15dcf20cda00d6b"],
+  ["options", [["-DautoImplicit=false", "4a85acb881fd49d0"]]],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "e13fb1b01ed070c4"}

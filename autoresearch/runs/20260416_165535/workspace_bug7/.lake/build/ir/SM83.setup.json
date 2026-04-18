@@ -1,0 +1,25 @@
+{"plugins": [],
+ "package": "autoresearch-workspace",
+ "options": {"autoImplicit": false},
+ "name": "SM83",
+ "isModule": false,
+ "importArts":
+ {"SM83.State":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/State.olean"],
+  "SM83.Properties":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Properties.olean"],
+  "SM83.Memory":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Memory.olean"],
+  "SM83.Logic":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Logic.olean"],
+  "SM83.Load":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Load.olean"],
+  "SM83.Flags":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Flags.olean"],
+  "SM83.Control":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Control.olean"],
+  "SM83.Basic":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Basic.olean"],
+  "SM83.Arithmetic":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Arithmetic.olean"]},
+ "dynlibs": []}

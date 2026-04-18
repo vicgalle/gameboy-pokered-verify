@@ -1,0 +1,9 @@
+{"plugins": [],
+ "package": "autoresearch-workspace",
+ "options": {"autoImplicit": false},
+ "name": "SM83.State",
+ "isModule": false,
+ "importArts":
+ {"SM83.Basic":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug5/.lake/build/lib/lean/SM83/Basic.olean"]},
+ "dynlibs": []}

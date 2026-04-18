@@ -1,0 +1,30 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["8e6ef981195f7b8e.olean"],
+  "i": "10ea741a583890a2.ilean",
+  "c": "24ae74ab7893e4c0.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug6/.lake/build/lib/lean /Users/victorgallego/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug6/SM83/Memory.lean -o /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug6/.lake/build/lib/lean/SM83/Memory.olean -i /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug6/.lake/build/lib/lean/SM83/Memory.ilean -c /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug6/.lake/build/ir/SM83/Memory.c --setup /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug6/.lake/build/ir/SM83/Memory.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["SM83.Memory:deps",
+   [["deps",
+     [["«autoresearch-workspace»/SM83:extraDep",
+       [["@«autoresearch-workspace»:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["SM83.State transitive imports (legacy)", "6f7c60d4837b49c3"],
+        ["SM83.State:importAllArts", "535edc4d218810f1"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug6/SM83/Memory.lean",
+   "0d719fe6bc94b332"],
+  ["options", [["-DautoImplicit=false", "4a85acb881fd49d0"]]],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "abe13e6209f0db14"}

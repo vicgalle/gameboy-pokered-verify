@@ -1,0 +1,33 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["5019df8c172a1c24.olean"],
+  "i": "6c3c3a7c7918408e.ilean",
+  "c": "f5754ecf6b1f2f8e.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug8/.lake/build/lib/lean /Users/victorgallego/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug8/Solution.lean -o /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug8/.lake/build/lib/lean/Solution.olean -i /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug8/.lake/build/lib/lean/Solution.ilean -c /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug8/.lake/build/ir/Solution.c --setup /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug8/.lake/build/ir/Solution.setup.json --json",
+   "level": "trace"},
+  {"message": "Solution.lean:85:0: 0x00c8#16", "level": "info"},
+  {"message": "Solution.lean:87:0: true", "level": "info"},
+  {"message": "Solution.lean:89:0: true", "level": "info"}],
+ "inputs":
+ [["Solution:deps",
+   [["deps",
+     [["«autoresearch-workspace»/Solution:extraDep",
+       [["@«autoresearch-workspace»:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["SM83 transitive imports (legacy)", "f7c5082f8c03835f"],
+        ["SM83:importAllArts", "78c1de84cb8fb2c7"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug8/Solution.lean",
+   "418002b19173cd5b"],
+  ["options", [["-DautoImplicit=false", "4a85acb881fd49d0"]]],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "f6462c5b49e281af"}

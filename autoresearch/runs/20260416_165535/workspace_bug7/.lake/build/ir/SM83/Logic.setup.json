@@ -1,0 +1,13 @@
+{"plugins": [],
+ "package": "autoresearch-workspace",
+ "options": {"autoImplicit": false},
+ "name": "SM83.Logic",
+ "isModule": false,
+ "importArts":
+ {"SM83.State":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/State.olean"],
+  "SM83.Flags":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Flags.olean"],
+  "SM83.Basic":
+  ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug7/.lake/build/lib/lean/SM83/Basic.olean"]},
+ "dynlibs": []}
