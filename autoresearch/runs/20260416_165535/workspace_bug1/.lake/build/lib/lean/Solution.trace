@@ -1,16 +1,20 @@
 {"synthetic": false,
  "schemaVersion": "2025-09-10",
  "outputs":
- {"o": ["2dbcf032ce4e5a3a.olean"],
-  "i": "bf6bcd68fdf59eaa.ilean",
-  "c": "936d2970d960ee8e.c"},
+ {"o": ["5c03168343b0150f.olean"],
+  "i": "3b3c63cc9530942a.ilean",
+  "c": "163ca9dcfd8498a8.c"},
  "log":
  [{"message":
    ".> LEAN_PATH=/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug1/.lake/build/lib/lean /Users/victorgallego/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug1/Solution.lean -o /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug1/.lake/build/lib/lean/Solution.olean -i /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug1/.lake/build/lib/lean/Solution.ilean -c /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug1/.lake/build/ir/Solution.c --setup /Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug1/.lake/build/ir/Solution.setup.json --json",
    "level": "trace"},
-  {"message": "Solution.lean:98:0: true", "level": "info"},
-  {"message": "Solution.lean:100:0: true", "level": "info"},
-  {"message": "Solution.lean:102:0: true", "level": "info"}],
+  {"message":
+   "Solution.lean:60:0: PROBE_THM|AutoResearch.vacuous_forall|forall=false|impl=false|spec=false",
+   "level": "info"},
+  {"message":
+   "Solution.lean:60:0: PROBE_THM|AutoResearch.no_impl_spec_ref|forall=true|impl=false|spec=false",
+   "level": "info"},
+  {"message": "Solution.lean:60:0: PROBE_END|count=2", "level": "info"}],
  "inputs":
  [["Solution:deps",
    [["deps",
@@ -27,7 +31,7 @@
   ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
    "a96bc04a2e5e9630"],
   ["/Users/victorgallego/pokered-verify/autoresearch/runs/20260416_165535/workspace_bug1/Solution.lean",
-   "2b7e5e154889d8ca"],
+   "111c60ac5cf41b15"],
   ["options", [["-DautoImplicit=false", "4a85acb881fd49d0"]]],
   ["Module.leanArgs: #[]", "00000000000006bb"]],
- "depHash": "c8e90c88dcc631e3"}
+ "depHash": "3637bd371848e629"}
